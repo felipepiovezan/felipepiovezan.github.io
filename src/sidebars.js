@@ -1,6 +1,10 @@
 module.exports = {
   someSidebar: {
-    Docusaurus: ['doc1', 'doc2', 'doc3'],
-    Features: ['mdx'],
+    Posts : ['20200503-git_intro/README',
+    {
+      type: 'link',
+      label: 'animation',
+      href: 'http://localhost:3000/animator_example.html',
+    }],
   },
 };
