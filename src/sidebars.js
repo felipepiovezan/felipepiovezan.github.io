@@ -1,6 +1,8 @@
 module.exports = {
   someSidebar: {
-    Posts : ['20200503-git_intro/README',
+    Posts : [
+    '20200503-git_intro/README',
+    '20191117-improve_spam/README',
     {
       type: 'link',
       label: 'animation',
