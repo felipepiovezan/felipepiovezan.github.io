@@ -1,5 +1,4 @@
 ---
-slug: /
 title: A Git introduction with no commands
 ---
 

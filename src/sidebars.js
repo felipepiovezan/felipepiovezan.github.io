@@ -1,5 +1,8 @@
 module.exports = {
   someSidebar: {
+    'About me' : [
+      'about_me/README',
+    ],
     Posts : [
     '20200503-git_intro/README',
     '20200306-static_var/README',
