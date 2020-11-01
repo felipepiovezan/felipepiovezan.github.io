@@ -8,8 +8,9 @@ module.exports = {
   organizationName: 'felipepiovezan', // Usually your GitHub org/user name.
   projectName: 'blog', // Usually your repo name.
   themeConfig: {
+    sidebarCollapsible: false, // make sidebar expanded by default.
     navbar: {
-      title: 'About me',
+      title: 'Blog',
       logo: {
         alt: 'My Site Logo',
         src: 'img/logo.svg',
@@ -18,6 +19,16 @@ module.exports = {
         {
           href: 'https://github.com/felipepiovezan',
           label: 'GitHub',
+          position: 'left',
+        },
+        {
+          href: 'https://twitter.com/fpiovezan',
+          label: 'Twitter',
+          position: 'left',
+        },
+        {
+          href: 'https://linkedin.com/in/felipepiovezan',
+          label: 'LinkedIn',
           position: 'left',
         },
       ],
