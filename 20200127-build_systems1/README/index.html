@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="generator" content="Docusaurus v2.0.0-alpha.66">
+<title data-react-helmet="true">Build system basics | 101</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docusaurus_language" content="en"><meta data-react-helmet="true" name="docusaurus_version" content="current"><meta data-react-helmet="true" name="docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="Build system basics | 101"><meta data-react-helmet="true" name="description" content="Having a build system in a project is something many developers take for"><meta data-react-helmet="true" property="og:description" content="Having a build system in a project is something many developers take for"><meta data-react-helmet="true" property="og:url" content="https://felipepiovezan.github.io//20200127-build_systems1/README"><link data-react-helmet="true" rel="shortcut icon" href="/img/favicon.ico"><link data-react-helmet="true" rel="canonical" href="https://felipepiovezan.github.io//20200127-build_systems1/README"><link rel="stylesheet" href="/styles.58710d0f.css">
+<link rel="preload" href="/styles.9959f271.js" as="script">
+<link rel="preload" href="/runtime~main.ed46dd63.js" as="script">
+<link rel="preload" href="/main.01c6edad.js" as="script">
+<link rel="preload" href="/1.43c5d01a.js" as="script">
+<link rel="preload" href="/2.cf4e590e.js" as="script">
+<link rel="preload" href="/13.c5726d0f.js" as="script">
+<link rel="preload" href="/935f2afb.da1c6280.js" as="script">
+<link rel="preload" href="/17896441.2afc73b6.js" as="script">
+<link rel="preload" href="/09bb1b4f.54d53e0b.js" as="script">
+</head>
+<body>
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){var t=null;try{t=localStorage.getItem("theme")}catch(t){}return t}();t(null!==e?e:"light")}()</script><div id="__docusaurus">
+<nav class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><div aria-label="Navigation bar toggle" class="navbar__toggle" role="button" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></div><a class="navbar__brand" href="/"><img class="navbar__logo" src="/img/logo.svg" alt="My Site Logo"><strong class="navbar__title">Blog</strong></a><a href="https://github.com/felipepiovezan" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub</a><a href="https://twitter.com/fpiovezan" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Twitter</a><a href="https://linkedin.com/in/felipepiovezan" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">LinkedIn</a></div><div class="navbar__items navbar__items--right"><div class="react-toggle react-toggle--disabled displayOnlyInLargeViewport_2aTZ"><div class="react-toggle-track"><div class="react-toggle-track-check"><span class="toggle_BsTx">🌜</span></div><div class="react-toggle-track-x"><span class="toggle_BsTx">🌞</span></div></div><div class="react-toggle-thumb"></div><input type="checkbox" disabled="" aria-label="Dark mode toggle" class="react-toggle-screenreader-only"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div><div class="navbar-sidebar"><div class="navbar-sidebar__brand"><a class="navbar__brand" href="/"><img class="navbar__logo" src="/img/logo.svg" alt="My Site Logo"><strong class="navbar__title">Blog</strong></a></div><div class="navbar-sidebar__items"><div class="menu"><ul class="menu__list"><li class="menu__list-item"><a href="https://github.com/felipepiovezan" target="_blank" rel="noopener noreferrer" class="menu__link">GitHub</a></li><li class="menu__list-item"><a href="https://twitter.com/fpiovezan" target="_blank" rel="noopener noreferrer" class="menu__link">Twitter</a></li><li class="menu__list-item"><a href="https://linkedin.com/in/felipepiovezan" target="_blank" rel="noopener noreferrer" class="menu__link">LinkedIn</a></li></ul></div></div></div></nav><div class="main-wrapper"><div class="docPage_2gpo"><div class="docSidebarContainer_3_JD" role="complementary"><div class="sidebar_2urC"><div class="menu menu--responsive menu_5FrY"><button aria-label="Open Menu" aria-haspopup="true" class="button button--secondary button--sm menu__button" type="button"><svg aria-label="Menu" class="sidebarMenuIcon_Dm3K" xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 32 32" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><ul class="menu__list"><li class="menu__list-item"><a class="menu__link menuLinkText_2zSB">About me</a><ul class="menu__list"><li class="menu__list-item"><a class="menu__link" tabindex="0" href="/">About me</a></li></ul></li><li class="menu__list-item"><a class="menu__link menuLinkText_2zSB">Posts</a><ul class="menu__list"><li class="menu__list-item"><a href="https://felipepiovezan.github.io/cpp_abstract_machine/cpp_abstract_machine.html" target="_blank" rel="noreferrer noopener" class="menu__link" tabindex="0">The C++ abstract machine [opens in new tab]</a></li><li class="menu__list-item"><a class="menu__link" tabindex="0" href="/20200503-git_intro/README">A Git introduction with no commands</a></li><li class="menu__list-item"><a class="menu__link" tabindex="0" href="/20200306-static_var/README">Static variables, static storage, static initialization, constant initialization, constinit, constexpr</a></li><li class="menu__list-item"><a class="menu__link" tabindex="0" href="/20200222-build_systems2/README">Build system basics - part 2</a></li><li class="menu__list-item"><a aria-current="page" class="menu__link menu__link--active active" tabindex="0" href="/20200127-build_systems1/README">Build system basics</a></li><li class="menu__list-item"><a class="menu__link" tabindex="0" href="/20191117-improve_spam/README">Topological sorting - ACM-ICPC</a></li></ul></li></ul></div></div></div><main class="docMainContainer_3EyW"><div class="container padding-vert--lg docItemWrapper_1EkI"><div class="row"><div class="col docItemCol_2ASc"><div class="docItemContainer_3QWW"><article><header><h1 class="docTitle_1Lrw">Build system basics</h1></header><div class="markdown"><p>Having a build system in a project is something many developers take for
+granted, never paying attention to the work involved in maintaining the build&#x27;s
+quality and health. Can we identify whether a build system is good or not?</p><p>During my first years as a software engineer, I would feel like there was
+something wrong with the way we built our project; but being my first job and
+being mostly ignorant on build systems, I assumed we did things right. Until I
+decided to study a bit on the topic - oh was I wrong.</p><p>This post is meant as a high level introduction to building C++ software.</p><h2><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="to-build"></a>To build<a aria-hidden="true" tabindex="-1" class="hash-link" href="#to-build" title="Direct link to heading">#</a></h2><p>On a high level, building a project is a two-step process: first, a set of
+build files is converted into build artifacts. Then, a subset of those build
+artifacts is moved into some installation directory.</p><p><img alt="example 1" src="/assets/images/to_build-0d6248ba189757534ec7202841cbce45.svg"></p><p>The first step is where the compiler and linker are involved, doing most of the
+work. But a lot more can happen in this stage, like running scripts to generate
+code, creating test inputs, generating documentation, etc.</p><p>In the second step, some build artifacts are moved into an installation
+directory, making the project available to anyone in the system. It&#x27;s possible
+for developers to skip the installation step when developing, because
+developers can execute all components of the project using the build
+artifacts alone.</p><p>In the steps above, we have identified three important directories:</p><ol><li>Source directory, where the source files are located.</li><li>Build directory, where the build artifacts are placed.</li><li>Install directory, where the installed program is placed.</li></ol><p><img alt="example 2" src="/assets/images/locations-8542605038e8cd4246e749b5cb628d93.svg"></p><h2><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="a-wrong-way-to-build"></a>A wrong way to build<a aria-hidden="true" tabindex="-1" class="hash-link" href="#a-wrong-way-to-build" title="Direct link to heading">#</a></h2><p>In some build methods, the source directory and the build directory are the
+same, this is known as an <strong>in-source build</strong>:</p><p><img alt="example 3" src="/assets/images/in_source-8436cf973596b130d23bdae9b2e62f00.svg"></p><p>In other words, source code, scripts and test inputs are all in the same
+directory as object files, script-generated code, compiled libraries and
+executables, automatically generated documentation, etc.</p><p>Let&#x27;s pause here for a moment and consider the implications of this build
+method:</p><ol><li>The version control system has to distinguish between files that should be
+committed and files that are build artifacts.</li><li>Because the build process places files in the same directory where source
+code is located, it needs special care not to overwrite or delete important
+files<sup id="p4_obs"><a href="#P4_OBS">1</a></sup>.</li><li>Cleaning a build (deleting all build artifacts) becomes a non-trivial task.</li><li>Sharing the same source files for independent builds becomes non-trivial
+(more on this later).</li></ol><p>Note that it&#x27;s possible to overcome each of those problems at the cost of added
+complexity. However, when striving for simplicity, we must ask if there are
+simpler ways of achieving the goals above; the answer is yes.</p><h2><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="a-cleaner-approach"></a>A cleaner approach<a aria-hidden="true" tabindex="-1" class="hash-link" href="#a-cleaner-approach" title="Direct link to heading">#</a></h2><p>The build method in which the source and build directories are distinct is
+called an <strong>out-of-source</strong> build. The complete separation between source files
+and build artifacts makes for a simpler and more practical organization of the
+project:</p><ol><li>A file is under version control if and only if it is inside the source
+directory.</li><li>The build process only ever outputs files to the build directory, therefore
+there is no risk of changing the source material.</li><li>Cleaning a build is simple: <code>rm -r &lt;build_directory&gt;</code>.</li><li>Because the source directory is not aware of the build directory, the same
+source can <em>easily</em> be used for multiple builds.</li></ol><p>This last point is so important that it deserves elaborating. Let&#x27;s imagine a
+scenario where we have to develop an application on both Windows and Linux.  We
+can place the source directory in network storage, and maintain build
+directories in the local (faster) storage of each system. One build does not
+affect the other by design.</p><p>Suppose that building on debug mode is expensive, so we don&#x27;t want to do it all
+the time. When we want debug mode because of a faulty change, we simply create
+another build directory, configure it to debug, and build. There is no need to
+clone the repository and to apply the faulty changes on top of the new copy.</p><p>Suppose that we want to compare the performance of an application when built
+with two different compilers. We simply keep two distinct build directories,
+one for each compiler.</p><p><img alt="example 4" src="/assets/images/out_of_source-e65cadf423364a34fe3cefe27b4eaea9.svg"></p><h2><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="systematically-building"></a>Systematically building<a aria-hidden="true" tabindex="-1" class="hash-link" href="#systematically-building" title="Direct link to heading">#</a></h2><p>We&#x27;ve talked about what it means to build software, but this article started
+talking about build <strong>systems</strong>. What is a build system?</p><p>A build system is a description of how to build a particular software, combined
+with a program that reads this description and acts upon it. Here&#x27;s the world&#x27;s
+simplest build system:</p><div class="mdxCodeBlock_1XEh"><div class="codeBlockContent_1u-d"><button tabindex="0" type="button" aria-label="Copy code to clipboard" class="copyButton_10dd">Copy</button><div class="prism-code language-sh codeBlock_3iAC"><div class="codeBlockLines_b7E3" style="color:#bfc7d5;background-color:#292d3e"><div class="token-line" style="color:#bfc7d5"><span class="token plain">#build.sh</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block">
+</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">gcc main.cpp -o main</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">cp main /usr/local/bin/main</span></div></div></div></div></div><p>In this example, our build system is a simple shell script that, when invoked,
+compiles <code>main.cpp</code> and installs the generated executable <code>main</code> into
+<code>/usr/local/bin</code><sup id="permission_obs"><a href="#PERMISSION_OBS">2</a></sup>. It is an example
+of an in-source build. A better example would be:</p><div class="mdxCodeBlock_1XEh"><div class="codeBlockContent_1u-d"><button tabindex="0" type="button" aria-label="Copy code to clipboard" class="copyButton_10dd">Copy</button><div class="prism-code language-sh codeBlock_3iAC"><div class="codeBlockLines_b7E3" style="color:#bfc7d5;background-color:#292d3e"><div class="token-line" style="color:#bfc7d5"><span class="token plain">#build.sh</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block">
+</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">mkdir $BUILD_DIRECTORY</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">gcc main.cpp -o $BUILD_DIRECTORY/main</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">cp $BUILD_DIRECTORY/main $INSTALL_DIRECTORY/bin/main</span></div></div></div></div></div><p>The new script can be invoked multiple times, with different values for
+<code>BUILD_DIRECTORY</code> and <code>INSTALL_DIRECTORY</code>. This is an example of an
+out-of-source build.</p><p>There are many build systems out there, but they all follow this pattern: a
+file that describes the build process using some language is placed in the
+source directory, and a program is invoked to read that description and build
+the project.</p><p>Some examples: <code>make</code> uses <code>Makefile</code>, <code>ninja</code> uses <code>build.ninja</code>, <code>Xcode</code> uses
+<code>.pbxproj</code>, <code>MSVC</code> uses <code>vscxxproj</code>, etc.</p><p><img alt="example 4" src="/assets/images/different_systems-f4fa545d2d335fc9a284fa3d1b0db211.svg"></p><p>It is the build system&#x27;s job to:</p><ul><li>Figure out how to run code generation scripts.</li><li>Find header files.</li><li>Find external dependencies.</li><li>Move files around.</li><li>Determine the order in which build steps must happen.</li><li>Determine which steps can be done in parallel.</li><li>Determine where to find tools like the compiler.</li><li>Understand how the compiler is invoked.</li></ul><p>Depending on the expressiveness of the build system&#x27;s language, the programmer
+might have to perform a lot of &quot;hand-holding&quot; for some or all of the steps
+above. In other words, the build description file might allow for higher level
+abstractions and be easy to reason about, or it might require low level
+commands to be spelled out (as the shell example showed).</p><p>Each build system has its own view on how to achieve those features. Is it
+possible to get all of them and still be operating system agnostic? For the C++
+case, that&#x27;s what CMake aims to do and we will explore how it does that in a
+future article.</p><h2><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="conclusion"></a>Conclusion<a aria-hidden="true" tabindex="-1" class="hash-link" href="#conclusion" title="Direct link to heading">#</a></h2><p>Given all that we&#x27;ve discussed, it&#x27;s possible to identify symptoms of a bad
+build system:</p><ol><li>How easy is it to spawn a second build from the same source directory?</li><li>How easy is it to identify files that must be under version control?</li><li>Can you identify the compiler that is used in a given build? How easily can
+that be changed?</li><li>Can you build a single component of the project and its dependencies,
+without building anything unnecessary?</li><li>If a source file is changed, how easy is it to incrementally build the
+affected components?</li></ol><p>A good build system will also allow you to reason about individual components
+of your project and how they relate to each other, so that you can easily
+identify circular dependencies, or add new components with the correct
+dependencies.</p><p>Furthermore, a good build system is capable of inferring a lot of information
+given a description of the project. For instance, it should be able to find
+system libraries, understand how to invoke the compiler and automatically infer
+parallelism between build steps.</p><p>From the number of times I wrote <em>easily</em> in the text above, you can tell how
+much I value simplicity. When things are complicated, few developers know how
+to maintain a healthy build, and the build quality slowly deteriorates.</p><p>Once enough components are added, the project reaches a point where no one
+truly understands the dependencies between components, how to fix build breaks,
+or how to reduce the number of components built as result of dependencies. The
+consequence is a generalized loss in productivity as developers have to context
+switch while wainting for the subpar build.</p><p>Thanks for reading! Next time we&#x27;ll talk about how CMake accomplishes most of
+the goals we talked about. In the meantime, try to identify how good the build
+system of your project is.</p><p>edit: <a href="http://felipepiovezan.gitlab.io/blog/build_system_p2/" target="_blank" rel="noopener noreferrer">Part 2</a> is out!</p><hr><b id="P4_OBS">1</b> If one has used Perforce as a version control system, one could argue that Perforce is so great it prevents the aforementioned issue from happening. Please don&#x27;t use an objectively wrong build methodology as an excuse to use an objectively bad (and expensive) version control system.[↩](#p4_obs)<b id="PERMISSION_OBS">2</b> Note that `/usr/local/bin` is probably a write-protected directory. As such, sudo permissions might be needed to run this script. [↩](#permission_obs)<hr></div></article><div class="margin-vert--lg"><nav class="pagination-nav" aria-label="Blog list page navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/20200222-build_systems2/README"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« Build system basics - part 2</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/20191117-improve_spam/README"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Topological sorting - ACM-ICPC »</div></a></div></nav></div></div></div><div class="col col--3"><div class="tableOfContents_3SO_"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#to-build" class="table-of-contents__link">To build</a></li><li><a href="#a-wrong-way-to-build" class="table-of-contents__link">A wrong way to build</a></li><li><a href="#a-cleaner-approach" class="table-of-contents__link">A cleaner approach</a></li><li><a href="#systematically-building" class="table-of-contents__link">Systematically building</a></li><li><a href="#conclusion" class="table-of-contents__link">Conclusion</a></li></ul></div></div></div></div></main></div></div></div>
+<script src="/styles.9959f271.js"></script>
+<script src="/runtime~main.ed46dd63.js"></script>
+<script src="/main.01c6edad.js"></script>
+<script src="/1.43c5d01a.js"></script>
+<script src="/2.cf4e590e.js"></script>
+<script src="/13.c5726d0f.js"></script>
+<script src="/935f2afb.da1c6280.js"></script>
+<script src="/17896441.2afc73b6.js"></script>
+<script src="/09bb1b4f.54d53e0b.js"></script>
+</body>
+</html>
