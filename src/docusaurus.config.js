@@ -1,12 +1,12 @@
 module.exports = {
   title: '101',
   tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://felipepiovezan.github.io/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
   organizationName: 'felipepiovezan', // Usually your GitHub org/user name.
-  projectName: 'blog', // Usually your repo name.
+  projectName: 'felipepiovezan.github.io', // Usually your repo name.
   themeConfig: {
     sidebarCollapsible: false, // make sidebar expanded by default.
     navbar: {
