@@ -57,7 +57,7 @@ method:
 committed and files that are build artifacts.
 2. Because the build process places files in the same directory where source
 code is located, it needs special care not to overwrite or delete important
-files<sup id="p4_obs">[1](#P4_OBS)</sup>.
+files[^1].
 3. Cleaning a build (deleting all build artifacts) becomes a non-trivial task.
 4. Sharing the same source files for independent builds becomes non-trivial
 (more on this later).
@@ -107,7 +107,7 @@ A build system is a description of how to build a particular software, combined
 with a program that reads this description and acts upon it. Here's the world's
 simplest build system:
 
-```sh
+```bash
 #build.sh
 
 gcc main.cpp -o main
@@ -116,10 +116,10 @@ cp main /usr/local/bin/main
 
 In this example, our build system is a simple shell script that, when invoked,
 compiles `main.cpp` and installs the generated executable `main` into
-`/usr/local/bin`<sup id="permission_obs">[2](#PERMISSION_OBS)</sup>. It is an example
-of an in-source build. A better example would be:
+`/usr/local/bin`[^2]. It is an example of an in-source build. A better example
+would be:
 
-```sh
+```bash
 #build.sh
 
 mkdir $BUILD_DIRECTORY
@@ -203,17 +203,12 @@ system of your project is.
 
 edit: [Part 2] is out!
 
------
+[^1]: If one has used Perforce as a version control system, one could argue
+that Perforce is so great it prevents the aforementioned issue from happening.
+Please don't use an objectively wrong build methodology as an excuse to use an
+objectively bad (and expensive) version control system.
 
-<b id="P4_OBS">1</b> If one has used Perforce as a version control system, one
-could argue that Perforce is so great it prevents the aforementioned issue from
-happening. Please don't use an objectively wrong build methodology as an excuse
-to use an objectively bad (and expensive) version control system.[↩](#p4_obs)
-
-<b id="PERMISSION_OBS">2</b> Note that `/usr/local/bin` is probably a
-write-protected directory. As such, sudo permissions might be needed to run
-this script. [↩](#permission_obs)
-
------
+[^2]: Note that `/usr/local/bin` is probably a write-protected directory. As
+such, sudo permissions might be needed to run this script.
 
 [Part 2]: http://felipepiovezan.gitlab.io/blog/build_system_p2/

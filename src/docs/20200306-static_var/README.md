@@ -29,7 +29,7 @@ I presented [a tutorial] during the EuroLLVM developers conference in 2019.
 
 The [original tweet] used this example:
 
-```c++
+```cpp
 #include <string>
 
 int static_version() {
@@ -50,7 +50,7 @@ better job.
 Because `std::string` has a complicated constructor, I'll rewrite this code
 using the simplest class possible:
 
-```c++
+```cpp
 struct State {
     State() {}
 };
@@ -66,7 +66,7 @@ is a function-scope static variable with no uses. Unfortunately, both GCC and
 Clang fail to do so.
 
 To understand what's going here, let's look at the [IR produced by Clang] without
-optimizations<sup id="note_threadsafe">[1](#NOTE_THREADSAFE)</sup>.
+optimizations[^1].
 
 First, a type `struct.State` is defined:
 
@@ -76,7 +76,7 @@ First, a type `struct.State` is defined:
 
 Our C++ struct has no data members, and yet its equivalent in IR contains an
 8-bit integer (`i8`). What is `sizeof(State)`? Having seen the IR, the answer is
-easy to guess: 1 byte<sup id="note_empty_class">[2](#NOTE_EMPTY_CLASS)</sup>.
+easy to guess: 1 byte [^2].
 
 Then, a global variable of that type is defined and initialized:
 
@@ -189,8 +189,7 @@ meaningful to the program.
 4. But it is meaningful because control flow affects the __counter's value__.
 
 ... And now we're stuck in a loop! It's not an unsolvable problem, but it
-illustrates challenges the optimizer can't overcome right now<sup
-id="note_difficult">[3](#NOTE_DIFFICULT)</sup>.
+illustrates challenges the optimizer can't overcome right now[^3].
 
 This situation gets worse if the constructor call isn't as simple as an empty
 function. Our motivating example, `std::string`, definitely doesn't have a
@@ -243,7 +242,7 @@ for runtime initialization. Let's look at what this looks like in IR.
 Let's make our example slightly more complicated, __disable all
 optimizations__, but have a `constexpr` constructor:
 
-```c++
+```cpp
 struct State {
   constexpr State(char c1, char c2, char c3)
       : value1{c1}, value2{c2}, value3{c3} {}
@@ -260,8 +259,7 @@ int get_value() {
 
 `constexpr` functions are a mechanism through which programmers express their
 desire to have the function evaluated at compile time if the function is called
-with compile time constant arguments.<sup
-id="note_consteval">[4](#NOTE_CONSTEVAL)</sup>
+with compile time constant arguments.[^4]
 
 Because our static variable is now initialized with a constant expression, the
 IR for this function now becomes much simpler:
@@ -312,7 +310,7 @@ C++20 adds a new keyword `constinit` to ensure a variable only has constant
 initialization, otherwise the program is ill-formed. For example, the following
 code does not compile (note the absence of a `constexpr` constructor):
 
-```c++
+```cpp
 struct State {
   State(char c1, char c2, char c3) : value1{c1}, value2{c2}, value3{c3} {}
   char value1;
@@ -364,31 +362,25 @@ architecture-agnostic missed optimizations. In the case explored here, there is
 no reason why a static variable should be optimized away when targeting x86,
 but not when targeting ARM, for instance.
 
------
+[^1]: We're compiling the code without support for thread-safe static
+initialization to keep things simple. However, most of our conclusion still
+hold if we enable thread safe statics.
 
-<b id="NOTE_THREADSAFE">1</b> We're compiling the code without support for
-thread-safe static initialization to keep things simple. However, most of our
-conclusion still hold if we enable thread safe statics[↩](#note_threadsafe)
+[^2]: If you're curious why, the creator of C++ answers it in [his website].
 
-<b id="NOTE_EMPTY_CLASS">2</b>If you're curious why, the creator of C++ answers
-it in [his website].[↩](#note_empty_class)
-
-<b id="NOTE_DIFFICULT">3</b> Other challenges are possible. For example, if
+[^3]: Other challenges are possible. For example, if
 this function gets inlined elsewhere, we will have multiple functions accessing
 the same global variable and the compiler will struggle reasoning about this.
 Note also that we don't have to consider other translation units because static
 variables have internal linkage, that is, they can only be accessed from the
 translation unit in which it is defined; this is represented by the `internal`
 keyword in IR.
-[↩](#note_difficult)
 
-<b id="NOTE_CONSTEVAL">4</b> There is a stronger form of this in the form of
+[^4]: There is a stronger form of this in the form of
 the `consteval` keyword. When applied to a function, it is a compile-time error
 if the function is not evaluated at compile time. It is a useful mechanism to
 ensure that an expensive function is never evaluated during program
-execution.[↩](#note_consteval)
-
-----
+execution.
 
 [a tutorial]: https://www.youtube.com/watch?v=m8G_S5LwlTo
 [original tweet]: https://twitter.com/lefticus/status/1221943946311454721

@@ -46,7 +46,7 @@ To start a CMake-based build, gather the following information:
 
 Then, run:
 
-```sh
+```bash
 cd $BUILD_DIRECTORY
 cmake [-G $BUILD_SYSTEM] $SOURCE_DIRECTORY
 ```
@@ -55,7 +55,7 @@ Those steps generate the required files inside the build directory. To build,
 either run the build system specific command inside the build directory
 (`make`, `ninja`, etc) or let CMake abstract this in a system-agnostic way:
 
-```sh
+```bash
 cmake --build $BUILD_DIRECTORY
 ```
 
@@ -272,8 +272,6 @@ was also my primary way to learn about CMake.
 * Daniel Pfeifer's [Effective CMake] talk is a good introduction to the CMake
 language and to good CMake practices. The second half of the talk is pretty
 heavy on details though, so don't worry too much about it right now.
-
------
 
 [Part 1]: http://felipepiovezan.gitlab.io/blog/build_system_basics/
 [build system of your choice]: https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html#cmake-generators

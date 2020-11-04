@@ -167,21 +167,21 @@ programming.
 How do we obtain this apropriate order? The key is to exploit properties of
 DAGs; in particular, we want to visit only nodes whose successors have all been
 visited. This is known as a [topological order] and it is guaranteed to exist
-for DAGs<sup id="topo_obs">[1](#TOPO_OBS)</sup>.
+for DAGs[^1].
 
 ## Topological sorting
 
 One way to obtain a topological order is with a Depth First Search.
-Here's a C++ implementation<sup id="visited_size">[2](#VISITED_SIZE)</sup>:
+Here's a C++ implementation[^2]:
 
-```c++
+```cpp
 void compute_topological_order() {
   visited = std::vector<bool>(num_addresses + 1, false);
   dfs(1);
 }
 ```
 
-```c++
+```cpp
 void dfs(int visiting) {
   visited[visiting] = true;
 
@@ -199,7 +199,7 @@ first, then add the node itself to the topological order.
 
 The number of spammy emails can be computed as follows:
 
-```c++
+```cpp
 auto num_emails = std::vector<uint64_t>(num_addresses + 1, 0);
 
 for (auto node : topologic_order) {
@@ -240,23 +240,19 @@ the same time. This was a mistake - simplicity first, always.
 It's always humbling to face problems from this contest, as it reminds you of
 how little you know and how much better you can get.
 
-------
+[^1]: Technically, this is the reverse of the topological order.
 
-<b id="TOPO_OBS">1</b> Technically, this is the reverse of the topological
-order.[↩](#topo_obs)
+[^2]: The `visited` vector is initialized with `num_addresses + 1` booleans,
+all initially set to false. The `+ 1` is there because the problem input is not
+0 based.
 
-<b id="VISITED_SIZE">2</b> The `visited` vector is
-initialized with `num_addresses + 1` booleans, all initially set to false. The
-`+ 1` is there because the problem input is not 0 based.[↩](#visited_size)
-
-------
 
 ## Complete solution
 
 This is the solution that I [submitted on
 Codeforces](https://codeforces.com/gym/102428/problem/I):
 
-```c++
+```cpp
 #include <algorithm>
 #include <cstdint>
 #include <iostream>
@@ -339,5 +335,4 @@ int main() {
 }
 ```
 
-----
 [topological order]: https://en.wikipedia.org/wiki/Topological_sorting

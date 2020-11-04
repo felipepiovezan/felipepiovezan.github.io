@@ -203,9 +203,9 @@ Consider this example:
 
 If we delete the branch `feature2`, the commits in red would be lost forever:
 there is no branch that includes those commits, i.e. there is no way to put
-your repository in a state containing those commits<sup
-id="delete_obs">[1](#DELETE_OBS)</sup>. The only way to inspect those commits
-would be if you memorized their hashes and moved into a detached head state.
+your repository in a state containing those commits[^1]. The only way to
+inspect those commits would be if you memorized their hashes and moved into a
+detached head state.
 
 As such, Git will not let you delete that branch unless you force it to.
 
@@ -295,8 +295,7 @@ Instead of a three-way merge, we can re-apply commits from `feature2` on top of
 If any commits can't be applied cleanly, Git asks for your intervention before continuing.
 
 Note: the new commits are different from the original ones and they will have
-different hashes. Why?<sup
-id="rebase_different_commits">[2](#REBASE_DIFFERENT_COMMITS)</sup>
+different hashes. Why?[^2]
 
 Now, if you switch HEAD to `master` and try to merge with `feature2`, a simple
 fast forward will do!
@@ -441,22 +440,20 @@ Feel free to send me a message on Twitter if you feel like something isn't clear
 
 # Further reading
 
-1. Git has its own book called [Pro Git] and it's free! It is by far the best
+* Git has its own book called [Pro Git] and it's free! It is by far the best
 resource I found while learning.
 
-2. If you're wondering how to use branches to effectively manage a project, I
+* If you're wondering how to use branches to effectively manage a project, I
 recommend reading the following articles: [A successful Git branching model]
 and the [Github guide].
 
---------------------------
-
-<sup><b id="DELETE_OBS">1</b>In fact, Git would permanently delete all contents
+[^1]: In fact, Git would permanently delete all contents
 associated with those commits next time it tries to cleanup its internal data
-structures.[↩](#delete_obs)</sup>
+structures.
 
-<sup><b id="REBASE_DIFFERENT_COMMITS">2</b>The new commits have different
+[^2]: The new commits have different
 parent commits, and if you had to solve any conflicts during the rebase, each
-intermediate snapshot will be different.[↩](#rebase_different_commits)</sup>
+intermediate snapshot will be different.
 
 
 [Pro Git]: https://git-scm.com/book/en/v2
