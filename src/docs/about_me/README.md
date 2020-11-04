@@ -3,8 +3,6 @@ slug: /
 title: About me
 ---
 
-![myself](profile_pic.jpg)
-
 Hello!
 
 I'm a computer scientist and software engineer living in Toronto, Canada.
@@ -35,11 +33,7 @@ the University of Toronto. The thesis was [published here].
 
 I should mention that I quite enjoy C++ and CMake.
 
-----
-
-You can contact me [@fpiovezan] on Twitter, or on [LinkedIn].
-
-----
+![myself](profile_pic.jpg)
 
 [a tutorial]: https://www.youtube.com/watch?v=m8G_S5LwlTo
 [ACM's ICPC]: https://icpc.baylor.edu/
