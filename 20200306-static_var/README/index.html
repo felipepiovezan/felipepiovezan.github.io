@@ -6,14 +6,14 @@
 <meta name="generator" content="Docusaurus v2.0.0-alpha.66">
 <title data-react-helmet="true">Static variables, static storage, static initialization, constant initialization, constinit, constexpr | 101</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docusaurus_language" content="en"><meta data-react-helmet="true" name="docusaurus_version" content="current"><meta data-react-helmet="true" name="docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="Static variables, static storage, static initialization, constant initialization, constinit, constexpr | 101"><meta data-react-helmet="true" name="description" content="In a recent discussion over Twitter, it was pointed out that optimizers"><meta data-react-helmet="true" property="og:description" content="In a recent discussion over Twitter, it was pointed out that optimizers"><meta data-react-helmet="true" property="og:url" content="https://felipepiovezan.github.io//20200306-static_var/README"><link data-react-helmet="true" rel="shortcut icon" href="/img/favicon.ico"><link data-react-helmet="true" rel="canonical" href="https://felipepiovezan.github.io//20200306-static_var/README"><link rel="stylesheet" href="/styles.58710d0f.css">
 <link rel="preload" href="/styles.9959f271.js" as="script">
-<link rel="preload" href="/runtime~main.5df455bb.js" as="script">
+<link rel="preload" href="/runtime~main.1ae021a6.js" as="script">
 <link rel="preload" href="/main.01c6edad.js" as="script">
 <link rel="preload" href="/1.43c5d01a.js" as="script">
 <link rel="preload" href="/2.cf4e590e.js" as="script">
 <link rel="preload" href="/13.c5726d0f.js" as="script">
 <link rel="preload" href="/935f2afb.584f3aef.js" as="script">
 <link rel="preload" href="/17896441.2afc73b6.js" as="script">
-<link rel="preload" href="/7327e912.34065dcc.js" as="script">
+<link rel="preload" href="/7327e912.74ccf141.js" as="script">
 </head>
 <body>
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){var t=null;try{t=localStorage.getItem("theme")}catch(t){}return t}();t(null!==e?e:"light")}()</script><div id="__docusaurus">
@@ -139,13 +139,13 @@ if the function is not evaluated at compile time. It is a useful mechanism to
 ensure that an expensive function is never evaluated during program
 execution.<a href="#fnref-4" class="footnote-backref">↩</a></li></ol></div></div></article><div class="margin-vert--lg"><nav class="pagination-nav" aria-label="Blog list page navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/20200503-git_intro/README"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« A Git introduction with no commands</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/20200222-build_systems2/README"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Build system basics - part 2 »</div></a></div></nav></div></div></div><div class="col col--3"><div class="tableOfContents_3SO_"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#the-offending-code" class="table-of-contents__link">The offending code.</a></li><li><a href="#optimized-code" class="table-of-contents__link">Optimized code</a><ul><li><a href="#static-storage" class="table-of-contents__link">Static storage</a></li><li><a href="#zero-or-constant-initialization" class="table-of-contents__link">Zero or Constant initialization</a></li><li><a href="#constant-initialization-to-the-rescue" class="table-of-contents__link">Constant initialization to the rescue!</a></li></ul></li><li><a href="#dont-let-slow-code-compile" class="table-of-contents__link">Don&#39;t let slow code compile.</a></li><li><a href="#but-we-cant-constexpr-all-the-things" class="table-of-contents__link">But we can&#39;t constexpr all the things</a></li><li><a href="#conclusion" class="table-of-contents__link">Conclusion</a></li></ul></div></div></div></div></main></div></div></div>
 <script src="/styles.9959f271.js"></script>
-<script src="/runtime~main.5df455bb.js"></script>
+<script src="/runtime~main.1ae021a6.js"></script>
 <script src="/main.01c6edad.js"></script>
 <script src="/1.43c5d01a.js"></script>
 <script src="/2.cf4e590e.js"></script>
 <script src="/13.c5726d0f.js"></script>
 <script src="/935f2afb.584f3aef.js"></script>
 <script src="/17896441.2afc73b6.js"></script>
-<script src="/7327e912.34065dcc.js"></script>
+<script src="/7327e912.74ccf141.js"></script>
 </body>
 </html>
