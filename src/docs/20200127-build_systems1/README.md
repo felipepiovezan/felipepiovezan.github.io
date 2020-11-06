@@ -1,5 +1,6 @@
 ---
 title: Build system basics
+slug: ../build_system_basics
 ---
 
 Having a build system in a project is something many developers take for

@@ -1,5 +1,6 @@
 ---
 title: A Git introduction with no commands
+slug: ../git_basics
 ---
 
 Using Git is a mandatory skill for any software engineer in today's industry,

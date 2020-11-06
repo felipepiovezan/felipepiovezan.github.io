@@ -1,5 +1,6 @@
 ---
 title: Topological sorting - ACM-ICPC
+slug: ../improve_spam
 ---
 
 The [2019 ACM-ICPC Latin

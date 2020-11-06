@@ -1,5 +1,6 @@
 ---
 title: Build system basics - part 2
+slug: ../build_system_p2
 ---
 
 [Part 1] discussed a few basic concepts related to build systems. Part 2

@@ -1,5 +1,6 @@
 ---
 title: Static variables, static storage, static initialization, constant initialization, constinit, constexpr
+slug: ../const_constinit_constexpr_consteval
 ---
 
 In a recent discussion over Twitter, it was pointed out that optimizers
