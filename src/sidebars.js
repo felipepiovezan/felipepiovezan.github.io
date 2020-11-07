@@ -7,7 +7,7 @@ module.exports = {
     {
       type: 'link',
       label: 'The C++ abstract machine [opens in new tab]',
-      href: 'https://felipepiovezan.github.io/cpp_abstract_machine/cpp_abstract_machine',
+      href: 'https://felipepiovezan.github.io/cpp_abstract_machine',
     },
     '20200503-git_intro/README',
     '20200306-static_var/README',
