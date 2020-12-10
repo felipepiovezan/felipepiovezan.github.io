@@ -6,6 +6,11 @@ module.exports = {
     Posts : [
     {
       type: 'link',
+      label: 'MLIR concepts [opens in new tab]',
+      href: 'https://felipepiovezan.github.io/mlir',
+    },
+    {
+      type: 'link',
       label: 'The C++ abstract machine [opens in new tab]',
       href: 'https://felipepiovezan.github.io/cpp_abstract_machine',
     },
