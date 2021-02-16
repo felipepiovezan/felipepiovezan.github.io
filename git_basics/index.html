@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="generator" content="Docusaurus v2.0.0-alpha.66">
-<title data-react-helmet="true">A Git introduction with no commands | 101</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docusaurus_language" content="en"><meta data-react-helmet="true" name="docusaurus_version" content="current"><meta data-react-helmet="true" name="docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="A Git introduction with no commands | 101"><meta data-react-helmet="true" name="description" content="Using Git is a mandatory skill for any software engineer in today&#x27;s industry,"><meta data-react-helmet="true" property="og:description" content="Using Git is a mandatory skill for any software engineer in today&#x27;s industry,"><meta data-react-helmet="true" property="og:url" content="https://felipepiovezan.github.io//git_basics"><link data-react-helmet="true" rel="shortcut icon" href="/img/favicon.ico"><link data-react-helmet="true" rel="canonical" href="https://felipepiovezan.github.io//git_basics"><link rel="stylesheet" href="/styles.58710d0f.css">
-<link rel="preload" href="/styles.9959f271.js" as="script">
-<link rel="preload" href="/runtime~main.09a3b391.js" as="script">
-<link rel="preload" href="/main.4365fb5f.js" as="script">
-<link rel="preload" href="/1.43c5d01a.js" as="script">
-<link rel="preload" href="/2.cf4e590e.js" as="script">
-<link rel="preload" href="/13.c5726d0f.js" as="script">
-<link rel="preload" href="/935f2afb.a450475f.js" as="script">
-<link rel="preload" href="/17896441.2afc73b6.js" as="script">
-<link rel="preload" href="/8dded891.ac966a75.js" as="script">
+<title data-react-helmet="true">A Git introduction with no commands | 101</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docusaurus_language" content="en"><meta data-react-helmet="true" name="docusaurus_version" content="current"><meta data-react-helmet="true" name="docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="A Git introduction with no commands | 101"><meta data-react-helmet="true" name="description" content="Using Git is a mandatory skill for any software engineer in today&#x27;s industry,"><meta data-react-helmet="true" property="og:description" content="Using Git is a mandatory skill for any software engineer in today&#x27;s industry,"><meta data-react-helmet="true" property="og:url" content="https://felipepiovezan.github.io//git_basics"><link data-react-helmet="true" rel="shortcut icon" href="/img/favicon.ico"><link data-react-helmet="true" rel="canonical" href="https://felipepiovezan.github.io//git_basics"><link rel="stylesheet" href="/styles.812e166e.css">
+<link rel="preload" href="/styles.ab1337a4.js" as="script">
+<link rel="preload" href="/runtime~main.dae9e19d.js" as="script">
+<link rel="preload" href="/main.bc982daf.js" as="script">
+<link rel="preload" href="/1.96a4719c.js" as="script">
+<link rel="preload" href="/2.05231522.js" as="script">
+<link rel="preload" href="/13.37a54834.js" as="script">
+<link rel="preload" href="/935f2afb.b186527e.js" as="script">
+<link rel="preload" href="/17896441.2d502b17.js" as="script">
+<link rel="preload" href="/8dded891.978b420d.js" as="script">
 </head>
 <body>
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){var t=null;try{t=localStorage.getItem("theme")}catch(t){}return t}();t(null!==e?e:"light")}()</script><div id="__docusaurus">
@@ -160,14 +160,14 @@ associated with those commits next time it tries to cleanup its internal data
 structures.<a href="#fnref-1" class="footnote-backref">↩</a></li><li id="fn-2">The new commits have different
 parent commits, and if you had to solve any conflicts during the rebase, each
 intermediate snapshot will be different.<a href="#fnref-2" class="footnote-backref">↩</a></li></ol></div></div></article><div class="margin-vert--lg"><nav class="pagination-nav" aria-label="Blog list page navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« About me</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/const_constinit_constexpr_consteval"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Static variables, static storage, static initialization, constant initialization, constinit, constexpr »</div></a></div></nav></div></div></div><div class="col col--3"><div class="tableOfContents_3SO_"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#staging" class="table-of-contents__link">Staging</a></li><li><a href="#commit-definition" class="table-of-contents__link">Commit definition</a></li><li><a href="#how-a-sequence-of-commits-form-a-graph" class="table-of-contents__link">How a sequence of commits form a graph</a></li><li><a href="#branches-a-name-and-a-pointer" class="table-of-contents__link">Branches: a name and a pointer</a></li><li><a href="#you-are-where-your-head-is" class="table-of-contents__link">You are where your HEAD is.</a></li><li><a href="#a-word-on-detached-heads" class="table-of-contents__link">A word on detached <code>HEADS</code></a></li><li><a href="#change-branches-often" class="table-of-contents__link">Change branches often...</a></li><li><a href="#-except-when-you-cant" class="table-of-contents__link">... except when you can&#39;t</a></li><li><a href="#the-graph-doesnt-have-to-be-linear" class="table-of-contents__link">The graph doesn&#39;t have to be linear</a></li><li><a href="#deleting-a-branch-deletes-a-name" class="table-of-contents__link">Deleting a branch deletes a name.</a><ul><li><a href="#git-will-not-let-you-delete-some-branches" class="table-of-contents__link">Git will not let you delete some branches.</a></li></ul></li><li><a href="#easy-merging-fast-forward" class="table-of-contents__link">Easy merging: fast forward</a></li><li><a href="#non-trivial-merges" class="table-of-contents__link">Non-trivial merges</a><ul><li><a href="#three-way-merge" class="table-of-contents__link">Three-way merge!</a></li><li><a href="#rebase" class="table-of-contents__link">Rebase!</a></li><li><a href="#keeping-feature-branches-up-to-date-with-the-main-branch" class="table-of-contents__link">Keeping feature branches up-to-date with the main branch</a></li></ul></li><li><a href="#remotes" class="table-of-contents__link">Remotes</a></li><li><a href="#agreement-on-distributed-systems-is-a-hard-problem" class="table-of-contents__link">Agreement on distributed systems is a hard problem</a></li><li><a href="#follow-an-origin" class="table-of-contents__link">Follow an origin</a></li><li><a href="#origin-with-some-interface" class="table-of-contents__link">Origin with some interface</a></li></ul></div></div></div></div></main></div></div></div>
-<script src="/styles.9959f271.js"></script>
-<script src="/runtime~main.09a3b391.js"></script>
-<script src="/main.4365fb5f.js"></script>
-<script src="/1.43c5d01a.js"></script>
-<script src="/2.cf4e590e.js"></script>
-<script src="/13.c5726d0f.js"></script>
-<script src="/935f2afb.a450475f.js"></script>
-<script src="/17896441.2afc73b6.js"></script>
-<script src="/8dded891.ac966a75.js"></script>
+<script src="/styles.ab1337a4.js"></script>
+<script src="/runtime~main.dae9e19d.js"></script>
+<script src="/main.bc982daf.js"></script>
+<script src="/1.96a4719c.js"></script>
+<script src="/2.05231522.js"></script>
+<script src="/13.37a54834.js"></script>
+<script src="/935f2afb.b186527e.js"></script>
+<script src="/17896441.2d502b17.js"></script>
+<script src="/8dded891.978b420d.js"></script>
 </body>
 </html>

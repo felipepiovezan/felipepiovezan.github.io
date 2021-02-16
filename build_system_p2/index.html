@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="generator" content="Docusaurus v2.0.0-alpha.66">
-<title data-react-helmet="true">Build system basics - part 2 | 101</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docusaurus_language" content="en"><meta data-react-helmet="true" name="docusaurus_version" content="current"><meta data-react-helmet="true" name="docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="Build system basics - part 2 | 101"><meta data-react-helmet="true" name="description" content="[Part 1] discussed a few basic concepts related to build systems. Part 2"><meta data-react-helmet="true" property="og:description" content="[Part 1] discussed a few basic concepts related to build systems. Part 2"><meta data-react-helmet="true" property="og:url" content="https://felipepiovezan.github.io//build_system_p2"><link data-react-helmet="true" rel="shortcut icon" href="/img/favicon.ico"><link data-react-helmet="true" rel="canonical" href="https://felipepiovezan.github.io//build_system_p2"><link rel="stylesheet" href="/styles.58710d0f.css">
-<link rel="preload" href="/styles.9959f271.js" as="script">
-<link rel="preload" href="/runtime~main.09a3b391.js" as="script">
-<link rel="preload" href="/main.4365fb5f.js" as="script">
-<link rel="preload" href="/1.43c5d01a.js" as="script">
-<link rel="preload" href="/2.cf4e590e.js" as="script">
-<link rel="preload" href="/13.c5726d0f.js" as="script">
-<link rel="preload" href="/935f2afb.a450475f.js" as="script">
-<link rel="preload" href="/17896441.2afc73b6.js" as="script">
-<link rel="preload" href="/23ef7a7b.969b3639.js" as="script">
+<title data-react-helmet="true">Build system basics - part 2 | 101</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docusaurus_language" content="en"><meta data-react-helmet="true" name="docusaurus_version" content="current"><meta data-react-helmet="true" name="docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="Build system basics - part 2 | 101"><meta data-react-helmet="true" name="description" content="[Part 1] discussed a few basic concepts related to build systems. Part 2"><meta data-react-helmet="true" property="og:description" content="[Part 1] discussed a few basic concepts related to build systems. Part 2"><meta data-react-helmet="true" property="og:url" content="https://felipepiovezan.github.io//build_system_p2"><link data-react-helmet="true" rel="shortcut icon" href="/img/favicon.ico"><link data-react-helmet="true" rel="canonical" href="https://felipepiovezan.github.io//build_system_p2"><link rel="stylesheet" href="/styles.812e166e.css">
+<link rel="preload" href="/styles.ab1337a4.js" as="script">
+<link rel="preload" href="/runtime~main.dae9e19d.js" as="script">
+<link rel="preload" href="/main.bc982daf.js" as="script">
+<link rel="preload" href="/1.96a4719c.js" as="script">
+<link rel="preload" href="/2.05231522.js" as="script">
+<link rel="preload" href="/13.37a54834.js" as="script">
+<link rel="preload" href="/935f2afb.b186527e.js" as="script">
+<link rel="preload" href="/17896441.2d502b17.js" as="script">
+<link rel="preload" href="/23ef7a7b.80159b7f.js" as="script">
 </head>
 <body>
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){var t=null;try{t=localStorage.getItem("theme")}catch(t){}return t}();t(null!==e?e:"light")}()</script><div id="__docusaurus">
@@ -97,14 +97,14 @@ and as a reference. Whenever I find myself thinking <em>How do I do X again?</em
 was also my primary way to learn about CMake.</p></li><li><p>Daniel Pfeifer&#x27;s <a href="https://www.youtube.com/watch?v=bsXLMQ6WgIk" target="_blank" rel="noopener noreferrer">Effective CMake</a> talk is a good introduction to the CMake
 language and to good CMake practices. The second half of the talk is pretty
 heavy on details though, so don&#x27;t worry too much about it right now.</p></li></ul></div></article><div class="margin-vert--lg"><nav class="pagination-nav" aria-label="Blog list page navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/const_constinit_constexpr_consteval"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« Static variables, static storage, static initialization, constant initialization, constinit, constexpr</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/build_system_basics"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Build system basics »</div></a></div></nav></div></div></div><div class="col col--3"><div class="tableOfContents_3SO_"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#cmake-is-not-a-build-system" class="table-of-contents__link">CMake is not a build system.</a></li><li><a href="#the-canonical-cmake-invocation" class="table-of-contents__link">The canonical CMake invocation</a></li><li><a href="#cmakeliststxt-files" class="table-of-contents__link">CMakeLists.txt files</a></li><li><a href="#the-cmake-language" class="table-of-contents__link">The CMake language</a><ul><li><a href="#strings-string-everywhere" class="table-of-contents__link">Strings, string everywhere!</a></li><li><a href="#go-crazy" class="table-of-contents__link">Go crazy</a></li><li><a href="#a-word-on-whitespaces" class="table-of-contents__link">A word on whitespaces</a></li></ul></li><li><a href="#targets" class="table-of-contents__link">Targets</a></li><li><a href="#properties" class="table-of-contents__link">Properties</a></li><li><a href="#visual-representation" class="table-of-contents__link">Visual representation</a></li><li><a href="#conclusion" class="table-of-contents__link">Conclusion</a></li><li><a href="#further-reading" class="table-of-contents__link">Further reading</a></li></ul></div></div></div></div></main></div></div></div>
-<script src="/styles.9959f271.js"></script>
-<script src="/runtime~main.09a3b391.js"></script>
-<script src="/main.4365fb5f.js"></script>
-<script src="/1.43c5d01a.js"></script>
-<script src="/2.cf4e590e.js"></script>
-<script src="/13.c5726d0f.js"></script>
-<script src="/935f2afb.a450475f.js"></script>
-<script src="/17896441.2afc73b6.js"></script>
-<script src="/23ef7a7b.969b3639.js"></script>
+<script src="/styles.ab1337a4.js"></script>
+<script src="/runtime~main.dae9e19d.js"></script>
+<script src="/main.bc982daf.js"></script>
+<script src="/1.96a4719c.js"></script>
+<script src="/2.05231522.js"></script>
+<script src="/13.37a54834.js"></script>
+<script src="/935f2afb.b186527e.js"></script>
+<script src="/17896441.2d502b17.js"></script>
+<script src="/23ef7a7b.80159b7f.js"></script>
 </body>
 </html>
