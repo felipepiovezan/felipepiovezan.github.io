@@ -20,5 +20,24 @@ module.exports = {
     '20200127-build_systems1/README',
     '20191117-improve_spam/README',
     ],
+    'Book exercises' : [ {
+      'Category theory for programmers' : [
+        {
+          type: 'link',
+          label: 'Integers and Optional<Integer> Monoids [new tab]',
+          href: 'https://felipepiovezan.github.io/monoid',
+        },
+        {
+          type: 'link',
+          label: 'Product in a Poset [new tab]',
+          href: 'https://felipepiovezan.github.io/product_in_poset',
+        },
+        {
+          type: 'link',
+          label: 'Terminals: unique up to unique isomorphism [new tab]',
+          href: 'https://felipepiovezan.github.io/terminal_objects_are_unique',
+        },
+      ],
+      } ],
   },
 };
