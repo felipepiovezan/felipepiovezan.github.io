@@ -37,6 +37,11 @@ module.exports = {
           label: 'Terminals: unique up to unique isomorphism [new tab]',
           href: 'https://felipepiovezan.github.io/terminal_objects_are_unique',
         },
+        {
+          type: 'link',
+          label: 'Reader endofunctor: why "reader"? [new tab]',
+          href: 'https://felipepiovezan.github.io/reader_endofunctor',
+        },
       ],
       } ],
   },
