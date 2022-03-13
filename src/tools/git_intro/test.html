@@ -1,0 +1,469 @@
+<hr />
+
+<p>title: A Git introduction with no commands</p>
+
+<h2>slug: ../git_basics</h2>
+
+<p>Using Git is a mandatory skill for any software engineer in today&rsquo;s industry,
+but it&rsquo;s surprisingly difficult to find an introduction to the mental model
+behind Git. Most Git users repeat a set of memorized commands that work for
+some situations, resorting to colleagues when the cheat sheet fails.</p>
+
+<p>I used to be in that camp before opening the magic box behind the command line
+interface. Having understood Git&rsquo;s conceptual model, I am now able to use the
+tool more effectively than before, employing it in ways that I didn&rsquo;t know were
+possible. By framing a problem as an operation on the commit history graph, I
+can easily find the Git command I need to solve it.</p>
+
+<p>With this post, I intend to go over Git&rsquo;s conceptual model <em>without
+mentioning a single command-line operation</em>. Once the model is clear, then we
+look at daily actions performed by developers and map those actions to Git
+concepts. This is my attempt at &ldquo;how I wish Git had been explained to me&rdquo;.</p>
+
+<h1>Saving snapshots of the project</h1>
+
+<p>At its core, a version control system is a program that keeps track of the
+state of a repository as it evolves through time. It allows us to go back and
+forth between states, to record new states, and to inspect the &ldquo;history&rdquo; of the
+repository.</p>
+
+<p>In Git, saving a new state of the repository consists of:</p>
+
+<ol>
+<li>Making changes to files or adding new ones.</li>
+<li>Specifying which changes should be recorded by adding those changes to the
+<em>staging area</em>.</li>
+<li>Performing a <em>commit</em> operation.</li>
+</ol>
+
+
+<p>For now, don&rsquo;t worry about what this commit operation is, we&rsquo;ll talk about it
+soon.</p>
+
+<h2>Staging</h2>
+
+<p>The staging area consists of a set of changes that will be included by the next
+commit operation. It partitions the repository into three categories of files:</p>
+
+<p><img src="three_categories.svg" alt="file_partitions" /></p>
+
+<p>During development, we are editing files, staging <em>changes</em>, and finally doing a
+commit operation:</p>
+
+<p><img src="transitions1.svg" alt="transitions 1" /></p>
+
+<p>Nothing stops us from editing a file, staging it and editing the file again;
+this effectively creates a new kind of file that has both staged and unstaged
+changes. It&rsquo;s up to us to decide what we want the next commit to include: if
+it should include the new changes, then we have to stage them too.</p>
+
+<p><img src="transitions2.svg" alt="transitions 2" /></p>
+
+<p>Git also allows us to stage <em>some</em> of the changes in a file, in fact the mental
+model is that we stage changes done to a file, not the file itself. Staging
+only a subset of the changes done to a file is helpful in case they don&rsquo;t all
+logically belong on the same commit.</p>
+
+<p><img src="transitions3.svg" alt="transitions 3" /></p>
+
+<h2>Commit definition</h2>
+
+<p>So what is a commit operation?</p>
+
+<p>When a commit is performed, <em>a snapshot of the entire repository is taken</em> and
+stored into an internal data structure of Git. A commit operation creates a
+commit object, which consists of:</p>
+
+<ol>
+<li>A pointer to that snapshot,</li>
+<li>the author&rsquo;s name and email,</li>
+<li>a commit message, and</li>
+<li>pointer to the commit that came directly before this commit.</li>
+</ol>
+
+
+<p>By pointer we mean a SHA-1 hash of the object; it is common to refer
+to a commit by its hash.</p>
+
+<p>Note: if any of the items above is changed, the commit hash will change too!</p>
+
+<p><img src="commit.svg" alt="a commit" /></p>
+
+<p>Unfortunately, the verb &ldquo;commit&rdquo;  and the noun &ldquo;commit&rdquo; are the spelled the
+same way in English; when we use it as a verb, we mean the act of perfoming a
+commit operation, whereas the noun refers to the commit object (or its hash).</p>
+
+<h2>How a sequence of commits form a graph</h2>
+
+<p>Because a commit stores a reference to the preceding commit, in other other
+words, because a commit has a parent, the repository can be represented as a
+directed acyclic graph: nodes are commits and a directed edge <code>(commit2, commit1)</code> indicates
+that commit <code>commit1</code> is a parent of <code>commit2</code>.</p>
+
+<p><img src="three_commits.svg" alt="three commits" /></p>
+
+<p>For ease of representation, I&rsquo;m using names for the commits in the pictures,
+but <code>commit1</code> and <code>commit2</code> actually represent the hash of the respective
+commits.</p>
+
+<h2>Branches: a name and a pointer</h2>
+
+<p>The concept of a <em>branch</em> is what allows us to navigate through important states
+of a repository. A branch in Git is a pair <code>(name, pointer to a commit)</code>.</p>
+
+<p><img src="three_branches.svg" alt="three branches" /></p>
+
+<p>In this example, we have two branches named <code>feature1</code> and <code>master</code>, both
+pointing to commit <code>commit1</code>, and a branch named <code>feature2</code> pointing to
+<code>commit2</code>.</p>
+
+<p>Note: there is nothing special about the branch named <code>master</code>. When you create
+a repository from scratch, you need a name for the starting branch &ndash; <code>master</code>
+is the default and few repositories bother renaming it.</p>
+
+<h2>You are where your HEAD is.</h2>
+
+<p>Since we&rsquo;re jumping around the history of the repository all the time, how do
+we know which snapshot we&rsquo;re looking at? This information is tracked by a
+special pointer, called <code>HEAD</code>. Most of the time, <code>HEAD</code> points to a branch:</p>
+
+<p><img src="head_intro.svg" alt="head introduction" /></p>
+
+<p>In this example, we are looking at the repository as defined by branch
+<code>feature2</code>, which points to <code>commit2</code>.</p>
+
+<p>When we add a new commit, we advance the branch pointed by the <code>HEAD</code>:</p>
+
+<p><img src="head_advanced.svg" alt="head advancing" /></p>
+
+<h2>A word on detached <code>HEADS</code></h2>
+
+<p>What if we want to inspect snapshots that are not pointed to by any
+branch, like <code>commit2</code>? You can use its hash and force <code>HEAD</code> to point to it:</p>
+
+<p><img src="detached_head_state.svg" alt="detached_head_state" /></p>
+
+<p>You are now in what is called a <em>detached  <code>HEAD</code> state</em>, that is, <code>HEAD</code> is
+not following any branches. This is not what you&rsquo;ll be doing 99.99% of the
+time and, once in a detached <code>HEAD</code> state, you&rsquo;ll either create a new branch
+pointing to the current snapshot, or switch to some other branch; both of those
+actions restore your <code>HEAD</code> to its natural state: that of tracking branches.</p>
+
+<h2>Change branches often&hellip;</h2>
+
+<p>Changing a branch is simple: just point your <code>HEAD</code> to it, and Git will
+assemble the repository as it was in the commit pointed to by that branch.</p>
+
+<p><img src="change_head.svg" alt="changing heads" /></p>
+
+<h2>&hellip; except when you can&rsquo;t</h2>
+
+<p>Changing branches is a natural operation that we perform often, but it has the
+potential to overwrite non-committed changes.</p>
+
+<p>For example, suppose you have edited <code>main.cpp</code> <strong>but not committed those
+changes</strong> and suppose you attempt to change <code>HEAD</code> to <code>other_branch</code>.  However,
+<code>main.cpp</code> is different in <code>other_branch</code>. What should happen to your
+non-committed changes? Should Git discard them  and overwrite <code>main.cpp</code> with
+the version in <code>other_branch</code>?</p>
+
+<p>Git follows a principle that it will <strong>never</strong> allow you to lose changes by accident,
+unless you are explicit about it by using dangerous keywords like &ldquo;force&rdquo; or
+&ldquo;hard&rdquo;.</p>
+
+<p>In the example above, unless Git can <em>cleanly</em> and <em>unambiguously</em> apply the
+non-committed changes on top of the target branch, it will NOT let you change
+branches. In particular, you should be able to move back and forth between two
+branches without any loss of information; if that&rsquo;s not possible, Git will not
+let you change branches.</p>
+
+<p>Merely staging the changes wouldn&rsquo;t be enough either. In other words: commit,
+commit, commit, commit. Don&rsquo;t be afraid of committing, it is the most powerful
+tool in your toolbox.</p>
+
+<h2>The graph doesn&rsquo;t have to be linear</h2>
+
+<p>So far, our graph has always been a &ldquo;straight line&rdquo;. However, what happens if
+we add a new commit to <code>feature1</code> in the example shown previously? The graph
+becomes more interesting:</p>
+
+<p><img src="non_straight_line.svg" alt="non linear history" /></p>
+
+<p>Note that, because our head was pointing to the <code>feature1</code> branch, the next
+commit advanced that branch.</p>
+
+<h2>Deleting a branch deletes a name.</h2>
+
+<p>Because a branch is just a pointer, deleting it is a quick operation: just
+delete the pointer. However&hellip;</p>
+
+<h3>Git will not let you delete some branches.</h3>
+
+<p>What if deleting a branch would cause loss of information?</p>
+
+<p>The canonical way to navigate between states of your repository is by
+changing your HEAD so that it points to different branches, and that is done
+through branch names; Git doesn&rsquo;t expect you to memorize hashes.</p>
+
+<p>Consider this example:</p>
+
+<p><img src="cant_delete_branch.svg" alt="cant delete branch" /></p>
+
+<p>If we delete the branch <code>feature2</code>, the commits in red would be lost forever:
+there is no branch that includes those commits, i.e. there is no way to put
+your repository in a state containing those commits<a href="In">^1</a>. The only way to
+inspect those commits would be if you memorized their hashes and moved into a
+detached head state.</p>
+
+<p>As such, Git will not let you delete that branch unless you force it to.</p>
+
+<h1>Merging branches</h1>
+
+<p>We&rsquo;ve seen what branches are and how they relate to commits. The next building
+block to be examined is how to merge work from one branch into another. There
+are many different ways to accomplish this, and the choice depends on what
+you want the final commit history to look like.</p>
+
+<h2>Easy merging: fast forward</h2>
+
+<p>Let&rsquo;s consider the scenario we had before:</p>
+
+<p><img src="ready_to_merge.svg" alt="ready to merge" /></p>
+
+<p>Suppose the work from the <code>feature1</code> branch has been tested and is ready to be
+merged back into <code>master</code>. To emphasize: we want to merge <code>feature1</code> into
+<code>master</code>, not the other way around (more on this later).</p>
+
+<p>Well, lucky you, nobody has committed into master since the work on <code>feature1</code>
+started! Because <strong>all commits in <code>master</code> are also in <code>feature1</code></strong>, Git can
+simply move the <code>master</code> pointer forward, a method known as a <em>fast forward</em>:</p>
+
+<p><img src="after_merge.svg" alt="afer merge" /></p>
+
+<p>This method is always free of conflicts, that is, it will never require manual
+intervention to resolve edits made in the same file on the two branches being
+merged.</p>
+
+<p>The <code>feature1</code> branch is now irrelevant and can be deleted:</p>
+
+<p><img src="after_merge_branch_deleted.svg" alt="afer merge branch deleted" /></p>
+
+<h2>Non-trivial merges</h2>
+
+<p>When many developers are working on the same repository, chances are Git won&rsquo;t
+always be able to fast-forward. Suppose the <code>feature2</code> branch from above is
+ready to be merged back into master, what will happen?</p>
+
+<h3>Three-way merge!</h3>
+
+<p>When fast forwards are not possible, Git will identify three commits to help it
+perform the merge:</p>
+
+<ol>
+<li>The commit pointed to by the destination branch.</li>
+<li>The commit pointed to by the source branch.</li>
+<li>The commit that is the lowest common ancestor of 1 and 2.</li>
+</ol>
+
+
+<p>Using our previous example, the commits are as follows:</p>
+
+<p><img src="merge_commit_points.svg" alt="merge_commit_points" /></p>
+
+<p>Using those commits, Git will now merge the two branches, identify conflicting
+changes and create a new commit representing the merge:</p>
+
+<p><img src="merge_commit.svg" alt="merge_commit" /></p>
+
+<p>If any conflicting changes are found, Git will ask you to resolve them before
+the merge commit is created.</p>
+
+<p>The <code>feature2</code> branch can now be deleted.</p>
+
+<h3>Rebase!</h3>
+
+<p>A lot of projects frown upon complicated graphs for their main development
+branches, as such, they forbid three-way merges. To maintain a clean and linear
+history, a different procedure is needed.</p>
+
+<p>Let&rsquo;s pretend we never did the three-way merge with <code>feature2</code>:</p>
+
+<p><img src="before_rebase.svg" alt="before rebase" /></p>
+
+<p>Instead of a three-way merge, we can re-apply commits from <code>feature2</code> on top of
+<code>master</code>, this is known as a rebase of <code>feature2</code> on top of <code>master</code>.</p>
+
+<ol>
+<li>Start with our <code>HEAD</code> on the source branch (<code>feature2</code>).</li>
+<li>Git rewinds <code>HEAD</code> to the lowest common ancestor of the two branches.</li>
+<li><p>Git forwards <code>HEAD</code> along the path of the target branch (<code>master</code>).</p>
+
+<p> <img src="mid_rebase.svg" alt="mid_rebase" /></p></li>
+<li><p>Git replays the commits of <code>feature2</code>.</p>
+
+<p> <img src="rebase_finished.svg" alt="rebase_finished" /></p></li>
+</ol>
+
+
+<p>If any commits can&rsquo;t be applied cleanly, Git asks for your intervention before continuing.</p>
+
+<p>Note: the new commits are different from the original ones and they will have
+different hashes. Why?<a href="The">^2</a></p>
+
+<p>Now, if you switch HEAD to <code>master</code> and try to merge with <code>feature2</code>, a simple
+fast forward will do!</p>
+
+<h3>Keeping feature branches up-to-date with the main branch</h3>
+
+<p>When developing a big feature in a separate branch, it&rsquo;s wise to ensure our
+code is up-to-date with the main branch of the project, otherwise we run the
+risk of working on top of a stale version of the code base.</p>
+
+<p>One way to accomplish this is by frequently merging the main branch into the
+feature branch:</p>
+
+<p><img src="frequent_merges.svg" alt="frequent_merges" /></p>
+
+<p>If your project disallows three way merges, you would frequently
+rebase the feature branch on top of the main branch:</p>
+
+<p><img src="frequent_rebases.svg" alt="frequent_rebases" /></p>
+
+<h1>Distributed Git</h1>
+
+<p>So far, everything we&rsquo;ve covered assumes the entirety of development is
+performed locally, that is, there are no copies of the repository outside our
+machine. There are no pesky coworkers, no remote servers, nothing!</p>
+
+<p>However, that&rsquo;s not how modern development is done. So how does Git handle
+multiple developers?</p>
+
+<h2>Remotes</h2>
+
+<p>A <em>remote</em> is just another copy of the same repository located elsewhere.
+Git needs to know where and how to find it through an address and protocol:
+ssh, https, file system path, etc.</p>
+
+<p>Suppose Alice and Bob both have a copy of the same repository in their own
+machines:</p>
+
+<p><img src="alice_and_bob.svg" alt="alice_and_bob" /></p>
+
+<p>Now suppose Alice and Bob want to collaborate, thus they need the ability to
+see what each other is up to. Alice will add a <em>remote</em> called <code>remote_bob</code> and
+Bob will add a <em>remote</em> called <code>remote_alice</code>.</p>
+
+<p><img src="alice_and_bob_with_remotes.svg" alt="alice_and_bob_with_remotes" /></p>
+
+<p>Both will then <em>fetch</em> updates from their remotes, resulting in the following
+trees:</p>
+
+<p><img src="alice_and_bob_after_fetch.svg" alt="alice_and_bob_after_fetch" /></p>
+
+<h2>Agreement on distributed systems is a hard problem</h2>
+
+<p>Because the copies are independent of each other, branches may evolve differently
+in each remote. For instance, Alice and Bob might make different, independent commits
+in their master branches:</p>
+
+<p><img src="masters_diverged.svg" alt="masters_diverged" /></p>
+
+<p>Which version of master should be accepted as correct? The situation can get a
+lot worse if you have many developers working at the same time. How are all
+these developers supposed to agree on what the correct version of a branch
+should be?</p>
+
+<h2>Follow an origin</h2>
+
+<p>The typical way to solve this problem is by electing a <em>remote</em> to be the
+correct copy of the repository, and letting developers try to influence it.
+Usually, this remote is called <code>origin</code>.</p>
+
+<p>Consider the situation we had before, where Alice and Bob had diverged on what
+master should look like. Instead of interacting with each other&rsquo;s repository
+directly, they only interact with <code>origin</code>:</p>
+
+<p><img src="enter_the_origin.svg" alt="enter_the_origin" /></p>
+
+<p>(I&rsquo;m omitting <code>HEAD</code> here to keep the diagram manageable.)</p>
+
+<p>To publish their own versions of <code>master</code> to <code>origin/master</code>, Alice and Bob will
+attempt to perform a <em>push</em> operation into their <code>origin</code> remote. Let&rsquo;s assume
+that Alice performs her <em>push</em> first, resulting in the following scenario:</p>
+
+<p><img src="alice_won.svg" alt="alice_won" /></p>
+
+<p>Notice how Bob doesn&rsquo;t yet know that <code>origin</code> has accepted Alice&rsquo;s update to
+master. When Bob tries to push his <code>master</code> into <code>origin/master</code>, Git will tell
+him: &ldquo;I can&rsquo;t do this, because your <code>origin/master</code> is not what <code>origin</code> says
+it should be. Do a <em>fetch</em> first!&rdquo;</p>
+
+<p>Once Bob fetches <code>origin</code>, this is what he sees:</p>
+
+<p><img src="bob_fetches.svg" alt="bob_fetches" /></p>
+
+<p>Then Bob can either rebase <code>master</code> on top of <code>origin/master</code> or merge
+<code>origin/master</code> into <code>master</code>. Now Bob is ready to <em>push</em> <code>master</code> to
+<code>origin/master</code>.</p>
+
+<p>Here&rsquo;s what the final result would look like if Bob had used the merge option:</p>
+
+<p><img src="bob_pushes.svg" alt="bob_pushes" /></p>
+
+<h2>Origin with some interface</h2>
+
+<p>In the previous example, <code>origin</code> could only be changed by trying to <code>push</code>
+updates to it. However, all pushes are rejected unless we have
+the exactly same view of the branch being pushed to as <code>origin</code> does.</p>
+
+<p>To fix this problem, it might be desirable to have <code>origin</code> itself run commands
+on its copy of the repository and let downstream users &ndash; like Alice and Bob &ndash;
+get updates by fetching; this is what services that host a repository typically
+provide.</p>
+
+<p>For instance, Alice might create a new branch, do some work, commit, and push
+this new branch to <code>origin</code>. This push will always work without issues, because
+she&rsquo;s the only one working on it (barring any unlucky events where Bob created
+a branch with the same name)</p>
+
+<p><img src="alice_origin_feature.svg" alt="alice_origin_feature" /></p>
+
+<p>Alice can then go into the interface provided by <code>origin</code> - likely a webpage -
+click a &ldquo;create merge request&rdquo; button, specifying <code>feature_alice</code> as the source
+branch and <code>master</code> as the destination branch.  This will have the effect
+of <code>origin</code> performing the merge on its side.</p>
+
+<p><img src="alice_origin_feature_merged.svg" alt="alice_origin_feature_merged" /></p>
+
+<p>Note that Alice will not see the merge on her copy of the repository until she
+performs a fetch.</p>
+
+<p>If the merge can&rsquo;t be performed due to conflicts, the interface will let Alice
+know.</p>
+
+<h1>Conclusion</h1>
+
+<p>With the mental model clear, you&rsquo;ll have a much easier time with the command
+line interface, as the terminology used in this article reflects what Git uses
+for its commands and its manual. The next step is to start over, and match
+each operation we discussed to its equivalent command. I&rsquo;ve linked some
+resources for further reading below.</p>
+
+<p>Feel free to send me a message on Twitter if you feel like something isn&rsquo;t clear!</p>
+
+<h1>Further reading</h1>
+
+<ul>
+<li><p>Git has its own book called <a href="https://git-scm.com/book/en/v2">Pro Git</a> and it&rsquo;s free! It is by far the best
+resource I found while learning.</p></li>
+<li><p>If you&rsquo;re wondering how to use branches to effectively manage a project, I
+recommend reading the following articles: <a href="https://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a>
+and the <a href="https://guides.github.com/introduction/flow/">Github guide</a>.</p></li>
+</ul>
+
+
+<p>associated with those commits next time it tries to cleanup its internal data
+structures.</p>
+
+<p>parent commits, and if you had to solve any conflicts during the rebase, each
+intermediate snapshot will be different.</p>
