@@ -1,0 +1,14 @@
+digraph ex1 {
+  List1 [label = "List 1", color = Blue, shape = box]
+  List2 [label = "List 2", color = Blue, shape = box]
+  List3 [label = "List 3", color = Blue, shape = box]
+  Client4 [label = "Client 4", color = Red, shape = diamond]
+  Client5 [label = "Client 5", color = Red, shape = diamond]
+
+  List1 -> List2;
+  List1 -> List3;
+  List2 -> Client4;
+  List2 -> Client5;
+  List3 -> List2;
+  List3 -> Client4;
+}
