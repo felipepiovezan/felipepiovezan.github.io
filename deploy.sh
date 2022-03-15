@@ -11,6 +11,7 @@ no_changes
 git checkout deploy
 git reset --hard  main
 ./convert.sh
+echo "blog.piovezan.ca" > docs/CNAME
 git add . --force
 git commit -m "auto-deploy"
 git push --force
