@@ -1,0 +1,2 @@
+1. (constexpr) https://godbolt.org/z/jvzdvbe5r
+2. (virtual) https://godbolt.org/z/9cG7Gj1K4

@@ -6,7 +6,9 @@ Hello, welcome to my blog! Compilers, computer science, programming :)
 
 * [About Me](about_me)
 * Compilers:
-  * [(WIP) LLVM IR: What and Why](compilers/llvm_ir)
+  * Intermediate Representations
+    * [What is an Intermediate Representation](compilers/llvm_ir)
+    * \[[completed animation version](compilers/llvm_ir/llvm_ir.html)\]
   * [MLIR Concepts (animation)](compilers/mlir)
 * C++:
   * [The C++ Abstract Machine (animation)](cpp/abstract_machine)
