@@ -1,0 +1,23 @@
+<style>
+nav#TOC {
+  font-size:75%;
+  position: fixed;
+  top: 5%;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  width: 20%;
+  padding: 10px;
+  overflow-x: auto;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  background-color: #f5f5f5;
+  border-right: 1px solid #eee;
+}
+
+/*for mobile*/
+@media only screen and (max-device-width: 1024px) {
+  nav#TOC {
+    display:none;
+  }
+}
+</style>

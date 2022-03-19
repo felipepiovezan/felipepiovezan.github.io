@@ -4,6 +4,7 @@ set -eou pipefail
 readarray -d '' md_files < <(find . -name "*.md" -print0)
 
 highlight_style="--highlight-style=$PWD/templates/solarized.theme"
+table_of_contents="--toc --include-in-header=$PWD/templates/toc.css "
 
 # https://pandoc.org/MANUAL.html#variables-for-html
 css="--variable=fontcolor:white --variable=backgroundcolor:black"
@@ -12,7 +13,9 @@ css=""
 pandoc_flags="-f markdown -t html -s
               --fail-if-warnings
               --self-contained
-              ${css} ${highlight_style}"
+              ${table_of_contents}
+              ${css}
+              ${highlight_style}"
 
 for md_path in ${md_files[@]}; do
   dir_name=$(dirname $md_path)
