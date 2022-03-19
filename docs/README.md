@@ -18,4 +18,5 @@ Hello, welcome to my blog! Compilers, computer science, programming :)
 * Tools:
   * [A Git Introduction With No Commands](tools/git_intro)
 * Programming Challenges
+  * [The Long Line Problem - TAOCP](programming_challenges/long_line)
   * [Improve Spam - ACM-ICPC](programming_challenges/improve_spam)
