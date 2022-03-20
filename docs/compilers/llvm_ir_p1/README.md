@@ -20,6 +20,8 @@ world machine will behave like the C++ abstract machine does.
 
 ![](behavior_preserving_transformation.svg){style="display:block; margin: auto;"}
 
+## Many Transformations
+
 In reality, the compiler performs many such behaviour-preserving
 _transformations_ before producing the final program, using different
 representations along the way. Here's one possible flow that an LLVM-based
@@ -47,9 +49,11 @@ and how __all__ of them must preserve behavior specified by each input
 representation in the output representation.
 
 While each representation in the list above is "intermediate" in the sense that
-it is neither the input program nor the final executable, when we say
-Intermediate Representation we usually mean the IR generated in step 5,
-"optimized" (_transformed_) in step 6, and lowered in step 7.
+it is neither the input program nor the final executable, we usually take
+Intermediate Representation to mean the IR generated in step 5, "optimized"
+(_transformed_) in step 6, and lowered in step 7.
+
+## Different Languages, Same IR
 
 Steps 1-5 are specific to the source language of the input program, but all
 other steps are agnostic to the language; the IR is the first such agnostic
