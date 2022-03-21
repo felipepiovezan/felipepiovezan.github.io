@@ -9,7 +9,7 @@ IR is, let's look at what compilers do and how they are structured.
 
 # Compilers and Transformations
 
-In essence, a compiler receives a program written in some source language and
+In essence, a compiler takes a program written in some source language and
 _transforms_ it into an executable program. This _transformation_ has a key
 property: it preserves some kind of behavior.
 
@@ -27,6 +27,8 @@ _transformations_ before producing the final program, using different
 representations along the way. Here's one possible flow that an LLVM-based
 compiler may follow:
 
+![](expanded_transformations.svg){style="display:block; margin: auto;"}
+
 1. Start with the source program.
 2. _Transform_ it into a Parse Tree.
    * Usually, this step can fail for ill-formed programs.
@@ -41,8 +43,6 @@ compiler may follow:
 9. _Transform_ it into sequence of machine instructions.
 10. _Transform_ it into the final program.
 
-![](expanded_transformations.svg){style="display:block; margin: auto;"}
-
 The list is not comprehensive, especially in the later stages which I am not
 familiar with; the important observation is the number of _transformations_,
 and how __all__ of them must preserve behavior specified by each input
@@ -50,8 +50,8 @@ representation in the output representation.
 
 While each representation in the list above is "intermediate" in the sense that
 it is neither the input program nor the final executable, we usually take
-Intermediate Representation to mean the IR generated in step 5, "optimized"
-(_transformed_) in step 6, and lowered in step 7.
+Intermediate Representation to mean the IR generated in Step 5, "optimized"
+(_transformed_) in Step 6, and lowered in Step 7.
 
 ## Different Languages, Same IR
 
@@ -63,9 +63,10 @@ all share the "middle" and "back"-ends of the sequence above:
 ![](more_frontends.svg){style="display:block; margin: auto;"}
 
 A side-effect of a language agnostic IR is that everything required by the
-language specification must be captured in the IR itself, it is possible to
-inspect IR and understand how language concepts map to low level code: the
-language standard doesn't exist in that level.
+language specification must be captured using generic mechanisms provided by
+the IR: the language standard doesn't exist in that level. Because of this, it
+is possible to inspect IR and understand how language concepts map to low level
+code abstractions.
 
 # Enter the IR
 
@@ -84,11 +85,11 @@ representations.
 
 ![](ir_position_and_goals.svg){style="display:block; margin: auto;"}
 
-To accomplish these design goals, LLVM's IR:
+LLVM's IR attempts to achieve these design goals by:
 
-* Is a RISC-like language
-* Has a type system
-* Is highly configurable
+* Being RISC-like language,
+* Having a type system,
+* Being highly configurable.
 
 The next post in this series will expand on the goals above and dig into the
 core ideas and representation of LLVM's IR!
