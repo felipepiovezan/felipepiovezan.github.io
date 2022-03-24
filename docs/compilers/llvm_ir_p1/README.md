@@ -91,5 +91,6 @@ LLVM's IR attempts to achieve these design goals by:
 * Having a type system,
 * Being highly configurable.
 
-The next post in this series will expand on the goals above and dig into the
-core ideas and representation of LLVM's IR!
+# Up Next
+
+The next post in this series will dig into the core concepts of LLVM's IR!
