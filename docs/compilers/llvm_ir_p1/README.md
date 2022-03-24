@@ -3,9 +3,9 @@ title: What is an Intermediate Representation?
 date: 2022-03-17
 ---
 
-Intermediate Representations (IRs) are representations employed by compilers in
-order to facilitate parts of the compilation pipeline. To understand what an
-IR is, let's look at what compilers do and how they are structured.
+Intermediate Representations (IRs) are ways to model programs that is used by
+compilers throughout the compilation pipeline. To understand what an IR is,
+let's look at what compilers do and how they are structured.
 
 # Compilers and Transformations
 
@@ -75,8 +75,8 @@ source languages and representations specific to the target machine.
 
 ![](ir_position.svg){style="display:block; margin: auto;"}
 
-From where the IR is positioned in the compilation pipeline, we can derive its
-design goals:
+From where the IR is positioned in the compilation pipeline, we can derive some
+of its design goals:
 
 * It must be able to represent concepts from any high level language,
 * It must be amenable to analysis required by "optimizing" transformations,
@@ -87,7 +87,7 @@ representations.
 
 LLVM's IR attempts to achieve these design goals by:
 
-* Being RISC-like language,
+* Being a RISC-like language,
 * Having a type system,
 * Being highly configurable.
 
