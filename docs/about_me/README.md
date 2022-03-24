@@ -4,7 +4,7 @@ title: About Me
 
 Hello!
 
-I'm a computer scientist and software engineer based in Toronto, Canada.
+I'm a computing scientist and software engineer based in Toronto, Canada.
 
 My main area of work is compilers - in the traditional sense of the word, not
 graph compilers - particularly on the front and middle-end, with the
