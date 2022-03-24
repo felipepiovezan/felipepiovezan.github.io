@@ -6,11 +6,11 @@ Hello, welcome to my blog! Compilers, computer science, programming :)
 
 * [About Me](about_me)
 * Compilers:
-  * LLVM's Intermediate Representation
+  * LLVM's Intermediate Representation (work in progress)
     * [What is an Intermediate Representation](compilers/llvm_ir_p1)
     * [LLVM's IR Core Concepts: Values, Registers, Memory](compilers/llvm_ir_p2)
-    * \[[complete animated version](compilers/llvm_ir_animation/llvm_ir.html)\]
-      * Works better when presented :)
+    * [Complete animated version](compilers/llvm_ir_animation/llvm_ir.html)
+    * [Tutorial presented @ LLVM's dev conference 2019](https://www.youtube.com/watch?v=m8G_S5LwlTo)
   * [MLIR Concepts (animation)](compilers/mlir_animation)
     * Still an early draft
 * C++:
