@@ -9,7 +9,8 @@ Hello, welcome to my blog! Compilers, computer science, programming :)
   * Intermediate Representations
     * [What is an Intermediate Representation](compilers/llvm_ir_p1)
     * \[[complete animated version](compilers/llvm_ir_animation/llvm_ir.html)\]
-  * [MLIR Concepts (animation)](compilers/mlir)
+  * [MLIR Concepts (animation)](compilers/mlir_animation)
+    * Still an early draft
 * C++:
   * [The C++ Abstract Machine (animated version)](cpp/abstract_machine)
   * [Static Variables and Optimizations](cpp/static_var)
