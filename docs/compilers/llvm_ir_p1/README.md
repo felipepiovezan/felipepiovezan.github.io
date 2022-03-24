@@ -3,7 +3,7 @@ title: What is an Intermediate Representation?
 date: 2022-03-17
 ---
 
-Intermediate Representations (IRs) are ways to model programs that is used by
+Intermediate Representations (IRs) are ways to model programs that are used by
 compilers throughout the compilation pipeline. To understand what an IR is,
 let's look at what compilers do and how they are structured.
 
