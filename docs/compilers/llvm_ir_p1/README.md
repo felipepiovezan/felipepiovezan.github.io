@@ -24,24 +24,25 @@ world machine will behave like the C++ abstract machine does.
 
 In reality, the compiler performs many such behaviour-preserving
 _transformations_ before producing the final program, using different
-representations along the way. Here's one possible flow that an LLVM-based
-compiler may follow:
+representations along the way. Let's look at one possible flow that an
+LLVM-based compiler may follow; don't worry about the names of each stage,
+we're interested in the fact that they exist, and where the IR is located.
 
 ![](expanded_transformations.svg){style="display:block; margin: auto;"}
 
-1. Start with the source program.
-2. _Transform_ it into a Parse Tree.
+We start with the source program, and then we:
+
+1. _Transform_ it into a Parse Tree.
    * Usually, this step can fail for ill-formed programs.
-3. _Transform_ it into an Abstract Syntax Tree (AST).
-4. _Transform_ it into a semantically checked AST.
+2. _Transform_ it into an Abstract Syntax Tree (AST).
+3. _Transform_ it into a semantically valid AST.
    * Usually, this step can fail for ill-formed programs.
-5. _Transform_ it into Intermediate Representation (IR).
-6. _Transform_ it into equivalent IR.
+4. _Transform_ it into Intermediate Representation (IR).
+5. _Transform_ it into equivalent IR.
    * Often referred to as "optimizations".
-   * This is done many times.
-7. _Transform_ it into a Selection DAG.
-9. _Transform_ it into sequence of machine instructions.
-10. _Transform_ it into the final program.
+6. _Transform_ it into a Selection DAG.
+7. _Transform_ it into sequence of machine instructions.
+8. _Transform_ it into the final program.
 
 The list is not comprehensive, especially in the later stages which I am not
 familiar with; the important observation is the number of _transformations_,
@@ -50,8 +51,8 @@ representation in the output representation.
 
 While each representation in the list above is "intermediate" in the sense that
 it is neither the input program nor the final executable, we usually take
-Intermediate Representation to mean the IR generated in Step 5, "optimized"
-(_transformed_) in Step 6, and lowered in Step 7.
+Intermediate Representation to mean the IR generated in Step 4, "optimized"
+(_transformed_) in Step 5, and lowered in Step 6.
 
 ## Different Languages, Same IR
 
@@ -62,13 +63,13 @@ all share the "middle" and "back"-ends of the sequence above:
 
 ![](more_frontends.svg){style="display:block; margin: auto;"}
 
-A side-effect of a language agnostic IR is that everything required by the
+A side-effect of a language-agnostic IR is that everything required by the
 language specification must be captured using generic mechanisms provided by
-the IR: the language standard doesn't exist in that level. Because of this, it
-is possible to inspect IR and understand how language concepts map to low level
-code abstractions.
+the IR: the language specification doesn't exist in that level. Because of
+this, one can inspect IR and understand how language concepts map to simpler
+and low level code abstractions.
 
-# Enter the IR
+# Goals of the IR
 
 In the compilation pipeline, the IR sits between representations specific to
 source languages and representations specific to the target machine.
