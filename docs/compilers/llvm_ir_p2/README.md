@@ -3,8 +3,6 @@ title: LLVM's IR Core Concepts - Values, Registers, Memory
 date: 2022-03-20
 ---
 
-(This is still an early draft)
-
 There are three key abstractions on top of which LLVM IR is built: values,
 registers and memory.
 
@@ -34,26 +32,29 @@ Registers have _names_, and we use their _name_ to access the underlying `Value`
 Any name starting with the `%` symbol is the name of a register. For example:
 `%0, %hi, %___` are all register names.
 
-LLVM IR provides infinitely many registers.
+![](registers.svg){style="display:block; margin: auto;"}
+
+When working with LLVM IR, we have infinitely many registers.
 
 ### Memory
 
 Memory is a sequence of bytes, each of which has an address. Addresses, also
 known as pointers, are `Value`s and therefore may be placed into a register.
 
-To load a `Value` previously stored in memory, we can write a memory address into
-a register, and then use that register in a load operation.
+![](memory.svg){style="display:block; margin: auto; scale: 150%"}
 
-Note an important property of this characterization of memory: it is a sequence
-of bytes with addresses. Memory does not hold information about the types of
-`Value`s that were previously stored in it; it is how we use memory addresses
-that give meaning (a type) to a sequence of bytes.
+`Value`s are typically moved from or to memory using loads or stores.
+
+In this characterization, memory is _just_ a sequence of bytes. Memory does not
+hold information about the types of `Value`s that were previously stored in it;
+it is how we use memory addresses that give meaning (a type) to a sequence of
+bytes. We will come back to this when we talk about instructions.
 
 # Registers have Names, Memory has Addresses
 
 Note the difference in the definition of registers and memory: registers have
-names but not addresses (they are *not* memory locations). Memory does not have
-names, only addresses.
+names but not addresses (registers are _not_ memory locations). Memory does not
+have names, only addresses.
 
 This is a core principle, so excuse the repetition: to access a `Value` inside a
 register, we use the _register's name_. To access a `Value` in memory, we
@@ -67,7 +68,7 @@ instructions.
 
 An instruction is an operation that may have `Value`s as input, may define a
 register as output, and may modify state in a program (like writing `Value`s to
-memory). Each Instruction has semantics describing the expected input, the
+memory). Each instruction has semantics describing the expected input, the
 produced output and changes it makes to the program state ("side effects").
 
 Here's an example instruction:
@@ -79,9 +80,9 @@ Here's an example instruction:
 It adds the `Value` `i32 10` and the `Value` inside register `%two`, and defines
 (creates) a new register `%result` to hold the resulting `Value`.
 
-LLVM's type system is very strict, so here there is an implicit assumption that
-`%two` has a `Value` of type `i32` as well. This is statically checked, and the
-IR is invalid otherwise.
+LLVM's type system is very strict, the `add` instruction requires both operands
+to be `Value`s of the same type. This is statically checked, and the IR is
+invalid otherwise.
 
 Instructions can also interact with memory:
 
@@ -99,15 +100,24 @@ The second instruction, `store i32`, does not produce a `Value`. It takes the
 memory address in the register `%address`, an integer in the register
 `%result`, and stores the integer into that memory location.
 
+# Memory Does Not Have a Type!
+
 Recall this paragraph from our memory definition:
 
 > Memory does not hold information about the types of `Value`s that were
 > previously stored in it; it is how we use memory addresses that give meaning
 > (a type) to a sequence of bytes.
 
-In the case of the `store i32` instruction, it uses the input address as a
-memory region containing a `Value` of type `i32`. In other words, the store
-instruction gave meaning (a type) to that address. One could argue that the
-type of `%address` also encodes this information; this is true, but LLVM IR is
-in a transition period and soon there will be a single type of pointer:
-`void*`.
+In the case of the `store i32` instruction, it interprets the input address as
+a memory region containing a `Value` of type `i32`. In other words, the store
+instruction gave meaning (a type) to that address.
+
+One could argue that the type of `%address` also encodes this information; this
+is true, but LLVM IR is in a transition period and soon there will be a single
+type of pointer: `void*`. For all intents and purposes, we should consider all
+pointer types to be the same `void*` type.
+
+# Up Next
+
+In the next post, we will see how a program - functions and global variables -
+is structured in LLVM's IR!
