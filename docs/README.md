@@ -12,7 +12,7 @@ Hello, welcome to my blog! Compilers, computer science, programming :)
     * [Complete animated version](compilers/llvm_ir_animation/llvm_ir.html)
     * [Tutorial presented @ LLVM's dev conference 2019](https://www.youtube.com/watch?v=m8G_S5LwlTo)
   * [MLIR Concepts (animation)](compilers/mlir_animation)
-    * Still an early draft
+    * Early draft
 * C++:
   * [The C++ Abstract Machine (animated version)](cpp/abstract_machine)
   * [Static Variables and Optimizations](cpp/static_var)
