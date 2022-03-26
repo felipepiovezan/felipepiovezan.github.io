@@ -1,0 +1,11 @@
+<style>
+.top_navbar {
+  text-align:center;
+  position:fixed;
+  background-color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+}
+</style>
