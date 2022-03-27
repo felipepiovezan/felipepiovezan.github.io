@@ -34,7 +34,10 @@ Any name starting with the `%` symbol is the name of a register. For example:
 
 ![](registers.svg){style="display:block; margin: auto;"}
 
-When working with LLVM IR, we have infinitely many registers.
+The exact name of a register carries no semantic meaning in the program,
+registers may be renamed at will.
+
+When working with LLVM IR, we have access to infinitely many registers.
 
 ### Memory
 
