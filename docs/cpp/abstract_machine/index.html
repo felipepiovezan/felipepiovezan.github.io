@@ -1,4 +1,20 @@
 <html>
+
+      <style>
+      .top_navbar {
+        text-align:center;
+        background-color: white;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+      }
+      </style>
+      <div class="top_navbar">
+        <a href="https://blog.piovezan.ca/">Home</a>
+        <!-- more links here -->
+      </div>
+    
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40.402653mm" height="24.694342mm" version="1.1" viewBox="-44.105247 606.606445 209.966522 128.332764" style="height:10%;width:100%">
   <!--
@@ -36498,6 +36514,37 @@
                   this.root.setAttribute("viewBox", this.old_cam.join(" "));
               }
             }
+
+            class FadeEvent {
+              constructor(obj, total_time) {
+                this.obj = obj;
+                this.total_time = total_time;
+              }
+
+              // Draws objs on the screen based on time elapsed and draw speed.
+              // Returns true if the obj has been drawn entirely.
+              process_event(elapsed, finish_requested) {
+                const percentage = elapsed/this.total_time;
+                let progress = Math.min(1, percentage);
+                if (finish_requested)
+                  progress = 1
+                this.obj.style.opacity = progress;
+                return progress === 1;
+              }
+
+              // Clears the obj from screen
+              clear_from_screen() {
+                this.obj.style.opacity = 0;
+              }
+
+              undo() {
+                this.clear_from_screen();
+              }
+            }
+{
+let obj = document.getElementById("rect16630");
+obj.style.opacity = 0
+}
 let _cam0 = new CameraEvent([-302.03543, -514.83282, 1016.275, 370.47507], [-302.03543, -514.83282, 1016.275, 370.47507], 0, svg3764)
 let _path0 = new PathEvent(document.getElementById("STROKE_3e8caa47-533d-48ea-a11e-f50775a95cbb"))
 _path0.clear_from_screen()
@@ -36747,6 +36794,10 @@ let _path121 = new PathEvent(document.getElementById("STROKE_07edcde2-7717-4d0d-
 _path121.clear_from_screen()
 let seq2 = new SequentialEventContainer([seq0, seq1, _path44, _path45, _path46, _path47, _path48, _path49, _path50, _path51, _path52, _path53, _path54, _path55, _path56, _path57, _path58, _path59, _path60, _path61, _path62, _path63, _path64, _path65, _path66, _path67, _path68, _path69, _path70, _path71, _path72, _path73, _path74, _path75, _path76, _path77, _path78, _path79, _path80, _path81, _path82, _path83, _path84, _path85, _path86, _path87, _path88, _path89, _path90, _path91, _path92, _path93, _path94, _path95, _path96, _path97, _path98, _path99, _path100, _path101, _path102, _path103, _path104, _path105, _path106, _path107, _path108, _path109, _path110, _path111, _path112, _path113, _path114, _path115, _path116, _path117, _path118, _path119, _path120, _path121])
 let seq3 = new SequentialEventContainer([_cam0, seq2])
+{
+let obj = document.getElementById("rect17141");
+obj.style.opacity = 0
+}
 let _cam1 = new CameraEvent([-302.03543, -514.83282, 1016.275, 370.47507], [-302.42532, -134.65685, 1015.3383, 734.02942], 1000, svg3764)
 let _path122 = new PathEvent(document.getElementById("STROKE_0caa643c-aba2-4550-a3b5-5f1bfb2afce3"))
 _path122.clear_from_screen()
@@ -37228,6 +37279,10 @@ _path339.clear_from_screen()
 let _path340 = new PathEvent(document.getElementById("STROKE_e2b496a3-953a-427d-8eec-3ac83ecf6cc0"))
 _path340.clear_from_screen()
 let seq39 = new SequentialEventContainer([_path308, _path309, _path310, _path311, _path312, _path313, _path314, _path315, _path316, _path317, _path318, _path319, _path320, _path321, _path322, _path323, _path324, _path325, _path326, _path327, _path328, _path329, _path330, _path331, _path332, _path333, _path334, _path335, _path336, _path337, _path338, _path339, _path340])
+{
+let obj = document.getElementById("rect17729");
+obj.style.opacity = 0
+}
 let _cam2 = new CameraEvent([-302.42532, -134.65685, 1015.3383, 734.02942], [-302.07156, 599.72632, 1015.5675, 633.66382], 1000, svg3764)
 let _path341 = new PathEvent(document.getElementById("STROKE_9df3a671-f6a2-4138-8f52-42c7aba869d6"))
 _path341.clear_from_screen()
@@ -37633,6 +37688,10 @@ let _path533 = new PathEvent(document.getElementById("STROKE_af15637f-d756-4e86-
 _path533.clear_from_screen()
 let seq56 = new SequentialEventContainer([_path532, _path533])
 let seq57 = new SequentialEventContainer([seq52, seq53, seq54, seq55, seq56])
+{
+let obj = document.getElementById("rect18078");
+obj.style.opacity = 0
+}
 let _cam3 = new CameraEvent([-302.07156, 599.72632, 1015.5675, 633.66382], [-949.86823, 742.66876, 1016.275, 370.47507], 1000, svg3764)
 let _path534 = new PathEvent(document.getElementById("STROKE_6ee3dbbf-628f-4075-9fde-8928b852d2c0"))
 _path534.clear_from_screen()
@@ -37906,6 +37965,10 @@ let seq74 = new SequentialEventContainer([_path644, _path645, _path646, _path647
 let seq75 = new SequentialEventContainer([seq73, seq74])
 let seq76 = new SequentialEventContainer([seq60, seq63, seq66, seq69, seq72, seq75])
 let seq77 = new SequentialEventContainer([_cam3, seq76])
+{
+let obj = document.getElementById("rect18372");
+obj.style.opacity = 0
+}
 let _cam4 = new CameraEvent([-949.86823, 742.66876, 1016.275, 370.47507], [-302.77905, 599.72632, 1016.275, 633.66376], 1000, svg3764)
 let _path660 = new PathEvent(document.getElementById("STROKE_552da668-fa7b-4f8a-a319-2beea5fe5e39"))
 _path660.clear_from_screen()
@@ -37955,6 +38018,10 @@ _path681.clear_from_screen()
 let seq79 = new SequentialEventContainer([_path663, _path664, _path665, _path666, _path667, _path668, _path669, _path670, _path671, _path672, _path673, _path674, _path675, _path676, _path677, _path678, _path679, _path680, _path681])
 let seq80 = new SequentialEventContainer([seq78, seq79])
 let seq81 = new SequentialEventContainer([_cam4, seq80])
+{
+let obj = document.getElementById("rect18402");
+obj.style.opacity = 0
+}
 let _cam5 = new CameraEvent([-302.77905, 599.72632, 1016.275, 633.66376], [-302.81113, 1233.358, 1016.3392, 350.09131], 1000, svg3764)
 let _path682 = new PathEvent(document.getElementById("STROKE_ff235190-aae6-4610-8c0e-147d206c40bd"))
 _path682.clear_from_screen()
@@ -38151,6 +38218,10 @@ _path774.clear_from_screen()
 let _path775 = new PathEvent(document.getElementById("STROKE_c95f59ff-113f-45e5-80fc-a12c9814357c"))
 _path775.clear_from_screen()
 let seq88 = new SequentialEventContainer([_path750, _path751, _path752, _path753, _path754, _path755, _path756, _path757, _path758, _path759, _path760, _path761, _path762, _path763, _path764, _path765, _path766, _path767, _path768, _path769, _path770, _path771, _path772, _path773, _path774, _path775])
+{
+let obj = document.getElementById("rect18511");
+obj.style.opacity = 0
+}
 let _cam6 = new CameraEvent([-302.81113, 1233.358, 1016.3392, 350.09131], [-302.74695, 1446.8451, 1016.275, 507.07932], 1000, svg3764)
 let _path776 = new PathEvent(document.getElementById("STROKE_5538ab64-6b29-418a-a284-2eed084c471c"))
 _path776.clear_from_screen()
@@ -38580,6 +38651,10 @@ let _path971 = new PathEvent(document.getElementById("STROKE_83ce29c7-976d-405d-
 _path971.clear_from_screen()
 let seq116 = new SequentialEventContainer([_path928, _path929, _path930, _path931, _path932, _path933, _path934, _path935, _path936, _path937, _path938, _path939, _path940, _path941, _path942, _path943, _path944, _path945, _path946, _path947, _path948, _path949, _path950, _path951, _path952, _path953, _path954, _path955, _path956, _path957, _path958, _path959, _path960, _path961, _path962, _path963, _path964, _path965, _path966, _path967, _path968, _path969, _path970, _path971])
 let seq117 = new SequentialEventContainer([parallel12, seq116])
+{
+let obj = document.getElementById("rect4708");
+obj.style.opacity = 0
+}
 let _cam7 = new CameraEvent([-302.74695, 1446.8451, 1016.275, 507.07932], [-302.74695, 1835.097, 1016.275, 489.30246], 1000, svg3764)
 let _path972 = new PathEvent(document.getElementById("STROKE_f1297ff9-d247-4076-a02f-e4cf4ba904fe"))
 _path972.clear_from_screen()
@@ -39055,6 +39130,10 @@ let _path1200 = new PathEvent(document.getElementById("STROKE_947e986a-54c2-441f
 _path1200.clear_from_screen()
 let seq132 = new SequentialEventContainer([_path1173, _path1174, _path1175, _path1176, _path1177, _path1178, _path1179, _path1180, _path1181, _path1182, _path1183, _path1184, _path1185, _path1186, _path1187, _path1188, _path1189, _path1190, _path1191, _path1192, _path1193, _path1194, _path1195, _path1196, _path1197, _path1198, _path1199, _path1200])
 let seq133 = new SequentialEventContainer([seq131, seq132])
+{
+let obj = document.getElementById("rect4749");
+obj.style.opacity = 0
+}
 let _cam8 = new CameraEvent([-302.74695, 1835.097, 1016.275, 489.30246], [-302.67188, 2324.4746, 1016.1249, 420.44693], 1000, svg3764)
 let _path1201 = new PathEvent(document.getElementById("STROKE_99bf2068-be5b-4178-a3d3-31bfe4708f36"))
 _path1201.clear_from_screen()
@@ -39503,6 +39582,10 @@ _path1420.clear_from_screen()
 let seq138 = new SequentialEventContainer([_path1355, _path1356, _path1357, _path1358, _path1359, _path1360, _path1361, _path1362, _path1363, _path1364, _path1365, _path1366, _path1367, _path1368, _path1369, _path1370, _path1371, _path1372, _path1373, _path1374, _path1375, _path1376, _path1377, _path1378, _path1379, _path1380, _path1381, _path1382, _path1383, _path1384, _path1385, _path1386, _path1387, _path1388, _path1389, _path1390, _path1391, _path1392, _path1393, _path1394, _path1395, _path1396, _path1397, _path1398, _path1399, _path1400, _path1401, _path1402, _path1403, _path1404, _path1405, _path1406, _path1407, _path1408, _path1409, _path1410, _path1411, _path1412, _path1413, _path1414, _path1415, _path1416, _path1417, _path1418, _path1419, _path1420])
 let seq139 = new SequentialEventContainer([seq137, seq138])
 let seq140 = new SequentialEventContainer([seq136, seq139])
+{
+let obj = document.getElementById("rect4817");
+obj.style.opacity = 0
+}
 let _cam9 = new CameraEvent([-302.67188, 2324.4746, 1016.1249, 420.44693], [-302.44083, 2879.9026, 1015.8129, 534.39758], 1000, svg3764)
 let _path1421 = new PathEvent(document.getElementById("STROKE_57240c84-1093-4623-8928-61b2eef917d5"))
 _path1421.clear_from_screen()
@@ -40053,6 +40136,10 @@ let seq168 = new SequentialEventContainer([_path1667, _path1668, _path1669, _pat
 let seq169 = new SequentialEventContainer([seq167, seq168])
 let seq170 = new SequentialEventContainer([seq163, seq166, seq169])
 let seq171 = new SequentialEventContainer([seq160, seq170])
+{
+let obj = document.getElementById("rect5093");
+obj.style.opacity = 0
+}
 let _cam10 = new CameraEvent([-302.44083, 2879.9026, 1015.8129, 534.39758], [-302.43942, 3414.7639, 1040.9515, 711.70459], 1000, svg3764)
 let _path1680 = new PathEvent(document.getElementById("STROKE_196b96ac-8f25-4446-b1e8-26e8f399342b"))
 _path1680.clear_from_screen()
@@ -40265,6 +40352,10 @@ _path1781.clear_from_screen()
 let seq176 = new SequentialEventContainer([_path1747, _path1748, _path1749, _path1750, _path1751, _path1752, _path1753, _path1754, _path1755, _path1756, _path1757, _path1758, _path1759, _path1760, _path1761, _path1762, _path1763, _path1764, _path1765, _path1766, _path1767, _path1768, _path1769, _path1770, _path1771, _path1772, _path1773, _path1774, _path1775, _path1776, _path1777, _path1778, _path1779, _path1780, _path1781])
 let seq177 = new SequentialEventContainer([seq175, seq176])
 let seq178 = new SequentialEventContainer([_cam10, seq177])
+{
+let obj = document.getElementById("rect5315");
+obj.style.opacity = 0
+}
 let _cam11 = new CameraEvent([-302.43942, 3414.7639, 1040.9515, 711.70459], [-218.15894, 3555.3782, 592.49084, 215.98788], 1000, svg3764)
 let _path1782 = new PathEvent(document.getElementById("STROKE_09b848c6-dfe0-4baa-a913-078ad3ae4bce"))
 _path1782.clear_from_screen()
@@ -40459,6 +40550,10 @@ let _path1869 = new PathEvent(document.getElementById("STROKE_676ec74a-1fad-4b6b
 _path1869.clear_from_screen()
 let seq194 = new SequentialEventContainer([_path1852, _path1853, _path1854, _path1855, _path1856, _path1857, _path1858, _path1859, _path1860, _path1861, _path1862, _path1863, _path1864, _path1865, _path1866, _path1867, _path1868, _path1869])
 let seq195 = new SequentialEventContainer([seq191, seq192, seq193, seq194])
+{
+let obj = document.getElementById("rect5440");
+obj.style.opacity = 0
+}
 let _cam12 = new CameraEvent([-218.15894, 3555.3782, 592.49084, 215.98788], [-302.43942, 3414.7639, 1040.9515, 711.5517], 1000, svg3764)
 let _path1870 = new PathEvent(document.getElementById("STROKE_2d97ab34-c12e-4e33-8653-034f2c6fab15"))
 _path1870.clear_from_screen()
@@ -41064,7 +41159,15 @@ let _path2148 = new PathEvent(document.getElementById("STROKE_4395e638-f68e-4efa
 _path2148.clear_from_screen()
 let seq240 = new SequentialEventContainer([_path2127, _path2128, _path2129, _path2130, _path2131, _path2132, _path2133, _path2134, _path2135, _path2136, _path2137, _path2138, _path2139, _path2140, _path2141, _path2142, _path2143, _path2144, _path2145, _path2146, _path2147, _path2148])
 let seq241 = new SequentialEventContainer([seq238, seq239, seq240])
+{
+let obj = document.getElementById("rect7416d_3000");
+obj.style.opacity = 0
+}
 let _cam13 = new CameraEvent([-302.43942, 3414.7639, 1040.9515, 711.5517], [-302.03543, -514.83282, 1015.4218, 696.60925], 1000, svg3764)
+{
+let obj = document.getElementById("rect17145");
+obj.style.opacity = 0
+}
 let _cam14 = new CameraEvent([-302.03543, -514.83282, 1015.4218, 696.60925], [915.25958, -482.70532, 1015.4218, 696.60925], 1000, svg3764)
 let _path2149 = new PathEvent(document.getElementById("STROKE_5cb8b90e-3b79-4e6d-9b3d-3e6bf359cf40"))
 _path2149.clear_from_screen()
@@ -41467,6 +41570,10 @@ _path2341.clear_from_screen()
 let seq254 = new SequentialEventContainer([_path2309, _path2310, _path2311, _path2312, _path2313, _path2314, _path2315, _path2316, _path2317, _path2318, _path2319, _path2320, _path2321, _path2322, _path2323, _path2324, _path2325, _path2326, _path2327, _path2328, _path2329, _path2330, _path2331, _path2332, _path2333, _path2334, _path2335, _path2336, _path2337, _path2338, _path2339, _path2340, _path2341])
 let seq255 = new SequentialEventContainer([seq253, seq254])
 let seq256 = new SequentialEventContainer([seq252, seq255])
+{
+let obj = document.getElementById("rect5771");
+obj.style.opacity = 0
+}
 let _cam15 = new CameraEvent([915.25958, -482.70532, 1015.4218, 696.60925], [915.25958, 67.29467, 1015.4218, 696.60925], 1000, svg3764)
 let _path2342 = new PathEvent(document.getElementById("STROKE_b50f9c67-6ce3-4a5e-97e4-e30e3a72f9e3"))
 _path2342.clear_from_screen()
@@ -41944,6 +42051,10 @@ let seq275 = new SequentialEventContainer([_path2511, _path2512, _path2513, _pat
 let seq276 = new SequentialEventContainer([seq274, seq275])
 let seq277 = new SequentialEventContainer([seq270, seq273, seq276])
 let seq278 = new SequentialEventContainer([seq266, seq267, seq277])
+{
+let obj = document.getElementById("rect5773");
+obj.style.opacity = 0
+}
 let _cam16 = new CameraEvent([915.25958, 67.29467, 1015.4218, 696.60925], [915.25958, 763.90393, 1015.4218, 696.60925], 1000, svg3764)
 let _path2569 = new PathEvent(document.getElementById("STROKE_303e82cd-77a1-452e-b209-f65a012d2740"))
 _path2569.clear_from_screen()
@@ -42450,6 +42561,10 @@ let _path2806 = new PathEvent(document.getElementById("STROKE_28920c4b-23ac-41e3
 _path2806.clear_from_screen()
 let seq304 = new SequentialEventContainer([_path2773, _path2774, _path2775, _path2776, _path2777, _path2778, _path2779, _path2780, _path2781, _path2782, _path2783, _path2784, _path2785, _path2786, _path2787, _path2788, _path2789, _path2790, _path2791, _path2792, _path2793, _path2794, _path2795, _path2796, _path2797, _path2798, _path2799, _path2800, _path2801, _path2802, _path2803, _path2804, _path2805, _path2806])
 let seq305 = new SequentialEventContainer([seq303, seq304])
+{
+let obj = document.getElementById("rect5775");
+obj.style.opacity = 0
+}
 let _cam17 = new CameraEvent([915.25958, 763.90393, 1015.4218, 696.60925], [915.38721, 1460.6407, 1015.1666, 814.07263], 1000, svg3764)
 let _path2807 = new PathEvent(document.getElementById("STROKE_86af1a8d-6550-459e-9f3c-7edd92ceeed6"))
 _path2807.clear_from_screen()
@@ -43070,6 +43185,10 @@ let _path3102 = new PathEvent(document.getElementById("STROKE_89ccf976-080b-4a13
 _path3102.clear_from_screen()
 let seq330 = new SequentialEventContainer([_path3078, _path3079, _path3080, _path3081, _path3082, _path3083, _path3084, _path3085, _path3086, _path3087, _path3088, _path3089, _path3090, _path3091, _path3092, _path3093, _path3094, _path3095, _path3096, _path3097, _path3098, _path3099, _path3100, _path3101, _path3102])
 let seq331 = new SequentialEventContainer([_path3023, seq329, seq330])
+{
+let obj = document.getElementById("rect5777");
+obj.style.opacity = 0
+}
 let _cam18 = new CameraEvent([915.38721, 1460.6407, 1015.1666, 814.07263], [915.21173, 2274.5378, 1015.5176, 654.89709], 1000, svg3764)
 let _path3103 = new PathEvent(document.getElementById("STROKE_d30efd5b-0102-4c97-86d3-a4b65ffc22c9"))
 _path3103.clear_from_screen()
@@ -43716,6 +43835,10 @@ let _path3410 = new PathEvent(document.getElementById("STROKE_081a66ca-e169-4e9b
 _path3410.clear_from_screen()
 let seq358 = new SequentialEventContainer([_path3392, _path3393, _path3394, _path3395, _path3396, _path3397, _path3398, _path3399, _path3400, _path3401, _path3402, _path3403, _path3404, _path3405, _path3406, _path3407, _path3408, _path3409, _path3410])
 let seq359 = new SequentialEventContainer([seq354, seq355, seq356, seq357, seq358])
+{
+let obj = document.getElementById("rect5769");
+obj.style.opacity = 0
+}
 let _cam19 = new CameraEvent([915.21173, 2274.5378, 1015.5176, 654.89709], [-925.4306, -530.24805, 2940.7278, 4715.8452], 1000, svg3764)
 svg_root = document.getElementById("svg3764")
 svg_root.setAttribute("width" , "100%")
