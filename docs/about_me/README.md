@@ -6,11 +6,10 @@ Hello!
 
 I'm a computing scientist and software engineer based in Toronto, Canada.
 
-My main area of work is compilers - in the traditional sense of the word, not
-graph compilers - particularly on the front and middle-end, with the
-occasional interaction on the back-end; LLVM has been part of my daily routine
-for the past four years. As such, most of the content here will be related to
-these topics.
+My main area of work is compilers - in the traditional sense of the word -
+particularly on the front and middle-end, with the occasional interaction on
+the back-end; LLVM has been part of my daily routine for the past four years.
+As such, most of the content here will be related to these topics.
 
 The main purpose of this blog is to practice effective technical communication;
 if something here is confusing, I'd appreciate if you reached out and let me
