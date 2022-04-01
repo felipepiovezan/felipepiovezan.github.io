@@ -124,3 +124,5 @@ pointer types to be the same `void*` type.
 
 In the next post, we will see how a program - functions and global variables -
 is structured in LLVM's IR!
+
+[next post]: ../llvm_ir_p3

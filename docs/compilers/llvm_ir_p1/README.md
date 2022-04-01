@@ -94,4 +94,7 @@ LLVM's IR attempts to achieve these design goals by:
 
 # Up Next
 
-The next post in this series will dig into the core concepts of LLVM's IR!
+The [next post] in this series will dig into the core concepts of LLVM's IR!
+
+[Values, Registers, Memory]: ../compilers/llvm_ir_p2
+[next post]: ../llvm_ir_p2

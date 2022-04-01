@@ -173,3 +173,7 @@ build, and the build quality slowly deteriorates. Once enough components are
 added, the project reaches a point where no one truly understands the
 dependencies between components, how to fix build breaks, or how to reduce the
 number of components built as result of dependencies.
+
+In [Part 2], we will see how CMake answers some of these questions.
+
+[Part 2]: ../build_systems2

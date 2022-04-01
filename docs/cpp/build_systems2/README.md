@@ -3,6 +3,10 @@ title: Build System Basics - CMake Concepts
 date: 2020-02-22
 ---
 
+In [Part 1], we went through the definition of what building means. In this
+post, we will build(!) on top of that and understand how CMake approaches this
+process.
+
 There are _many_ good CMake tutorials out there, but their aim is usually to
 teach through practical examples. I want to take a more fundamental approach
 here, focusing on the concepts rather than on their implementation; this will
