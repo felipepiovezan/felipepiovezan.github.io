@@ -2,7 +2,7 @@
 title: Contents
 ---
 
-Hello, welcome to my blog! Compilers, computer science, programming :)
+Hello, welcome to my blog! Compilers, computing science, programming :)
 
 * [About Me](about_me)
 * Compilers:
