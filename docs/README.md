@@ -22,5 +22,6 @@ Hello, welcome to my blog! Compilers, computer science, programming :)
 * Tools:
   * [A Git Introduction With No Commands](tools/git_intro)
 * Programming Challenges
+  * [Two Largest Elements Using STL Algorithms](programming_challenges/largest2)
   * [The Long Line Problem - TAOCP](programming_challenges/long_line)
   * [Improve Spam - ACM-ICPC](programming_challenges/improve_spam)
