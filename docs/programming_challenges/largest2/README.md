@@ -46,7 +46,7 @@ is the size of the input. It is possible to solve this with a linear solution.
 Sorting produces more information than we need, that is, it sorts the entire
 input when we are only interested in the first two elements of the sorted
 input. Partial sorting does exactly what we need: it produces the first X
-elements in the sorted array.
+elements in the sorted input.
 
 ```cpp
 pair<int, int> max2(const vector<int> &input) {
@@ -58,8 +58,8 @@ pair<int, int> max2(const vector<int> &input) {
 ```
 
 The complexity of this algorithm is `O(N log M)`, where `N` is the size of the
-input, and `M` is the number of sorted elements we requested, in this case `M =
-2`. So the complexity is now linear: `O(N)`'.
+input, and `M` is the number of sorted elements we requested; in this case `M =
+2`, so the complexity is now linear: `O(N)`.
 
 However, we still have the downside of mutating / copying the input.
 
@@ -209,7 +209,7 @@ pair<int, int> max2(const vector<int> &input) {
                      pair<int, int> pair2) {
         auto arr = to_array({pair1.first, pair1.second,
                              pair2.first, pair2.second});
-        return max2_accumulating(arr);
+        return max2_array(arr);
     };
 
     auto initial_value = make_pair(input[0], input[1]);
@@ -218,6 +218,9 @@ pair<int, int> max2(const vector<int> &input) {
                             reduce, transform);
 }
 ```
+
+In the above, `max2_array` is the same function described in the reduce
+solution.
 
 # Conclusion
 
