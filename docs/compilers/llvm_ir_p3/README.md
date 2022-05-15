@@ -32,11 +32,12 @@ symbol may have `external` linkage, which means its name is visible to _other
 Modules_. For such a symbol, it would be illegal to rename it: doing so could
 invalidate code in other Modules.
 
-Global symbols - both variables and functions - define memory regions allocated
-at compilation time. For this reason, the `Value` of a global symbol has a
-pointer type. For example, if we declare a global variable of type `i32` called
-`x`, the type of the `Value` `@x` is `i32*`. To access the underlying integer,
-we must first load from that address.
+Global symbols define memory regions allocated at compilation time. For this
+reason, the `Value` of a global symbol has a pointer type.
+
+For example, if we declare a global variable of type `i32` called `x`, the type
+of the `Value` `@x` is `ptr`. To access the underlying integer, we must first
+load from that address.
 
 There are two kinds of global symbols: global variables and functions.
 
@@ -70,8 +71,8 @@ Recall that, because all global symbols define a memory region, the `Value`
 location we use loads and stores:
 
 ```llvm
-%1 = load float, float* @gv1
-store float 2.0, float* @gv1
+%1 = load float, ptr @gv1
+store float 2.0, ptr @gv1
 ```
 
 There is one other important variation of global variables, we may replace
@@ -89,21 +90,21 @@ assume they do not exist.
 A function _declaration_ in LLVM IR has the following syntax:
 
 ```llvm
-declare i64 @foo(i64, i64*)
+declare i64 @foo(i64, ptr)
 ```
 
 * A keyword `declare`,
 * The return type (`i64`),
 * The symbol name (`foo`),
-* The list of parameter types (`i64`, `i64*`).
+* The list of parameter types (`i64`, `ptr`).
 
 A function _definition_ is very similar to the declaration, but we use a
 different keyword (`define`), provide names to the parameters and include the
 body of the function:
 
 ```llvm
-define i64 @foo(i64 %val, i64* %ptr) {
-  %temp = load i64, i64 %ptr
+define i64 @foo(i64 %val, ptr %myptr) {
+  %temp = load i64, ptr %myptr
   %mul = mul i64 %val, %temp
   ret %mul
 }
@@ -113,13 +114,7 @@ This function loads an `i64` `Value` from `%ptr`, multiplies it with `%val` and
 returns the result (`ret` instruction).
 
 What is the type of `@foo`? Like all global symbols, it defines a memory region
-and therefore its type is a pointer type, more specifically, a pointer to a
-function type: `i64 (i64, i64*)*`.
-
-Unlike other types, we can't load from or store to pointers to function types,
-as this would be akin to manipulating the contents of the text segment of the
-program. When we define LLVM's type system more formally, we will come back to
-this.
+and therefore its type is a pointer type (`ptr`).
 
 # Further Reading
 

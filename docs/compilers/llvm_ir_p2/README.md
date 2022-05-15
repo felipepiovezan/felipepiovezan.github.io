@@ -91,13 +91,13 @@ Instructions can also interact with memory:
 
 ```llvm
 %address = alloca i32
-store i32 %result, i32* %address
+store i32 %result, ptr %address
 ```
 
 The `alloca i32` instruction allocates enough memory to contain an `i32` `Value`.
 It returns a `Value` corresponding to the address of that memory location, and
 that `Value` is placed in the register named `%address`. What is the type of this
-`Value`? It is a pointer type: `i32*`.
+`Value`? It is a pointer type: `ptr`.
 
 The second instruction, `store i32`, does not produce a `Value`. It takes the
 memory address in the register `%address`, an integer in the register
@@ -115,10 +115,9 @@ In the case of the `store i32` instruction, it interprets the input address as
 a memory region containing a `Value` of type `i32`. In other words, the store
 instruction gave meaning (a type) to that address.
 
-One could argue that the type of `%address` also encodes this information; this
-is true, but LLVM IR is in a transition period and soon there will be a single
-type of pointer: `void*`. For all intents and purposes, we should consider all
-pointer types to be the same `void*` type.
+If you're using a version of LLVM prior to April 2022, you may see pointer
+types that carry a "base type" with them, like `i32*`. These are being phased
+out, soon there will only be `ptr`.
 
 # Up Next
 
