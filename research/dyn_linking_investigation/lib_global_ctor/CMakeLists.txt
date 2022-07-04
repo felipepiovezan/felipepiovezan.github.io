@@ -1,0 +1,3 @@
+add_library(lib_global_ctor STATIC global_ctor.cpp)
+target_link_libraries(lib_global_ctor PUBLIC project_requirements)
+target_include_directories(lib_global_ctor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
