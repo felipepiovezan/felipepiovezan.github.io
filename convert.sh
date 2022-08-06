@@ -1,5 +1,5 @@
 set -eou pipefail
-# set -x
+set -x
 
 readarray -d '' md_files < <(find . -name "*.md" -print0)
 
