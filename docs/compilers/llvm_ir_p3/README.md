@@ -85,6 +85,81 @@ There is one other important variation of global variables, we may replace
 This means that stores to this memory region are illegal and the optimizer can
 assume they do not exist.
 
+## Global Variables: examples from C++ to LLVM IR
+
+Let's compile some C++ global declarations and look at the corresponding IR
+global variable:
+
+```cpp
+int just_int;
+// @just_int = dso_local global i32 0, align 4
+```
+
+The keyword `dso_local` is used to indicate, roughly, that this variable is
+`not` going to be "patched in" at runtime, like in the case of dynamic
+libraries. This information is useful for the optimizer.
+
+Note that, while we didn't explicitly initialize the C++ variable, it is
+zero-initialized in IR. Zero initialization is required by C++ in this case, so
+we see it captured in the C++ to IR translation.
+
+Finally, there is alignment information: the address of this variable is
+guaranteed to be a multiple of 4.
+
+```cpp
+extern int extern_int;
+// @extern_int = external global i32, align 4
+```
+
+If we make our variable `extern`, a few things change:
+
+* The `external` linkage is explicitly written out. This is just a quirk of
+the IR parser/printer. The variable `just_int` also had `external` linkage
+implicitly.
+* This variable is _not_ `dso_local`: it could be defined in some shared
+library that will be linked later.
+
+Let's look at more examples:
+
+```cpp
+const int const_int = 1;
+// @_ZL9const_int = internal constant i32 1
+
+static int static_int = 2;
+// @_ZL10static_int = internal global i32 2
+
+static const int static_const_int = 3;
+// @_ZL16static_const_int = internal constant i32 3
+```
+
+* Name mangling can now be observed.
+* All three variables have internal linkage.
+
+
+Compare these static variables to what happens with a _class_ static variable:
+
+```cpp
+class MyClass {
+public:
+    static int static_class_member;
+    // @_ZN7MyClass19static_class_memberE = external global i32, align 4
+
+    static const int static_const_class_member;
+    // @_ZN7MyClass25static_const_class_memberE = external constant i32, align 4
+};
+
+```
+
+* Even though they are "static", they have `external` linkage. This shows
+the completely different meanings of static in a C++ program: where before we
+were using static to mean "local to this translation unit", and so it gets
+`internal` linkage, in the class example we are essentially providing a
+namespace to the variable, but it can still be accessed by other translation
+units.
+
+You can see these in action [in Godbolt].
+
+
 ## Functions
 
 A function _declaration_ in LLVM IR has the following syntax:
@@ -138,3 +213,4 @@ the puzzle: function bodies.
 [linkage types]: https://llvm.org/docs/LangRef.html#linkage-types
 [functions]: https://llvm.org/docs/LangRef.html#functions
 [global variables]: https://llvm.org/docs/LangRef.html#global-variables
+[in Godbolt]: https://godbolt.org/z/4nbdede45
