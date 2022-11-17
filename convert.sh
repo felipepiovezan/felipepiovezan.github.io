@@ -1,10 +1,10 @@
 set -eou pipefail
 set -x
 
-readarray -d '' md_files < <(find . -name "*.md" -print0)
-
 highlight_style="--highlight-style=$PWD/templates/solarized.theme"
+highlight_style=""
 table_of_contents="--toc --include-in-header=$PWD/templates/toc.css "
+table_of_contents=""
 
 # https://pandoc.org/MANUAL.html#variables-for-html
 css="--variable=fontcolor:white --variable=backgroundcolor:black"
@@ -32,6 +32,7 @@ get_header_flag() {
   echo ""
 }
 
+md_files=($(find . -name "*.md"))
 for md_path in ${md_files[@]}; do
   dir_name=$(dirname $md_path)
   md_name=$(basename $md_path)
