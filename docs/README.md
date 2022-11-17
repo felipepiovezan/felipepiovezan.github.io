@@ -25,3 +25,5 @@ Hello, welcome to my blog! Compilers, computing science, programming :)
   * [Two Largest Elements Using STL Algorithms](programming_challenges/largest2)
   * [The Long Line Problem - TAOCP](programming_challenges/long_line)
   * [Improve Spam - ACM-ICPC](programming_challenges/improve_spam)
+* References
+  * [Technical Books](references/books)
