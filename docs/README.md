@@ -27,3 +27,4 @@ Hello, welcome to my blog! Compilers, computing science, programming :)
   * [Improve Spam - ACM-ICPC](programming_challenges/improve_spam)
 * References
   * [Technical Books](references/books)
+* [Random Gaming Stuff](games)
