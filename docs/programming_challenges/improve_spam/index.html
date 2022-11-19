@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2019-11-17" />
+  <title>Topological Sorting - ACM-ICPC</title>
+  <style>
+html {
+line-height: 1.5;
+font-family: Georgia, serif;
+font-size: 20px;
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 1em;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+font-size: 85%;
+margin: 0;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style>
+.top_navbar {
+text-align:center;
+position:fixed;
+background-color: white;
+top: 0;
+left: 0;
+width: 100%;
+padding: 10px;
+}
+</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="top_navbar">
+  <a href="https://blog.piovezan.ca/">Home</a>
+  <!-- more links here -->
+</div>
+<header id="title-block-header">
+<h1 class="title">Topological Sorting - ACM-ICPC</h1>
+<p class="date">2019-11-17</p>
+</header>
+<p>The <a href="http://cfrp.azurewebsites.net/blog/entry/71296">2019
+ACM-ICPC Latin American</a> contest took place this November and it is a
+great source of cleverly designed algorithm problems.</p>
+<p>The problems are very challenging and there is no shame in admitting
+that I can solve very few of them on my own. Let’s look at the easiest
+problem of the contest.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>This problem is about graphs, depth-first search, topological sorting
+and dynamic programming.</p>
+<h2 id="improve-spam---problem-statement">Improve Spam - Problem
+Statement</h2>
+<p>The full problem description can be found on page 14 of the <a href="https://codeforces.com/gym/102428/attachments/download/9820/statements-en.pdf">contest
+handout</a>. Here is an abridged version of the problem statement:</p>
+<p>An email server processes emails with the following properties:</p>
+<ul>
+<li>An email address either refers to a mailing list or to a
+client.</li>
+<li>A mailing list <code>L</code> is defined by a list of email
+addresses: <code>L(1), L(2), ...</code>.</li>
+<li>When an email is sent to a mailing list <code>L</code>, the server
+processes each email address <code>L(i)</code> contained in the list:
+<ul>
+<li>If <code>L(i)</code> is a client, an email is sent to
+<code>L(i)</code>.</li>
+<li>If <code>L(i)</code> is a mailing list, the server processes each
+email in <code>L(i)</code>.</li>
+</ul></li>
+</ul>
+<p>Given a list of emails plus a description of mailing lists and client
+emails, and given that an email is sent to address <code>Addr</code>,
+we’re tasked with computing:</p>
+<ol type="1">
+<li>The number of emails that are sent to clients.</li>
+<li>The number unique clients that receive an email.</li>
+</ol>
+<h2 id="a-suitable-abstraction">A Suitable Abstraction</h2>
+<p>The problem description lends itself to a directed graph
+representation:</p>
+<ol type="1">
+<li>Vertices are email addresses (Lists and Clients).</li>
+<li>Edges are pairs <code>List x -&gt; Email y</code>, denoting the fact
+that <code>List x</code> contains <code>Email y</code>.</li>
+</ol>
+<p>Note that the source node of an edge is always a list address; in
+other words, vertices corresponding to client addresses are always
+leaves in this graph.</p>
+<h2 id="an-example">An Example</h2>
+<p>Consider the following scenario:</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAAFbCAYAAADP6RmnAAAABmJLR0QA/wD/AP+gvaeTAAAgAElEQVR4nO3deVxU5f4H8M/MAKJiKLjiEiguuOGG5gqaml4FrcQFc7lhItmu5XqL1Ptzq3srtVwiBdMU19TMBW9uRQUzoCiuqLjkCiiisj+/PyZGlgFZZuacmfm8Xy9erzwzc57v0Ayfc57nPM9RCCEEiIiIilBKXQAREckTA4KIiPRiQBARkV42UhdAZE327gXS06Wuwrx4egItW0pdhXVScJCayHTc3IArV6SuwrwsWgTMmCF1FdaJXUxEJrZoESAEf8ry4+oq9f8t68aAICIivRgQRESkFwOCiIj0YkAQEZFeDAgiItKLAUFERHoxIIiISC8GBBER6cWAICIivRgQRESkFwOCiIj0YkAQEZFeDAgiItKL94MgkrHNmzfjm2++KbStatWq+PnnnyWqqGy2bNmCVatWYcKECRg3bpzU5VAF8QyCSMZ69OiBkJAQ5OTk4MiRI3jttdcwe/bsUl9z6NAhDBs2DImJiSaq8qlTp06hX79+CAoKwqFDh5CUlGTyGshwGBBEMta4cWP4+Pigdu3aAIAuXbqgd+/epb5mz5492LVrF37//fcKtbl582b4+PhArVaX63Xnz59H3759MXLkSCxevLhCbZO8MCCILMzixYuhVqsxduzYCr3+2rVrOHLkCFJTU8v1OmdnZ8THx2PKlClQKBQVapvkhWMQRBbGzs4OnTp1Mnm7zs7OJm+TjIsBQWRBJk2ahIsXLwIAAgICMHnyZN1jycnJCA0NhVqtxv379+Hm5gZ/f3/069dPd8Q/ePBgnD9/HgAwbdo01KpVCwAQGBjIwWYrxIAgsiBTpkxBXFwc3njjDbzwwgu67cnJyfDy8kKtWrXwwQcfwNnZGdHR0fDz88PgwYOxdetWAMDs2bOxceNGrFy5EuPHj0fnzp0BAG5ubpK8H5IWA4LIgnTp0gU2NsW/1gcOHMDly5fx7bffol+/fgCAQYMGoXr16ti1a5fueb1798Yff/wBAPD09ISPj49J6iZ5YkAQWQFXV1cAwH//+1+4urqiadOmAIDXX39dFxhERfEqJiIr0L17d0RERODq1ato1qwZ2rRpg0mTJuH48ePw9PSUujySKQYEkZXw9/fHiRMncPXqVcycORO3bt2Cr68vBg0ahJycHKnLIxliQBBZgPXr12PevHklPr5161YsWrQIgHby3bhx47Bnzx4EBQXhwIEDiImJ0T3Xzs4OAJCbmwsAOHz4MIYNG2bE6kmuGBBEFiApKQkJCQklPn79+nV8/vnnOHv2rG5bZmYmEhMTYWNjAxcXF9325s2bAwCuXLkCAPj555+RlpZmnMJJ1jhITSRj+Yv1nTp1CoB2noODg0Ox5yUlJaFbt26YNGkS4uLiAAAbN27E77//jg0bNuAf//gHYmJi0LlzZzRr1gzVq1fHuXPnULt2bWzatAlNmjTR7at///4YMGAA3n//faxZswZJSUn48ccfy1RvUFAQzp07h5s3bwIAQkNDERkZiTp16mDLli2V/XWQiSmEEELqIoishZsbMGUKMGOG1JWYB/6+pMUuJiIi0osBQUREejEgiIhILwYEERHpxYAgIiK9GBBERKQXA4KIiPRiQBARkV4MCCIi0osBQUREejEgiIhILwYEERHpxYAgIiK9GBBERKQXA4KIiPRiQBARkV4MCCIi0ou3HCUysZMngYgIqaswD48eSV2BdWNAEJnYxo3aH+kcBnAKwFvlfF0OgF0AXgJQ3cA1kRyxi4nIhC5fBoSQ9ufNN7egZ89N5X7d3bv3YW8/FqtXbzRpvbwftXQYEERWRq1Wo1OnTuV+Xe3ateHv748VK1YYoSqSIwYEkRXJzc1FfHx8hQICAIKDg3HixAlERUUZuDKSIwYEkRVJSEjA48ePKxwQ3bt3R+fOnfHNN98YuDKSIwYEkRXRaDSwt7eHh4dHhfcRFBSEiIgI3Llzx4CVkRwxIIisiEajgaenJ2xtbSu8j7Fjx6JatWpYu3atASsjOWJAEFmRig5QF1StWjWMHz8e33zzDXJzcw1UGckRA4LISuTl5eHEiROVDggAmDp1Kq5evYp9+/YZoDKSKwYEkZU4d+4c0tPT0blz50rvq3nz5ujXrx8Hqy0cA4LISqjVatjZ2aFNmzYG2V9wcDB+/vlnXL582SD7I/lhQBBZCY1Gg3bt2sHOzs4g+xs2bBhcXFywatUqg+yP5IcBQWQlNBqNQbqX8tnY2OCNN95AaGgoMjIyDLZfkg8GBJEVEEIgLi7OIAPUBU2ePBkPHjzAli1bDLpfkgcGBJEVuHDhAh48eGDwgKhfvz5efvllfP311wbdL8kDA4LICmg0Gtja2qJdu3YG33dwcDB+//13qNVqg++bpMWAILICGo0Gbdq0gb29vcH37ePjg7Zt22LlypUG3zdJiwFBZAUMMYO6NEFBQdiwYQNSUlKM1gaZHgOCyMIZa4C6oAkTJsDW1hbh4eFGa4NMjwFBZOEuX76MlJQUg17iWlSNGjUQEBCAFStWQAhhtHbItBgQRBZOrVZDpVKhffv2Rm3nrbfewsWLF3Ho0CGjtkOmw4AgsnAajQYeHh6oVq2aUdtp06YNevXqxfWZLAgDgsjCGXoGdWmCg4Oxa9cuXL9+3STtkXExIIgsXGxsLDp27GiStkaMGAFnZ2esWbPGJO2RcTEgiCxYUlIS7t69a7IzCDs7OwQGBmL16tXIzs42SZtkPAwIIgum0WigVCrh6elpsjaDgoJw9+5d7Nixw2RtknEwIIgsmEajQYsWLVCjRg2TtdmkSRMMGTKEg9UWgAFBZMFMOUBdUHBwMA4fPoxTp06ZvG0yHAYEkQXTaDRGnUFdkpdeegktWrTgzYTMHAOCyELduHEDt27dkiQgFAoFJk+ejLCwMKSlpZm8fTIMBgSRhdJoNFAoFOjQoYMk7QcGBiI3NxcbN26UpH2qPAYEkYVSq9Vwd3dHzZo1JWm/Zs2aGDVqFJYvX871mcwUA4LIQkk1/lDQ22+/jdOnT+P48eOS1kEVw4AgslByCIiOHTvCy8ur0CWv2dnZ2LJlC15//XUJK6OyYEAQWaDbt2/jxo0bklziWlRwcDC2bduGuLg4fPLJJ3BxccHIkSOxc+dOqUujZ7CRugAiMjy1Wg2FQmGyNZhKIoRAvXr1ULt2bXTu3Bk2NjbIysoCADx69EjS2ujZeAZBZIE0Gg1cXV3h5OQkSftpaWlYvXo1PDw8MGTIENy5cwd5eXm6cACArKysQv8m+eEZBJEFkmoGNQD8+eef6Nu3LzIzM5GXlwcAyMnJ0fvcBw8eoE6dOqYsj8qBZxBEFkitVks2QN21a1e8+eabEEI88/JWTqKTNwYEkYVJTk7G1atXJb2CacmSJQgICICNTemdFAwIeWNAEFkYtVoNAJIGhEKhwHfffYc+ffqUGhIMCHljQBBZGLVajSZNmkjet29ra4udO3fCw8MDtra2ep/z4MEDE1dF5cGAILIwcpggl69GjRo4dOgQXFxcioWEUqnkGYTMMSCILIycAgIA6tSpg8jISDg4OEClUum2q1QqBoTMMSCILEhqaiouX74sixnUBbm7u2P//v2wtbWFUqn9s6NUKtnFJHMMCCILotFoIISQ1RlEPi8vL2zdurXQtocPH0pUDZUFA4LIgmg0Gri4uKB+/fpSl6LXkCFDsHLlSgDamdQ8g5A3zqQmsiAVHX9ITQUOHjRCQXo4Or6BESNuYOvWT3Hy5ANERJimXWMYMgSoXl3qKoyHAUFkQTQaDcaMGVPu1yUmAqNGGaGgEoUAuIbjx+/CnG8VkZgING0qdRXGwy4mIguRlpaGixcvVmr8ITEREMI0Pzk5q/HFFy+arD1D/kRHG/B/nIwxIIgsRGxsLPLy8mQ5QK2PSqXCu+++K3UZVAoGBJGF0Gg0qFu3Lho1aiR1KWQhGBBEFkLKJb7JMjEgiCyElEt8k2ViQBBZgEePHuH8+fMMCDIoBgSRBYiLi0Nubi67mMigGBBEFkCtVsPJyQlNmjSRuhSyIAwIIguQP0CtUCikLoUsCAOCyALwCiYyBgYEkZnLyMjA2bNnOUBNBseAIDJzcXFxyM7OZkCQwTEgiMycRqOBo6MjmlryqnEkCQYEkZnjADUZC5f7JjJzarUa/fv3N3m7s2bNQlRUVKFt3bt3x8KFC01ey7MIIXDs2DHs2rULZ86cgUqlgqurK0aPHo0ePXpIXZ5s8QyCyIxlZWUhISFBkvGHgIAAhISEICYmBjExMQgJCUFAQECpr/niiy8wYcIEZGZmmqhKrQ4dOmDQoEGoUqUKgoOD8dprr+Hy5cvo2bMn3nzzTZPWYlYEEZmt6OhoAUCcO3eukvvR3ukgMbH8r3V0dBSOjo5lem6HDh2ESqUSSUlJ5W9ICDFz5kzh7e0tcnJyyvW6evXqia+//rrQttzcXNGlSxcBQJw4caJc+6vM78uc8AyCyIyp1Wo4ODjA3d1d6lLKJDIyEgkJCRWe8R0fH48jR45ACFGu123fvh3jx48vtE2pVKJXr14AgAsXLlSoHkvHMQgiMxYbG4tOnTpBqTSPYz1nZ2c4OzubvN2SxhmuXr0KAGjdurUpyzEbDAgiM6ZWq3VHwXKWnp6OoUOH6v69ZMkSdO3aVffvc+fOITQ0FBcuXEBmZiY8PT0xfvx4eHh46B4PCgpCfHw8AODFF1/UXbW1bNkytGvXrlz1CCHwww8/YOfOnZg2bZquHSrMPA47iKiY7OxsnDp1yiwmyNnb2yMkJARt27bFkSNHkJKSonssKioKnp6euHLlCiZMmIDg4GDcu3cPrVu3xrJlywAALi4uCAkJQYsWLQAAH3/8MUJCQhASElKu7qr4+Hi88MILaNCgAebOnYudO3fis88+M+ybtSA8gyAyU6dPn0ZGRoZZrMFkY2MDHx8fxMXFFXts3bp1yM7OxoYNG2BrawsA8PX1xe3bt5GcnAwAqFGjBnx8fHTdU97e3rCxKf+fryZNmuD//u//cP36dWzfvh1jxozBvHnz8MEHH1Ti3VkuBgSRmVKr1ahWrRpatmwpdSmV4ubmhry8PISEhGD69OmoVasWAOCrr74yeFuOjo7o168fAGD8+PF46623MG3aNDg7O2PChAkGb8/csYuJyExpNBp06NABKpVK6lIqZdq0aZg/fz7Wrl2LevXqoUePHvjwww+RkpICV1dXo7adPwdi9erVRm3HXDEgiMyUpSzxbWtri7lz5+LGjRuIjY2Fv78/IiMj0aVLF8ybN8+obderVw8AkJSUZNR2zBUDgsgM5ebm4uTJk2YxQD1t2jTs2rWrxMfnzp2Lffv2QaFQoE2bNnj//fcRExMDDw8PLFy4sNCcBzs7OwDa9w9oZ2Z/8sknpbYfFRWFcePG6X1MrVYDAJo1a1au92QtGBBEZighIQGPHz82i4A4ceIE/vrrrxIfP3XqFBYsWID79+/rtuUPUDdu3LjQIoTNmzcHAFy5cgVCCGzatOmZc0CSk5Px/fffY/ny5bpgAbSXzr7zzjtQKpX46KOPKvr2LBoHqYnMkEajgb29vaTX7+cv1peeng4A8PHx0fu8EydOYNCgQfDx8cH169cBAB999BFCQ0OxZcsWTJ06FQsXLkTjxo11A+6nTp1C165dsWLFikL7CgoKwtatW9GnTx84OTlBqVTirbfeKrVOLy8vTJ8+HQsXLkRISAiaNm2K9PR0nD9/Hh4eHvjxxx8xZMiQSv42LJNClHfOOhFJ7t1338Uff/yB33//3SD7i4kBvLyAxESAt5V4Nmv5fbGLicgMqdVqs+heIvPGgCAyM3l5eThx4gQDgoyOAUFkZs6dO4f09HSLuMSV5I0BQWRm1Go17Ozs0KZNG6lLIQvHgCAyMxqNBu3atdPNCSAyFgYEkZmxlBnUJH8MCCIzIoRAXFwcB6jJJBgQRGbkwoULePDgAQOCTIIBQWRGNBoNbG1ty30HNaKKYEAQmRGNRoM2bdrA3t5e6lLICjAgiMyIRqNh9xKZDAOCyEwIIRAbG8uAIJNhQBCZicuXLyMlJYUBQSbDgCAyExqNBiqVCu3bt5e6FLISDAgiM6HRaODh4YHq1atLXQpZCQYEkZngEt9kagwIIjPBAWoyNd5ylMgMXL16FXfv3jX6Gkx79wJ16xq1CYtw6ZLUFZgGA4LIDKjVaiiVSnh6ehq1nbffNsRebgH4GcA/DbSvMABBAGoaYH9UHuxiIjIDGo0GLVq0QI0aNYyy/y5dACEq/5ORkYkePV5F8+YL8ejR40rvLzr6OoCZSExMMUh9hv6x5PtRAzyDIDIL5rLE99tvv434+HhERUWhWrVqUpdDlcQzCCIzYA5LbHz11VcIDQ3Fxo0bebc7C8GAIJK5Gzdu4NatW7IOiEOHDmHatGlYsGABhg4dKnU5ZCAMCCKZ02g0UCgU6NChg9Sl6HXlyhWMGTMGw4YNw8yZM6UuhwyIAUEkc2q1Gu7u7qhZU35X8aSnp8PPzw8NGzZEWFgYFAqF1CWRAXGQmkjm5Dr+IIRAYGAg/vrrL0RHR3MJEAvEMwgimZNrQHz66afYsWMHtm3bBjc3N6nLISPgGQSRjN2+fRs3btyQ3SWuO3fuxPz58/H111/D29tb6nLISHgGQSRjarUaCoUCHTt2lLoUnTNnzmDChAmYMmUKgoKCpC6HjIgBQSRjGo0Grq6ucHJykroUAEBKSgp8fX3Rvn17/Pe//5W6HDIyBgSRjMlpBnVOTg78/f2Rk5ODbdu2wc7OTuqSyMgYEEQyptFoZNO99P777yMqKgrbtm1DXS75ahU4SE0kU8nJyUhKSpLFGURYWBhWrFiBH374QRb1kGnwDIJIptRqNQBIfolrVFQUgoKCMGfOHIwaNUrSWsi0GBBEMqXRaNC4cWPUqVNHshpu3ryJESNGoG/fvggJCZGsDpIGA4JIpqQeoM7IyMDw4cPx3HPPYdOmTVCpVJLVQtJgQBDJlFqtlrR76c0338SFCxewe/duODo6SlYHSYeD1EQydP/+fVy+fFmygFiyZAnCw8Oxe/duuLu7S1IDSY9nEEQypNFoIISQJCAOHDiA2bNnY+nSpRg8eLDJ2yf5YEAQyZBarYaLiwsaNGhg0nbPnz+PUaNGISAgAO+//75J2yb5YUAQyZAUK7g+fPgQr7zyCpo2bYpVq1aZtG2SJwYEkQyZ+gqmvLw8BAQEIDk5GT/++COqVq1qsrZJvjhITSQzaWlpuHjxoknPIGbPno3IyEj88ssvaNSokcnaJXljQBDJTGxsLPLy8kwWENu2bcOSJUuwZs0avPDCCyZpk8wDu5iIZEaj0aBu3bomOZKPi4vD+PHj8d577yEwMNDo7ZF5YUAQyYypxh9u374NPz8/9OjRA0uWLDF6e2R+GBBEMmOKGdTZ2dkYNWoUbGxs8MMPP8DGhr3NVBw/FUQy8vjxY5w/f97oAfHWW29BrVYjKioKtWvXNmpbZL4YEEQyEhsbi9zcXKN2Ma1YsQJr1qxBREQE2rZta7R2yPyxi4lIRtRqNZycnNCkSROj7P/48eP44IMPMG/ePIwYMcIobZDlYEAQyUj+ALVCoTD4vpOSkvDKK69g6NChmDNnjsH3T5aHXUxEEpk3bx5sbGzQqVMndOrUCXXr1oVGo8GQIUMqvM+MjAzY29sX2/7kyRO8+uqrcHFxQXh4uFECiCwPA4JIIomJiVi/fj2EEACAunXrIjU1Fa1atcKePXvQqVMnuLi4lGufr776Knx9fTFlyhTdNiEE/vnPf+LKlSv4888/Ub16dYO+D7Jc7GIikoi7uzvs7Ox0/75z5w5yc3Px448/wtfXFw0bNkTt2rUxfPhwPHny5Jn7u3nzJvbt24fg4GBMnjwZWVlZAIAFCxZg+/bt2LJlC5o2bWq090OWh2cQRBJp3ry57o94vry8vELbkpOT4ebmVqbF8zZu3AilUom8vDysXbsWJ0+eRHBwMEJCQrB8+XL07dvX4O+BLJtC5J/fEpFJxcTEwMvLq8THFQoFatasiUuXLqFmzZrP3F/btm2RkJCg67Kys7ODEAJDhgzBjh07DFa3KeX/jhITE3n2IwF2MRFJpHnz5qU+rlAo8Nlnn5UpHBISEnD69GkUPN7LyspCXl4efvrpJ4SHh1e6XrI+DAgiiTg6Opb4x9/GxgZt27bFxIkTy7Sv8PBw2NraFtuem5uL7OxsTJgwATNmzEBeXl5lSiYrw4AgklCzZs30bs/NzcXq1auhVD77K5qXl4ewsDBkZ2eX+rwlS5bAz8+vTAPeRAADgkhSbdq0KbZQnq2tLcaPH49u3bqVaR9HjhzBrVu3Sn2OjY0N6tevj8DAQN4tjsqMAUEkIXd3d6hUqkLbbGxssHDhwjLvo6Tupfx9KZVKBAcH4/z583j55ZcrVS9ZF17mSiShope6qlQqLFiwAA0aNCjT6zMyMrBlyxa93UtKpRJt27bFmjVr0KVLF4PVTNaDZxBEEnJ3d9ddeaRSqeDm5oa33367zK/fuXMnHj9+XGibra0tatSogf/85z9Qq9UMB6ownkEQSajgpa65ublYtmxZid1F+oSFhUGlUiEnJwcqlQq5ubkYOXIk/vvf/6JOnTrGKJmsCM8giCTk6OiIWrVqAQD8/PwwaNCgMr/27t27OHjwoC4c3N3dcezYMXz//fcMBzIInkGQRUpNBQ4elLqKsnFyaoaHD09gwIAvEBFR9tft27cJubm5sLWtgpEj52PIkPfw11+25dpHUUOGAFzLj/JxqQ2ySDExQCmrWMjMRABNAMwr5+u6AagHYPnfr6+8xERATitacKkNabGLiSxaYiIghLx/1q71QXr6jHK9JjX1PnbtmgshdkGIJpWuITpa6v9TJEfsYiKSWFmX0yioZs2a8PX1NXwxRAXwDIKIiPRiQBARkV4MCCIi0osBQUREejEgiIhILwYEERHpxYAgIiK9GBBERKQXA4KIiPRiQBARkV4MCCIi0osBQUREenGxPqK/zZo1C1FRUYW2de/eHQsXLpSoopLdvXsXERER+O2333D37l3Uq1cPrVq1whtvvIG6detKXR5ZCAYE0d8CAgLw0ksvYejQoQCAPXv2wNnZudTXfPHFF4iNjcXq1atRpUoVU5SJvXv3YtiwYWjXrh2Cg4PRuHFjXLlyBUuXLsW///1vrF27FqNGjTJJLWTZGBBEf2vXrh0AwMZG+7Xw8fF55mvCwsIQHx+P+fPno0mT8t+0J/+s5dChQ1CpVGV6TUpKCpycnHD06FE4ODjotvv6+qJVq1aYNGkSBg8ejOeee67c9RAVxDEIokqIjIxEQkJChcIBAOLj43HkyBGU58aOAwYMwMGDBwuFAwA0bNgQXbt2RXp6OuLi4ipUD1FBPIMgqgRnZ+dndkMZWr169VCvXj29j+Xk5AAAXFxcTFkSWSgGBFEFpKen68YqAGDJkiXo2rWr7t/nzp1DaGgoLly4gMzMTHh6emL8+PHw8PDQPR4UFIT4+HgAwIsvvgiFQgEAWLZsma67qzzu378PtVqN/v37w93dvTJvjwgAu5iIKsTe3h4hISFo27Ytjhw5gpSUFN1jUVFR8PT0xJUrVzBhwgQEBwfj3r17aN26NZYtWwZAe4QfEhKCFi1aAAA+/vhjhISEICQkpMLdVZ988gns7OywZs2ayr9BIvAMgqhCbGxs4OPjo7evf926dcjOzsaGDRtga2sLQDuAfPv2bSQnJwMAatSoAR8fH133lLe3t25wvCK+/fZbrFu3Dvv27YOrq2uF90NUEM8giAzMzc0NeXl5CAkJQWpqqm77V199hYkTJxq8vbCwMHz44Yc4cOAAunfvbvD9k/ViQBAZ2LRp0zB//nysXbsW9erVQ48ePfDhhx8iJSXF4Ef3+/fvxzvvvIPdu3ejW7duBt03EQOCyMBsbW0xd+5c3LhxA7GxsfD390dkZCS6dOmCefPmGayd2NhYjB07FhEREejVq5du+9KlS7Fx40aDtUPWiwFBVE7Tpk3Drl27Snx87ty52LdvHxQKBdq0aYP3338fMTEx8PDwwMKFCwvNebCzswMA5ObmAtDOzP7kk0+eWcOVK1fg6+uLlStX4qWXXir02Llz53D16tWKvDWiQhgQROV04sQJ/PXXXyU+furUKSxYsAD379/XbcsfoG7cuLHuclYAaN68OQDtH3whBDZt2gSlsvSvZUpKCgYPHozHjx9j+fLl8PHxKfTz008/VfIdEmnxKiaiv+Uve5Geng6g5KU2Tpw4gUGDBsHHxwfXr18HAHz00UcIDQ3Fli1bMHXqVCxcuBCNGzdGy5YtAWhDo2vXrlixYkWhfQUFBWHr1q3o06cPnJycoFQq8dZbb5Va57p163D27FkAwJEjRyrzlolKpRDlmeNPZCZiYgAvLyAxEWjaVOpq5E+uv6+YmBh4eXkhMTERTeVUmJVgFxMREenFgCAiIr0YEEREpBcDgoiI9GJAEBGRXgwIIiLSiwFBRER6MSCIiEgvBgQREenFgCAiIr0YEEREpBcDgoiI9GJAEBGRXgwIIiLSiwFBRER6MSCIiEgvBgQREenFW46SRdu7F6hbV+oq5O/SJakrIDliQJBFe/vtolseA/gEwEcA6pi8HsNbCWA0gJpSF0IWiF1MZJG6dAGEKPxz6tRptGnTFU5O3+H48fPFHje3n+TkFDRsuACDBo1BTk6uQfbJ2z5TQQwIsgrh4eHo1q0bqlevjpiYGPTs2VPqkirNyckJu3fvxtGjRzFr1iypyyELxIAgi5aWloaAgABMnDgRgYGBOH78ONzc3KQuy2A6duyI1atXY+nSpfjuu++kLocsDMcgyGLFxMRgzJgxSEtLw969ezFo0CCpSzKKsWPHIi4uDlOnTkXbtm3RtWtXqUsiC8EzCLI4Qgh8+eWX6NmzJ55//nnExcVZbDjkW7x4MV588UUMHz4cN27ckMe+CekAAB4VSURBVLocshAMCLIo9+7dg6+vL6ZPn45Zs2bhwIEDaNCggdRlGZ1SqcTGjRtRq1Yt+Pv7IzMzU+qSyAIwIMhiHDlyBB06dEB8fDwOHz6MkJAQKJXW8xF/7rnnsH37dpw5cwaTJ0+WuhyyANbz7SGLlZubi5CQELz44ovw8vJCbGysRVylVBEtW7bEpk2bsGHDBnz11VdSl0NmjgFBZu327dsYPHgwFi9ejM8//xw7duyAk5OT1GVJ6qWXXsL8+fPxwQcfYN++fVKXQ2aMVzGR2Tp48CDGjRuHmjVrIioqCh06dJC6JNmYOXMm4uPjMXbsWPzxxx9wd3eXuiQyQzyDILOTk5ODkJAQDBo0CAMHDkRMTAzDoQiFQoHQ0FA0a9YMfn5+SEtLk7okMkMMCDIrSUlJ6NOnD/7zn/8gLCwM4eHhcHBwkLosWapatSq2bt2K5ORkjB8/Hnl5eVKXRGaGAUFmY/v27ejQoQMyMjKgVqvx2muvSV2S7DVp0gQ7duzAvn37MG/ePKnLITPDgCDZy8jIwLvvvotXX30Vvr6++PXXX9G8eXOpyzIbPXr0wMqVKzFv3jxERERIXQ6ZEQ5Sk6ydOXMGo0ePRlJSEiIiIuDv7y91SWZp4sSJ+PPPPxEYGIhWrVqhffv2UpdEZoBnECRb4eHh8PLygr29PWJjYxkOlfTll1/Cy8sLfn5+uHv3rtTlkBlgQJDsWPoKrFKxtbXFli1boFKp8OqrryIrK0vqkkjmGBAkK2q1Gp07d8ahQ4ewd+9efPnll7C1tZW6LIvh7OyM7du3Q6PRYPr06VKXQzLHgCBZyF+BtUePHlazAqtUPD09ER4ejuXLl2PNmjVSl0MyxoAgyVnrCqxSeuWVVzBnzhxMnToVR48elbockilexUSSOnLkCMaOHQuVSoXDhw9b7SJ7Upg3bx7Onj2LkSNHIjo6Go0bN5a6JJIZnkGQJLgCq/QUCgW+++471KlTB8OGDcPjx4+lLolkhgFBJscVWOWjRo0a2LVrF65du8Z7SFAxDAgyqYMHD8LT0xNXr15FVFQU3n33XalLsnpubm744YcfsHnzZixdulTqckhGGBBkElyBVd769++PxYsXY+bMmfjpp5+kLodkgoPUZHRJSUkYM2YMTp06hbCwMC6yJ1MffPABEhISEBAQgKioKLRu3VrqkkhiPIMgo+IKrOZl+fLl8PDwwCuvvIL79+9LXQ5JjAFBRsEVWM2Tvb09du7ciUePHmH06NHIzc2VuiSSEAOCDO7MmTPo1q0bwsLCEBERgfDwcFStWlXqsqiM6tevjx9//BFHjx7F3LlzpS6HJMSAIIPiCqyWoVOnTli1ahUWL16MjRs3Sl0OSYQBQQaRlpaGsWPHcgVWCzJu3Di89957CAwMRHR0tNTlkAR4FRNVmlqtxujRo5GWloa9e/dykT0LsnTpUpw9exbDhw9HdHQ0XFxcpC6JTIhnEFRhXIHV8qlUKmzYsAHVqlWDv78/MjMzpS6JTEghhBBSF0Hm5969e5g4cSL279+POXPm4OOPP4ZSyeMNS3X27Fm88MILePnll7F27VqjtJGRkYHmzZsXurxWCIGcnJxi9wRp2LAhEhIS+JkzMnYxUblxBVbr06pVK4SHh+Pll1+Gl5cX3nzzTYO3YW9vjz59+mDTpk3Iy8sr9FjBMxelUomBAwcyHEyAv2EqM67Aat38/PwQEhKCd999F7/88otR2ggICCgWDkXl5eUhICDAKO1TYexiojK5ffs2xo0bh2PHjmHRokVcZM9KCSEwZswYREZG4o8//kCzZs2KPef8+fNo0aJFhfafk5ODunXrIjU1tcTnNGrUCFevXoVCoahQG1R2PIOgZzp48CA6dOjAFVgJCoUCa9euhaurK1555RU8evRI99iTJ08QEBBQqbkvNjY2GDVqFOzs7PQ+bmdnhwkTJjAcTIQBQSUquALrgAEDuAIrAQCqVq2Kbdu24datWxg3bhyEELh+/Tp69OiBzZs34+TJkzh9+nSF9z9mzBhkZWXpfSwrKwujR4+u8L6pfBgQpFdSUhL69OmD//znPwgLC0N4eDgcHBykLotk4vnnn8e2bdvw008/ISgoCB07dsTp06eRl5cHW1tbbNiwocL77t27d4n3JG/VqhXatm1b4X1T+TAgrNDZs2dLfZwrsFJZ9OrVCwEBAfjuu++QmpqK7OxsAEB2djbWrVv3zMHmkigUCrz22mvFuplsbW0xYcKEStdNZceAsDI7duxA9+7dceXKlWKPcQVWKqucnBzMnDkT69atQ25ubrFVX2/evImjR49WeP/6uplycnLYvWRqgqzG7du3hZOTk1AoFMLLy0tkZWXpHktISBDt27cXjo6OIiIiQsIqSe6Sk5OFj4+PUKlUAoDeH1tbW/H6669Xqh13d3fd/hQKhejatauB3gGVFc8grEhQUBAePnwIIQRiY2Pxr3/9CwBXYKWye/LkCfr06YPDhw+Xeq+I7OxsbN68GU+ePKlwW+PGjdPNoFYqlRg/fnyF90UVJHVCkWmEhYUJhUJR6ChPoVCIgIAAoVQqxZw5c0R2drbUZZIZuHz5shg8eLAAIJRKZYlnEQqFQmzevLnC7Vy8eFH3mVWpVOLWrVsGfBdUFpwoZwVu3LgBDw8PpKeno+D/bqVSCQcHB6xZswYjR46UsEIyR7t378aUKVNw584d5OTkFHvcxsYGAwcOxE8//VThNjp27Ii4uDi8+OKLiIyMrEy5VAHsYpLC48dAZCRw6pTRmxJC4J///CcyMjJQ9FggLy8PT548wVdffcVbS1K5+fr64sKFC5g9ezZsbGxgY1N4abecnBzs378fd+7cqXAb44cPBwC85udXqVqpgiQ9f7EWOTlC/PmnEP/3f0L07StElSpCANqfBg2EGDdOiLAwIf76y+BNL1++vNRuAPx9+j5//nyDt03W4+zZs8Lb21solcpCXZkqlUosX7687Dt6+FCI3buFePddIdq0ETcAUR0QDxQKITw9hZg+XYh9+4R49Mh4b4Z02MVkLJcuac8SIiOBQ4eAlBSgbl3A2xvo3x8YOBBITn76nOPHgYwMoGlT7eP5z3F0rHAJFy9eRLt27ZCRkfHM5yqVShw+fBi9e/eucHtk3YQQWL9+Pd577z2kp6cjOzsbCoUCnTp1QkxMjP4X5eYCcXFPvwfHjgGZmYW+B19fvIg3vbyePkejAVQqwNPz6XfF2xsosiQ4VR4DwlAePgQOHwb27AEOHgQuXwaqVQN69Hj6Ie7UCShpDZknT4Bff336JYiN1T63Q4enr+/TByhhjZqicnNz0bNnT2g0Gt0EJn1sbW116+2//vrr+Oabbyrw5omeSk5OxvTp0xEWFgZAGxznz59/Oqem4MFTZCSQmgrUrw/07q39nP/jH0CjRrr9CSEKr710+zZw9Kj2tT//DFy7Bjg4AC+88PS70rmzKd+yxWJAVFRODnDixNMP+eHD2k6jgn/Qe/cGqlSp2P7v3tXuMzIS2L8fSEoCqlcHuncvU+AsXrwYs2fP1jubtUqVKsjMzESNGjUwcOBA+Pn5Yfjw4XjuuecqViuRHr/++ismTZqEs2fP4uMRI/Cpk1OFPsvPVDBwDhwAHjwAGjTQ7tfXF+jXD3B2NuybsxIMiPIo+EHct0971lCwS6h/f6BWLeO3ffAgcP9+4aOuIUOAhg0BAAkJCejQoYPuzEGhUMDGxgbZ2dlwcXHBiBEj4OvrC29v72J36iKqtAJnw9kHD+LL2FisBxDXqRMUFTgbLpeiB25Hjmi7sTp2fPod7dULsLc3fNsWiAFRmlu3tH2ikZHATz8BN24AtWsDffs+HSNwdTV9XUX7bY8eBbKygKZNkd2vHzrt349T165BqVRCCIGOHTvC398ffn5+aN26tenrJcuWl6ftEi1lPO1a69Z4rlEjOFZiTK1C0tOB339/WptaDVStCvTs+TQwOnYEeHc6vRgQBZnrh+nRIyAqCoiMxL/Cw/HZzZvoq1Dg5SZN4Ovri/rDhnEQjwzrWRdhDBoENGkidZXFyfWgT6asOyAs7HQ0MzMTBw4cQL+2bVE9JoaDeGQ4BS/CiIzUBkR5LsKQKym7jc2A9QVESQNavXo9HdQqYS16s8VBPCovY1+EIUcF3/Pu3dqz8qJXElrae34Gyw+IO3e0ZwY8mtaysLMmMiAeTReWnAz8739PLwwp76XrFsDyAuLxY+C33zippqzMddyFKo/98eVjruMulWD+AVGGmZh46SWA1/iXTcE/Gnv2AH/9xT8aloIHA4ZThiu3KrsSghyYZ0Dom4lZr5722mo9MzGpEtjtYL6KHjyxO9F4DLwSglyYR0BUclYxGQgH8eTPGi/CkCML+Zslz4Cw0DS2OBzEkx4vwjAP5VgJQU7kERBl6c8bMACoWdMgzV27dg1btmxBdHQ0UlJS4OTkBBcXF3h6emLAgAFo8PcR1qxZsxAVFQUAGDBgAObMmWOQ9k0tNzcXL774YomPL1iwAL169ap8Q88axBs8GGjcuPLtWDMTX4ShVquxY8cOnDlzBo8ePUK9evXQqFEjdO/eHT4+PnBwcAAADB48WHd70Q8//BBDhgwxSPtSu3nzJsaNGwchBA4dOmSYnZayEoLsxk2NvJx4yRIThVi1Sgh/fyGcnLT3RqhbV/vvVauESEoyeJN5eXli3rx5wt7eXvj7+4vvv/9e7N+/X4SFhYnAwEBhb28vAIjRo0cLIYQ4efKk2L17twAgxo4dW2hfV69eFcOHDxd79uwxeJ2Glp2dXer9IHbs2GH4RnNzhYiJEWLRIiH69xfC3l77/7hpUyEmTxYiIkKI+/cN366lyckp/HvMv5dIwd/jgwcGbzYtLU34+/uLatWqiffee09s375d7N27V6xatUoMHDhQABC2trZi2bJlQgghjh49KubPny8AiDVr1hTaV2RkpPDz8xMXL140eJ3G5uvrq7uvhdGkpwtx8KAQM2YI0bmzEAqFEDY22v+eMUP7WFaW8dovhekCIi1N+0bfeUf74QaEqFZN+6FftEj7JcjLM2oJ77zzjgAg1q9fr/fx3377TVSrVk307NlTty01NVVvQOzcuVMAEJMmTTJqzQXl35Tl22+/LdfrsrOzhb29vfjll1/0/ty9e9dIFRfw+HHxL4FKVfhLkJlp/DrMQcGDp1q1tN+VevWeHjxdu2bU5jMyMkTXrl1FrVq1xMmTJ/U+58svvxQAxJw5c3TbduzYoTcg3nvvPQFAfP/990atu6BNmzYJb29vERMTU+F9rFu3TjRu3FjUr1/fuAFR1K1b2uCfPFmIxo21//8dHAr/rTQR4wVEdnbhIx8bm+J/EDIyjNZ8UQcOHBAAxIgRI0p93ttvv12mgBBCiNjYWPH48WOD11qS6OjoYl/KssjOzhbVq1c3UlUVdOfO0y/B889rvwTVq5v0gEE2ZPa7mD17tgDwzDvBtWvXrkwBkZmZKdRqtVFqLcnSpUsFAHHw4MEKvf769euiVq1a4sCBA6JZs2amDYiiCh4wODoWP4O8d89oTRe+iWxllXZJ5OTJkl4SuXTpUgDA66+/Xurz/vWvf+H69etl2meHDh0qXZfVqlMH8PfX/gCFPzuLFgEzZ5rFIF6FlHYRxujRkl6EkZmZiWXLlsHW1hbjxo0r9bnbtm0rdh9qfezs7NCpUydDlWgSb7zxBkaOHIkBAwZIXYr2b+jkydqfoishjB1r1EuXKxcQpc3E/Owz2UyqyszMxNGjRwEA3bp1K/W5derUQZ06dUp9zvLly7F161YAQOvWrfH1118XevzRo0dYt24dDh8+jAcPHqBBgwYYOnQoXn31VSj/noRUdB///ve/8fnnn0Oj0cDJyQl+fn4YOXKkbp+zZs3CgQMHAADr16/H8ePHAQCdO3fG559/Xqbfw/79+xEREYHr16/D0dERPXv2xMSJE02/BLM+Bb8ERQfx3n4bCAqS5yBeWTzrIowZMwx6EUZlREVF4eHDh2jXrt0zbyClu0NcKSZNmoSLFy8CAAICAjB58uRCj1+/fh3ffvut7s6HzZo1w9ixY9G9e/cS99GrVy8sW7YMV65cQaNGjTBlyhR0LnCl1uDBg3H+/HkAwLRp01Dr74PSwMDAZ4YeAISGhuLMmTOIiIh45nNNzsZGe1Va587az03RyY+LFxt28mO5zjeKDqYAQlStWvhUODfXSCc7FZeYmCgACDs7u3K/Vl8X04ULF8Qvv/wiqlevLrp161bo+UlJScLd3V04OzuLL774QuzevVvMmTNH2NnZCV9fX5GTk1NsH23atBGDBw8WoaGhYteuXWLEiBECgFi5cqVuvydPnhQrV64UAMRrr72mGz+Ii4t75nvIH6R+6aWXxKpVq8SePXvEwoULhaOjo2jYsKGIj48v9+/FpGQ8iFciCS7CMITQ0FABQAwcOLDcr9XXxRQdHS3WrFkjAIgZM2YUev7+/fuFg4ODaN++vQgPDxfbt28XAQEBAoBYvHix3n0MGjRI+Pr6ioiICLF582bRvn17YWNjI06dOqV7/tGjR8WUKVMEAPHZZ5/pvitXrlx55nu4du2aqFmzpvjf//6n2yZ5F1N53Lz5tLvSxUX7uatd++nn7vLlcu2u9IAoegWFnZ22wdatn34xnzypxLsxjYSEBAFAODg4lPu1pY1BODo6FguIPn36CADi2LFjhbZ/8cUXAoD48ssvi+1DoVCIhIQE3bbHjx8LBwcH0aVLl0LPregYRF5envj111+LbddoNEKpVAoPDw+RK8NgL5GMBvF0ZHARhiF8/fXXAoAYOnRouV9b0hhEbGxssYBISUkRNWvWFLVr1xapqamFnj98+HChVCpFbGxssX00btxYZBU4GDh27JgAIKZPn15oHxUdgxg4cKCYOnVqoW1mFRBFFTxQqVGj+PhFSkqpLy9+3nH6NPDFF8DQodpT3i5dgFWrADc3YP164N497XMWLdKevpjBNP3atWsD0Hb95ObmGq2dS5cu4ejRo2jevHmxeQWjRo0CAN2N3AtydXWFh4eH7t9Vq1bF888/j6SkJIPUpVAo0KNHj2LbO3bsiN69e+PMmTOIjo42SFsmUa+eduxi1SrtDNWTJ4F587R99vPnaz+zzZppu6W2btXOxzC0jAztJMFZswAvL+13ZdAg4M8/gYAA7Sza1FTtpKgZM7RdAmYwYTD/u5KWlmbUdnbs2IH79+/j5ZdfRs0iXWujRo1CXl4e1q9fX+x1/fv3L3Sb3FatWgGAQb4rq1evxsWLF7F48eJK70s28rtuIyK0kyoPHtR+d9Rq7XhX3braia0ff6ydj/H3bYrzPR2DePIE+OorIDwcSEjQblOpgNdfB6ZM0c6IValM+dYMpk6dOnBzc8Ply5dx/vz5Qn+MDSkxMREAkJycDB8fH73PiY+PL7atbt26xbY5ODiUebC8Mpo2bYojR47g0qVLzxyfkSWFAmjXTvvzz39ql5dYsACIjwdWr9Ye1Hh7Ax99pB0bM4RLl7Rt7NmjXVIB0A66z5wJjBhh1it6du3aFQBw9uxZo7aT/105dOhQse/KgwcPAAAnT54s9rqi35X8iXpZWVmVrunTTz+FnZ1dsUl+N27cQG5urq5Os500a2//dFwiMRHYtEk7VhwVpf359ltg2DBg7lzdBSFPA6JqVe2RzowZwO3b2jTJn77/3XdmP33/tddew/z58/Hzzz+XGhDTp0/HuXPnsH379kJHKmWR/2F1dXVFSEhIic/Ly8vTDVZL7f79+wCA6tWrS1xJBZR2b4sZM4y3GF3TptrvBFD46quQEGDaNLNezPD5559H7969cezYMWg0mhKvPsrKysLLL7+Mdu3aYdGiReVuJ/+74uPjU+LA8bMGyQ0tIiIC2UWOoAFg7NixuHXrlu47Xa9ePZPWZRAVvSNgufux8q/DbdBA+++wMKNeh2soDx48EG5ubqJhw4bifgkzeE+cOCGUSmWh/szyjEE8efJEODo6ikaNGukGowv69NNPxcyZM0vdR75u3boJR0fHYvUB0O0jNTVVeHt7i0uXLpXyzoVYsGCBCA0NLbb9yZMnwsXFRdja2orbt2+Xug/ZkPNnUWZzfyoqOjpaVKlSRfj6+pb4nOXLlwsAhVYSKM8YRFRUlAAgxowZU2zfeXl54tVXXxWbNm0qdR9CaD/DAMSwYcMKbc+fyLdv3z4hhBC//PKL8PPzK8O7L84sxyAM9Fks/0S5og3b2gqhVBZuWKYD16dPnxaNGjUS3bp1KzQoLIQQhw4dEg0bNhS9e/cW6enpuu3lHaTOH+SbMWOGyM7O1m3fvn27sLe3131gS9uHEPoD4sGDB8LGxka3FMjevXtFtWrVnjlZb+zYscLFxaXQ1UoZGRkiMDCwUODI0u3b8huQLqt7957W7uZmVgPXmzdvFlWqVBETJ04UycnJuu3Z2dli5cqVwtbWVrz//vuFXlOegBBCiJEjRwqVSiW2b9+u25aVlSVmzZolnJ2dxc2bN5+5j5ICYu/evYWuBPzoo4+Ej49PBX4TZhQQlRyQ1qfyM6kfPjSrS1/v3Lkjpk6dKhwdHUWLFi3ECy+8IFxcXMRzzz0n3nvvPfHw4UPdc2fOnCl69uwpAIi6devqpu4vW7ZMeHt7C5VKJWrUqCG8vb0LHUmtXbtWNGzYUDg7O4uuXbsKNzc34ebmJiIiInTP2bBhQ7F9xMTEiNjYWOHt7S1q1KghVCqV8Pb2LnQk9fHHHwulUik6deokHB0ddWvhlObYsWNixIgRwt7eXrRs2VJ4eXmJ5557TtStW1d89tlnIk9Of6QePTK/S1rLyswufT1x4oTw9fUV1apVE56enqJLly6iZs2aokmTJmLFihWFnjto0CDRpk0bAUC0aNFCeHt7i5ycHBEYGCg6d+6suwLJ29tbXL9+XQihnWH94YcfimrVqokmTZqIbt26iTp16oju3buLEydO6Pb94YcfFttHTk6OWLt2rejdu7cAIJydnYW3t7c4e/asEEIbNAMGDBBVq1YVnTt3FrVr19Z7JV9JkpOThbe3t/D29tat0Zb/79OnTxvgt2sABS9pbdiw0pe06mP41VzN5DaGOTk5OHfuHO7fv4+aNWuiZcuWxWaFxsfHIzk5udA2T09PJCcnFxtAbtmypW4VWAAQQuDs2bNITU1F/fr14erqWmjc4erVq7h06VKxfSsUCsTFxRXa3qxZMzQusArqrVu3cPXqVbi6uuod4C5JdnY2kpKScOfOHTg7O6N58+bSj4VY6x0BzeiOZOnp6bhw4QKePHmC+vXro2nTpsWec+zYsWJXCHp7e0OtViM9Pb3Q9m7duqFq1aq6f2dmZiIhIQFZWVlo0qRJoe8RoB2sTilyJZq3tzeSkpJw5cqVQts7d+6MGjVqANB+BxMTE3H//n20atVKN+5RFllZWfjtt9/0PtapUyeTj48AkOSOgMZf7pt3JKOi9N0R0FKX1Sgr3gOFiirtIgwT3RHQtPeDKPqGDx8GhOAdySydhdxdy6T4O7NOpd0RcOhQ7cGTs7PJypH2hkG8I5ll4tGw4fGsyzLJ/I6A8rijXL5n3ZFs0CCznoRksUx8R0CrZ053JKPCTHxHwMqSV0AUZEaDeFaJYS4fjx5pZ8KayR8dq2LmF2HINyCKYreFtCo6E5NMr+hKCDLrtrB4z+oO/Mc/gEaNpK6yTMwnIIriIJ5x8YICy1HSwGf//oCvL9Cvn0kHPi2OBf8tMt+AKIqDeJXHS5ItnwwunTR7VtSbYTkBURAH8crGTCY1khFJMPnK7FjxRRiWGRBFcRBPi38M6Fl40KDFizAAWEtAFGUtg3jsTqDKspZuR16EoZd1BkRRljSIV9pMzPz3U2StG6IyKXjAsXu39qy8aN+7uVy4wIswyoQBUZS5HXXLfCYmWTBzWwnBWs6GDIgB8Sxy67c3s5mYZEXk1m/P8ZRKY0CUV8EP3Z49wF9/GfdDZ+YzMclKSbESgtwO5iwAA6KyjHHaakEzMYkAGGfuQNGDJ7l3B5shBoQhVXQQz4JnYhLpVdHPPC/CMCkGhDHdu/d0EC8yUjuI5+Cg7ZPt21fbXXXwIHDyJGBjA3Trpp1w078/0LWrdhuRNTh7VvtdyL+iKC0NaNxY+33o0AGIjtY+dvOm9oy8X7+nE9SaNZO6eovFgDClixefhsX//vf0UtoBA7Sh8fetEomsWk4O8OefTwMjNlZ7wFTwqjyVSuoqrQIDgoiI9OJwPhER6cWAICIivRgQRESklw2ALVIXQURE8vP/q/+U1Pb5KwgAAAAASUVORK5CYII=" style="display:block; margin: auto;" /></p>
+<p>If an email is sent to <code>List 1</code>:</p>
+<ul>
+<li><code>Client 5</code> gets two emails:
+<ul>
+<li>One from the path
+<code>List 1 -&gt; List 2 -&gt; Client 5</code>.</li>
+<li>One from the path
+<code>List 1 -&gt; List 3 -&gt; List 2 -&gt; Client 5</code>.</li>
+</ul></li>
+<li><code>Client 4</code> gets three emails:
+<ul>
+<li>One from the path
+<code>List 1 -&gt; List 2-&gt; Client 4</code>.</li>
+<li>One from the path
+<code>List 1 -&gt; List 3 -&gt; List 2 -&gt; Client 4</code>.</li>
+<li>One from the path
+<code>List 1 -&gt; List 3 -&gt; Client 4</code>.</li>
+</ul></li>
+</ul>
+<p>In this example, the answer would be:</p>
+<ul>
+<li>5 emails are sent to clients.</li>
+<li>2 unique clients receive emails.</li>
+</ul>
+<h2 id="infinite-emails">Infinite Emails?</h2>
+<p>You might be wondering:</p>
+<blockquote>
+<p>What if <code>List 1</code> sends an email to <code>List 2</code>,
+and <code>List 2</code> sends an email to <code>List 1</code>? That will
+cause an infinite number of emails to be sent!</p>
+</blockquote>
+<p>In other words, what if there is a cycle in the graph?</p>
+<p>The problem statement contains the following:</p>
+<blockquote>
+<p>[…] only when a mailing list is created it can be added to any number
+of existing mailing lists</p>
+</blockquote>
+<p>This is a hint to the fact that it is impossible to have a cycle in
+the graph defined by the mailing lists! Convince yourself of this fact
+before proceeding, or better yet, prove it:</p>
+<p>Suppose there is a cycle
+<code>List 1 -&gt; List 2 -&gt; List 1</code>:</p>
+<ol type="1">
+<li>The edge <code>List 1 -&gt; List 2</code> implies that
+<code>List 1</code> was created after <code>List 2</code>.</li>
+<li>The edge <code>List 2 -&gt; List 1</code> implies that
+<code>List 2</code> was created after <code>List 1</code>.</li>
+</ol>
+<p>This forms a contradiction, so the cycle cannot exist. With induction
+on the cycle length, you can generalize this proof.</p>
+<p>The conclusion: we are working on a Directed Acyclic Graph (DAG).</p>
+<h2 id="the-naive-solution">The Naive Solution</h2>
+<p>Simulate the whole email-sending process: traverse the graph,
+starting from address <code>Addr</code>, visiting all adjacent nodes to
+the node being visited. Whenever we visit a vertex corresponding to a
+client address, we increment a counter of emails sent.</p>
+<p>Note that we might visit some nodes multiple times, as the previous
+example shows. However, our traversal is guaranteed to finish because
+the graph is acyclic.</p>
+<p>How efficient is this solution? The number of operations is linear in
+the number of times vertices are visited. Note: it is NOT linear in the
+number of vertices or edges in the graph, but on the number of times we
+visit vertices.</p>
+<p>The problem statement is trying to tell us that this approach is
+bound to fail:</p>
+<blockquote>
+<p>Because these numbers can be very large, output the remainder of
+dividing them by 10^9 + 7.</p>
+</blockquote>
+<p>In other words, the number of times we visit vertices is so big that
+it doesn’t fit on a 32 bit integer. Can you come up with some graphs
+that showcase how spammy those emails can be?</p>
+<p>Our naive solution is bound to be extremely slow and will receive a
+Time Limit Exceeded answer from the contest judge.</p>
+<h2 id="a-faster-solution">A Faster Solution</h2>
+<p>Notational convenience: <code>total(Address x)</code> denotes the
+total number of emails sent to clients if we send an email to
+<code>Address x</code>.</p>
+<p>We’re trying to compute <code>total(Addr)</code>. If we know this
+value for all successors of <code>Addr</code> in the graph, then
+<code>total(Addr)</code> is simply the sum of all those values.</p>
+<p>Let’s consider our previous example, where we’re trying to compute
+the answer when <code>List 1</code> gets the initial email:</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAAFbCAYAAADP6RmnAAAABmJLR0QA/wD/AP+gvaeTAAAgAElEQVR4nO3deVxU5f4H8M/MAKJiKLjiEiguuOGG5gqaml4FrcQFc7lhItmu5XqL1Ptzq3srtVwiBdMU19TMBW9uRQUzoCiuqLjkCiiisj+/PyZGlgFZZuacmfm8Xy9erzwzc57v0Ayfc57nPM9RCCEEiIiIilBKXQAREckTA4KIiPRiQBARkV42UhdAZE327gXS06Wuwrx4egItW0pdhXVScJCayHTc3IArV6SuwrwsWgTMmCF1FdaJXUxEJrZoESAEf8ry4+oq9f8t68aAICIivRgQRESkFwOCiIj0YkAQEZFeDAgiItKLAUFERHoxIIiISC8GBBER6cWAICIivRgQRESkFwOCiIj0YkAQEZFeDAgiItKL94MgkrHNmzfjm2++KbStatWq+PnnnyWqqGy2bNmCVatWYcKECRg3bpzU5VAF8QyCSMZ69OiBkJAQ5OTk4MiRI3jttdcwe/bsUl9z6NAhDBs2DImJiSaq8qlTp06hX79+CAoKwqFDh5CUlGTyGshwGBBEMta4cWP4+Pigdu3aAIAuXbqgd+/epb5mz5492LVrF37//fcKtbl582b4+PhArVaX63Xnz59H3759MXLkSCxevLhCbZO8MCCILMzixYuhVqsxduzYCr3+2rVrOHLkCFJTU8v1OmdnZ8THx2PKlClQKBQVapvkhWMQRBbGzs4OnTp1Mnm7zs7OJm+TjIsBQWRBJk2ahIsXLwIAAgICMHnyZN1jycnJCA0NhVqtxv379+Hm5gZ/f3/069dPd8Q/ePBgnD9/HgAwbdo01KpVCwAQGBjIwWYrxIAgsiBTpkxBXFwc3njjDbzwwgu67cnJyfDy8kKtWrXwwQcfwNnZGdHR0fDz88PgwYOxdetWAMDs2bOxceNGrFy5EuPHj0fnzp0BAG5ubpK8H5IWA4LIgnTp0gU2NsW/1gcOHMDly5fx7bffol+/fgCAQYMGoXr16ti1a5fueb1798Yff/wBAPD09ISPj49J6iZ5YkAQWQFXV1cAwH//+1+4urqiadOmAIDXX39dFxhERfEqJiIr0L17d0RERODq1ato1qwZ2rRpg0mTJuH48ePw9PSUujySKQYEkZXw9/fHiRMncPXqVcycORO3bt2Cr68vBg0ahJycHKnLIxliQBBZgPXr12PevHklPr5161YsWrQIgHby3bhx47Bnzx4EBQXhwIEDiImJ0T3Xzs4OAJCbmwsAOHz4MIYNG2bE6kmuGBBEFiApKQkJCQklPn79+nV8/vnnOHv2rG5bZmYmEhMTYWNjAxcXF9325s2bAwCuXLkCAPj555+RlpZmnMJJ1jhITSRj+Yv1nTp1CoB2noODg0Ox5yUlJaFbt26YNGkS4uLiAAAbN27E77//jg0bNuAf//gHYmJi0LlzZzRr1gzVq1fHuXPnULt2bWzatAlNmjTR7at///4YMGAA3n//faxZswZJSUn48ccfy1RvUFAQzp07h5s3bwIAQkNDERkZiTp16mDLli2V/XWQiSmEEELqIoishZsbMGUKMGOG1JWYB/6+pMUuJiIi0osBQUREejEgiIhILwYEERHpxYAgIiK9GBBERKQXA4KIiPRiQBARkV4MCCIi0osBQUREejEgiIhILwYEERHpxYAgIiK9GBBERKQXA4KIiPRiQBARkV4MCCIi0ou3HCUysZMngYgIqaswD48eSV2BdWNAEJnYxo3aH+kcBnAKwFvlfF0OgF0AXgJQ3cA1kRyxi4nIhC5fBoSQ9ufNN7egZ89N5X7d3bv3YW8/FqtXbzRpvbwftXQYEERWRq1Wo1OnTuV+Xe3ateHv748VK1YYoSqSIwYEkRXJzc1FfHx8hQICAIKDg3HixAlERUUZuDKSIwYEkRVJSEjA48ePKxwQ3bt3R+fOnfHNN98YuDKSIwYEkRXRaDSwt7eHh4dHhfcRFBSEiIgI3Llzx4CVkRwxIIisiEajgaenJ2xtbSu8j7Fjx6JatWpYu3atASsjOWJAEFmRig5QF1StWjWMHz8e33zzDXJzcw1UGckRA4LISuTl5eHEiROVDggAmDp1Kq5evYp9+/YZoDKSKwYEkZU4d+4c0tPT0blz50rvq3nz5ujXrx8Hqy0cA4LISqjVatjZ2aFNmzYG2V9wcDB+/vlnXL582SD7I/lhQBBZCY1Gg3bt2sHOzs4g+xs2bBhcXFywatUqg+yP5IcBQWQlNBqNQbqX8tnY2OCNN95AaGgoMjIyDLZfkg8GBJEVEEIgLi7OIAPUBU2ePBkPHjzAli1bDLpfkgcGBJEVuHDhAh48eGDwgKhfvz5efvllfP311wbdL8kDA4LICmg0Gtja2qJdu3YG33dwcDB+//13qNVqg++bpMWAILICGo0Gbdq0gb29vcH37ePjg7Zt22LlypUG3zdJiwFBZAUMMYO6NEFBQdiwYQNSUlKM1gaZHgOCyMIZa4C6oAkTJsDW1hbh4eFGa4NMjwFBZOEuX76MlJQUg17iWlSNGjUQEBCAFStWQAhhtHbItBgQRBZOrVZDpVKhffv2Rm3nrbfewsWLF3Ho0CGjtkOmw4AgsnAajQYeHh6oVq2aUdtp06YNevXqxfWZLAgDgsjCGXoGdWmCg4Oxa9cuXL9+3STtkXExIIgsXGxsLDp27GiStkaMGAFnZ2esWbPGJO2RcTEgiCxYUlIS7t69a7IzCDs7OwQGBmL16tXIzs42SZtkPAwIIgum0WigVCrh6elpsjaDgoJw9+5d7Nixw2RtknEwIIgsmEajQYsWLVCjRg2TtdmkSRMMGTKEg9UWgAFBZMFMOUBdUHBwMA4fPoxTp06ZvG0yHAYEkQXTaDRGnUFdkpdeegktWrTgzYTMHAOCyELduHEDt27dkiQgFAoFJk+ejLCwMKSlpZm8fTIMBgSRhdJoNFAoFOjQoYMk7QcGBiI3NxcbN26UpH2qPAYEkYVSq9Vwd3dHzZo1JWm/Zs2aGDVqFJYvX871mcwUA4LIQkk1/lDQ22+/jdOnT+P48eOS1kEVw4AgslByCIiOHTvCy8ur0CWv2dnZ2LJlC15//XUJK6OyYEAQWaDbt2/jxo0bklziWlRwcDC2bduGuLg4fPLJJ3BxccHIkSOxc+dOqUujZ7CRugAiMjy1Wg2FQmGyNZhKIoRAvXr1ULt2bXTu3Bk2NjbIysoCADx69EjS2ujZeAZBZIE0Gg1cXV3h5OQkSftpaWlYvXo1PDw8MGTIENy5cwd5eXm6cACArKysQv8m+eEZBJEFkmoGNQD8+eef6Nu3LzIzM5GXlwcAyMnJ0fvcBw8eoE6dOqYsj8qBZxBEFkitVks2QN21a1e8+eabEEI88/JWTqKTNwYEkYVJTk7G1atXJb2CacmSJQgICICNTemdFAwIeWNAEFkYtVoNAJIGhEKhwHfffYc+ffqUGhIMCHljQBBZGLVajSZNmkjet29ra4udO3fCw8MDtra2ep/z4MEDE1dF5cGAILIwcpggl69GjRo4dOgQXFxcioWEUqnkGYTMMSCILIycAgIA6tSpg8jISDg4OEClUum2q1QqBoTMMSCILEhqaiouX74sixnUBbm7u2P//v2wtbWFUqn9s6NUKtnFJHMMCCILotFoIISQ1RlEPi8vL2zdurXQtocPH0pUDZUFA4LIgmg0Gri4uKB+/fpSl6LXkCFDsHLlSgDamdQ8g5A3zqQmsiAVHX9ITQUOHjRCQXo4Or6BESNuYOvWT3Hy5ANERJimXWMYMgSoXl3qKoyHAUFkQTQaDcaMGVPu1yUmAqNGGaGgEoUAuIbjx+/CnG8VkZgING0qdRXGwy4mIguRlpaGixcvVmr8ITEREMI0Pzk5q/HFFy+arD1D/kRHG/B/nIwxIIgsRGxsLPLy8mQ5QK2PSqXCu+++K3UZVAoGBJGF0Gg0qFu3Lho1aiR1KWQhGBBEFkLKJb7JMjEgiCyElEt8k2ViQBBZgEePHuH8+fMMCDIoBgSRBYiLi0Nubi67mMigGBBEFkCtVsPJyQlNmjSRuhSyIAwIIguQP0CtUCikLoUsCAOCyALwCiYyBgYEkZnLyMjA2bNnOUBNBseAIDJzcXFxyM7OZkCQwTEgiMycRqOBo6MjmlryqnEkCQYEkZnjADUZC5f7JjJzarUa/fv3N3m7s2bNQlRUVKFt3bt3x8KFC01ey7MIIXDs2DHs2rULZ86cgUqlgqurK0aPHo0ePXpIXZ5s8QyCyIxlZWUhISFBkvGHgIAAhISEICYmBjExMQgJCUFAQECpr/niiy8wYcIEZGZmmqhKrQ4dOmDQoEGoUqUKgoOD8dprr+Hy5cvo2bMn3nzzTZPWYlYEEZmt6OhoAUCcO3eukvvR3ukgMbH8r3V0dBSOjo5lem6HDh2ESqUSSUlJ5W9ICDFz5kzh7e0tcnJyyvW6evXqia+//rrQttzcXNGlSxcBQJw4caJc+6vM78uc8AyCyIyp1Wo4ODjA3d1d6lLKJDIyEgkJCRWe8R0fH48jR45ACFGu123fvh3jx48vtE2pVKJXr14AgAsXLlSoHkvHMQgiMxYbG4tOnTpBqTSPYz1nZ2c4OzubvN2SxhmuXr0KAGjdurUpyzEbDAgiM6ZWq3VHwXKWnp6OoUOH6v69ZMkSdO3aVffvc+fOITQ0FBcuXEBmZiY8PT0xfvx4eHh46B4PCgpCfHw8AODFF1/UXbW1bNkytGvXrlz1CCHwww8/YOfOnZg2bZquHSrMPA47iKiY7OxsnDp1yiwmyNnb2yMkJARt27bFkSNHkJKSonssKioKnp6euHLlCiZMmIDg4GDcu3cPrVu3xrJlywAALi4uCAkJQYsWLQAAH3/8MUJCQhASElKu7qr4+Hi88MILaNCgAebOnYudO3fis88+M+ybtSA8gyAyU6dPn0ZGRoZZrMFkY2MDHx8fxMXFFXts3bp1yM7OxoYNG2BrawsA8PX1xe3bt5GcnAwAqFGjBnx8fHTdU97e3rCxKf+fryZNmuD//u//cP36dWzfvh1jxozBvHnz8MEHH1Ti3VkuBgSRmVKr1ahWrRpatmwpdSmV4ubmhry8PISEhGD69OmoVasWAOCrr74yeFuOjo7o168fAGD8+PF46623MG3aNDg7O2PChAkGb8/csYuJyExpNBp06NABKpVK6lIqZdq0aZg/fz7Wrl2LevXqoUePHvjwww+RkpICV1dXo7adPwdi9erVRm3HXDEgiMyUpSzxbWtri7lz5+LGjRuIjY2Fv78/IiMj0aVLF8ybN8+obderVw8AkJSUZNR2zBUDgsgM5ebm4uTJk2YxQD1t2jTs2rWrxMfnzp2Lffv2QaFQoE2bNnj//fcRExMDDw8PLFy4sNCcBzs7OwDa9w9oZ2Z/8sknpbYfFRWFcePG6X1MrVYDAJo1a1au92QtGBBEZighIQGPHz82i4A4ceIE/vrrrxIfP3XqFBYsWID79+/rtuUPUDdu3LjQIoTNmzcHAFy5cgVCCGzatOmZc0CSk5Px/fffY/ny5bpgAbSXzr7zzjtQKpX46KOPKvr2LBoHqYnMkEajgb29vaTX7+cv1peeng4A8PHx0fu8EydOYNCgQfDx8cH169cBAB999BFCQ0OxZcsWTJ06FQsXLkTjxo11A+6nTp1C165dsWLFikL7CgoKwtatW9GnTx84OTlBqVTirbfeKrVOLy8vTJ8+HQsXLkRISAiaNm2K9PR0nD9/Hh4eHvjxxx8xZMiQSv42LJNClHfOOhFJ7t1338Uff/yB33//3SD7i4kBvLyAxESAt5V4Nmv5fbGLicgMqdVqs+heIvPGgCAyM3l5eThx4gQDgoyOAUFkZs6dO4f09HSLuMSV5I0BQWRm1Go17Ozs0KZNG6lLIQvHgCAyMxqNBu3atdPNCSAyFgYEkZmxlBnUJH8MCCIzIoRAXFwcB6jJJBgQRGbkwoULePDgAQOCTIIBQWRGNBoNbG1ty30HNaKKYEAQmRGNRoM2bdrA3t5e6lLICjAgiMyIRqNh9xKZDAOCyEwIIRAbG8uAIJNhQBCZicuXLyMlJYUBQSbDgCAyExqNBiqVCu3bt5e6FLISDAgiM6HRaODh4YHq1atLXQpZCQYEkZngEt9kagwIIjPBAWoyNd5ylMgMXL16FXfv3jX6Gkx79wJ16xq1CYtw6ZLUFZgGA4LIDKjVaiiVSnh6ehq1nbffNsRebgH4GcA/DbSvMABBAGoaYH9UHuxiIjIDGo0GLVq0QI0aNYyy/y5dACEq/5ORkYkePV5F8+YL8ejR40rvLzr6OoCZSExMMUh9hv6x5PtRAzyDIDIL5rLE99tvv434+HhERUWhWrVqUpdDlcQzCCIzYA5LbHz11VcIDQ3Fxo0bebc7C8GAIJK5Gzdu4NatW7IOiEOHDmHatGlYsGABhg4dKnU5ZCAMCCKZ02g0UCgU6NChg9Sl6HXlyhWMGTMGw4YNw8yZM6UuhwyIAUEkc2q1Gu7u7qhZU35X8aSnp8PPzw8NGzZEWFgYFAqF1CWRAXGQmkjm5Dr+IIRAYGAg/vrrL0RHR3MJEAvEMwgimZNrQHz66afYsWMHtm3bBjc3N6nLISPgGQSRjN2+fRs3btyQ3SWuO3fuxPz58/H111/D29tb6nLISHgGQSRjarUaCoUCHTt2lLoUnTNnzmDChAmYMmUKgoKCpC6HjIgBQSRjGo0Grq6ucHJykroUAEBKSgp8fX3Rvn17/Pe//5W6HDIyBgSRjMlpBnVOTg78/f2Rk5ODbdu2wc7OTuqSyMgYEEQyptFoZNO99P777yMqKgrbtm1DXS75ahU4SE0kU8nJyUhKSpLFGURYWBhWrFiBH374QRb1kGnwDIJIptRqNQBIfolrVFQUgoKCMGfOHIwaNUrSWsi0GBBEMqXRaNC4cWPUqVNHshpu3ryJESNGoG/fvggJCZGsDpIGA4JIpqQeoM7IyMDw4cPx3HPPYdOmTVCpVJLVQtJgQBDJlFqtlrR76c0338SFCxewe/duODo6SlYHSYeD1EQydP/+fVy+fFmygFiyZAnCw8Oxe/duuLu7S1IDSY9nEEQypNFoIISQJCAOHDiA2bNnY+nSpRg8eLDJ2yf5YEAQyZBarYaLiwsaNGhg0nbPnz+PUaNGISAgAO+//75J2yb5YUAQyZAUK7g+fPgQr7zyCpo2bYpVq1aZtG2SJwYEkQyZ+gqmvLw8BAQEIDk5GT/++COqVq1qsrZJvjhITSQzaWlpuHjxoknPIGbPno3IyEj88ssvaNSokcnaJXljQBDJTGxsLPLy8kwWENu2bcOSJUuwZs0avPDCCyZpk8wDu5iIZEaj0aBu3bomOZKPi4vD+PHj8d577yEwMNDo7ZF5YUAQyYypxh9u374NPz8/9OjRA0uWLDF6e2R+GBBEMmOKGdTZ2dkYNWoUbGxs8MMPP8DGhr3NVBw/FUQy8vjxY5w/f97oAfHWW29BrVYjKioKtWvXNmpbZL4YEEQyEhsbi9zcXKN2Ma1YsQJr1qxBREQE2rZta7R2yPyxi4lIRtRqNZycnNCkSROj7P/48eP44IMPMG/ePIwYMcIobZDlYEAQyUj+ALVCoTD4vpOSkvDKK69g6NChmDNnjsH3T5aHXUxEEpk3bx5sbGzQqVMndOrUCXXr1oVGo8GQIUMqvM+MjAzY29sX2/7kyRO8+uqrcHFxQXh4uFECiCwPA4JIIomJiVi/fj2EEACAunXrIjU1Fa1atcKePXvQqVMnuLi4lGufr776Knx9fTFlyhTdNiEE/vnPf+LKlSv4888/Ub16dYO+D7Jc7GIikoi7uzvs7Ox0/75z5w5yc3Px448/wtfXFw0bNkTt2rUxfPhwPHny5Jn7u3nzJvbt24fg4GBMnjwZWVlZAIAFCxZg+/bt2LJlC5o2bWq090OWh2cQRBJp3ry57o94vry8vELbkpOT4ebmVqbF8zZu3AilUom8vDysXbsWJ0+eRHBwMEJCQrB8+XL07dvX4O+BLJtC5J/fEpFJxcTEwMvLq8THFQoFatasiUuXLqFmzZrP3F/btm2RkJCg67Kys7ODEAJDhgzBjh07DFa3KeX/jhITE3n2IwF2MRFJpHnz5qU+rlAo8Nlnn5UpHBISEnD69GkUPN7LyspCXl4efvrpJ4SHh1e6XrI+DAgiiTg6Opb4x9/GxgZt27bFxIkTy7Sv8PBw2NraFtuem5uL7OxsTJgwATNmzEBeXl5lSiYrw4AgklCzZs30bs/NzcXq1auhVD77K5qXl4ewsDBkZ2eX+rwlS5bAz8+vTAPeRAADgkhSbdq0KbZQnq2tLcaPH49u3bqVaR9HjhzBrVu3Sn2OjY0N6tevj8DAQN4tjsqMAUEkIXd3d6hUqkLbbGxssHDhwjLvo6Tupfx9KZVKBAcH4/z583j55ZcrVS9ZF17mSiShope6qlQqLFiwAA0aNCjT6zMyMrBlyxa93UtKpRJt27bFmjVr0KVLF4PVTNaDZxBEEnJ3d9ddeaRSqeDm5oa33367zK/fuXMnHj9+XGibra0tatSogf/85z9Qq9UMB6ownkEQSajgpa65ublYtmxZid1F+oSFhUGlUiEnJwcqlQq5ubkYOXIk/vvf/6JOnTrGKJmsCM8giCTk6OiIWrVqAQD8/PwwaNCgMr/27t27OHjwoC4c3N3dcezYMXz//fcMBzIInkGQRUpNBQ4elLqKsnFyaoaHD09gwIAvEBFR9tft27cJubm5sLWtgpEj52PIkPfw11+25dpHUUOGAFzLj/JxqQ2ySDExQCmrWMjMRABNAMwr5+u6AagHYPnfr6+8xERATitacKkNabGLiSxaYiIghLx/1q71QXr6jHK9JjX1PnbtmgshdkGIJpWuITpa6v9TJEfsYiKSWFmX0yioZs2a8PX1NXwxRAXwDIKIiPRiQBARkV4MCCIi0osBQUREejEgiIhILwYEERHpxYAgIiK9GBBERKQXA4KIiPRiQBARkV4MCCIi0osBQUREenGxPqK/zZo1C1FRUYW2de/eHQsXLpSoopLdvXsXERER+O2333D37l3Uq1cPrVq1whtvvIG6detKXR5ZCAYE0d8CAgLw0ksvYejQoQCAPXv2wNnZudTXfPHFF4iNjcXq1atRpUoVU5SJvXv3YtiwYWjXrh2Cg4PRuHFjXLlyBUuXLsW///1vrF27FqNGjTJJLWTZGBBEf2vXrh0AwMZG+7Xw8fF55mvCwsIQHx+P+fPno0mT8t+0J/+s5dChQ1CpVGV6TUpKCpycnHD06FE4ODjotvv6+qJVq1aYNGkSBg8ejOeee67c9RAVxDEIokqIjIxEQkJChcIBAOLj43HkyBGU58aOAwYMwMGDBwuFAwA0bNgQXbt2RXp6OuLi4ipUD1FBPIMgqgRnZ+dndkMZWr169VCvXj29j+Xk5AAAXFxcTFkSWSgGBFEFpKen68YqAGDJkiXo2rWr7t/nzp1DaGgoLly4gMzMTHh6emL8+PHw8PDQPR4UFIT4+HgAwIsvvgiFQgEAWLZsma67qzzu378PtVqN/v37w93dvTJvjwgAu5iIKsTe3h4hISFo27Ytjhw5gpSUFN1jUVFR8PT0xJUrVzBhwgQEBwfj3r17aN26NZYtWwZAe4QfEhKCFi1aAAA+/vhjhISEICQkpMLdVZ988gns7OywZs2ayr9BIvAMgqhCbGxs4OPjo7evf926dcjOzsaGDRtga2sLQDuAfPv2bSQnJwMAatSoAR8fH133lLe3t25wvCK+/fZbrFu3Dvv27YOrq2uF90NUEM8giAzMzc0NeXl5CAkJQWpqqm77V199hYkTJxq8vbCwMHz44Yc4cOAAunfvbvD9k/ViQBAZ2LRp0zB//nysXbsW9erVQ48ePfDhhx8iJSXF4Ef3+/fvxzvvvIPdu3ejW7duBt03EQOCyMBsbW0xd+5c3LhxA7GxsfD390dkZCS6dOmCefPmGayd2NhYjB07FhEREejVq5du+9KlS7Fx40aDtUPWiwFBVE7Tpk3Drl27Snx87ty52LdvHxQKBdq0aYP3338fMTEx8PDwwMKFCwvNebCzswMA5ObmAtDOzP7kk0+eWcOVK1fg6+uLlStX4qWXXir02Llz53D16tWKvDWiQhgQROV04sQJ/PXXXyU+furUKSxYsAD379/XbcsfoG7cuLHuclYAaN68OQDtH3whBDZt2gSlsvSvZUpKCgYPHozHjx9j+fLl8PHxKfTz008/VfIdEmnxKiaiv+Uve5Geng6g5KU2Tpw4gUGDBsHHxwfXr18HAHz00UcIDQ3Fli1bMHXqVCxcuBCNGzdGy5YtAWhDo2vXrlixYkWhfQUFBWHr1q3o06cPnJycoFQq8dZbb5Va57p163D27FkAwJEjRyrzlolKpRDlmeNPZCZiYgAvLyAxEWjaVOpq5E+uv6+YmBh4eXkhMTERTeVUmJVgFxMREenFgCAiIr0YEEREpBcDgoiI9GJAEBGRXgwIIiLSiwFBRER6MSCIiEgvBgQREenFgCAiIr0YEEREpBcDgoiI9GJAEBGRXgwIIiLSiwFBRER6MSCIiEgvBgQREenFW46SRdu7F6hbV+oq5O/SJakrIDliQJBFe/vtolseA/gEwEcA6pi8HsNbCWA0gJpSF0IWiF1MZJG6dAGEKPxz6tRptGnTFU5O3+H48fPFHje3n+TkFDRsuACDBo1BTk6uQfbJ2z5TQQwIsgrh4eHo1q0bqlevjpiYGPTs2VPqkirNyckJu3fvxtGjRzFr1iypyyELxIAgi5aWloaAgABMnDgRgYGBOH78ONzc3KQuy2A6duyI1atXY+nSpfjuu++kLocsDMcgyGLFxMRgzJgxSEtLw969ezFo0CCpSzKKsWPHIi4uDlOnTkXbtm3RtWtXqUsiC8EzCLI4Qgh8+eWX6NmzJ55//nnExcVZbDjkW7x4MV588UUMHz4cN27ckMe+CekAAB4VSURBVLocshAMCLIo9+7dg6+vL6ZPn45Zs2bhwIEDaNCggdRlGZ1SqcTGjRtRq1Yt+Pv7IzMzU+qSyAIwIMhiHDlyBB06dEB8fDwOHz6MkJAQKJXW8xF/7rnnsH37dpw5cwaTJ0+WuhyyANbz7SGLlZubi5CQELz44ovw8vJCbGysRVylVBEtW7bEpk2bsGHDBnz11VdSl0NmjgFBZu327dsYPHgwFi9ejM8//xw7duyAk5OT1GVJ6qWXXsL8+fPxwQcfYN++fVKXQ2aMVzGR2Tp48CDGjRuHmjVrIioqCh06dJC6JNmYOXMm4uPjMXbsWPzxxx9wd3eXuiQyQzyDILOTk5ODkJAQDBo0CAMHDkRMTAzDoQiFQoHQ0FA0a9YMfn5+SEtLk7okMkMMCDIrSUlJ6NOnD/7zn/8gLCwM4eHhcHBwkLosWapatSq2bt2K5ORkjB8/Hnl5eVKXRGaGAUFmY/v27ejQoQMyMjKgVqvx2muvSV2S7DVp0gQ7duzAvn37MG/ePKnLITPDgCDZy8jIwLvvvotXX30Vvr6++PXXX9G8eXOpyzIbPXr0wMqVKzFv3jxERERIXQ6ZEQ5Sk6ydOXMGo0ePRlJSEiIiIuDv7y91SWZp4sSJ+PPPPxEYGIhWrVqhffv2UpdEZoBnECRb4eHh8PLygr29PWJjYxkOlfTll1/Cy8sLfn5+uHv3rtTlkBlgQJDsWPoKrFKxtbXFli1boFKp8OqrryIrK0vqkkjmGBAkK2q1Gp07d8ahQ4ewd+9efPnll7C1tZW6LIvh7OyM7du3Q6PRYPr06VKXQzLHgCBZyF+BtUePHlazAqtUPD09ER4ejuXLl2PNmjVSl0MyxoAgyVnrCqxSeuWVVzBnzhxMnToVR48elbockilexUSSOnLkCMaOHQuVSoXDhw9b7SJ7Upg3bx7Onj2LkSNHIjo6Go0bN5a6JJIZnkGQJLgCq/QUCgW+++471KlTB8OGDcPjx4+lLolkhgFBJscVWOWjRo0a2LVrF65du8Z7SFAxDAgyqYMHD8LT0xNXr15FVFQU3n33XalLsnpubm744YcfsHnzZixdulTqckhGGBBkElyBVd769++PxYsXY+bMmfjpp5+kLodkgoPUZHRJSUkYM2YMTp06hbCwMC6yJ1MffPABEhISEBAQgKioKLRu3VrqkkhiPIMgo+IKrOZl+fLl8PDwwCuvvIL79+9LXQ5JjAFBRsEVWM2Tvb09du7ciUePHmH06NHIzc2VuiSSEAOCDO7MmTPo1q0bwsLCEBERgfDwcFStWlXqsqiM6tevjx9//BFHjx7F3LlzpS6HJMSAIIPiCqyWoVOnTli1ahUWL16MjRs3Sl0OSYQBQQaRlpaGsWPHcgVWCzJu3Di89957CAwMRHR0tNTlkAR4FRNVmlqtxujRo5GWloa9e/dykT0LsnTpUpw9exbDhw9HdHQ0XFxcpC6JTIhnEFRhXIHV8qlUKmzYsAHVqlWDv78/MjMzpS6JTEghhBBSF0Hm5969e5g4cSL279+POXPm4OOPP4ZSyeMNS3X27Fm88MILePnll7F27VqjtJGRkYHmzZsXurxWCIGcnJxi9wRp2LAhEhIS+JkzMnYxUblxBVbr06pVK4SHh+Pll1+Gl5cX3nzzTYO3YW9vjz59+mDTpk3Iy8sr9FjBMxelUomBAwcyHEyAv2EqM67Aat38/PwQEhKCd999F7/88otR2ggICCgWDkXl5eUhICDAKO1TYexiojK5ffs2xo0bh2PHjmHRokVcZM9KCSEwZswYREZG4o8//kCzZs2KPef8+fNo0aJFhfafk5ODunXrIjU1tcTnNGrUCFevXoVCoahQG1R2PIOgZzp48CA6dOjAFVgJCoUCa9euhaurK1555RU8evRI99iTJ08QEBBQqbkvNjY2GDVqFOzs7PQ+bmdnhwkTJjAcTIQBQSUquALrgAEDuAIrAQCqVq2Kbdu24datWxg3bhyEELh+/Tp69OiBzZs34+TJkzh9+nSF9z9mzBhkZWXpfSwrKwujR4+u8L6pfBgQpFdSUhL69OmD//znPwgLC0N4eDgcHBykLotk4vnnn8e2bdvw008/ISgoCB07dsTp06eRl5cHW1tbbNiwocL77t27d4n3JG/VqhXatm1b4X1T+TAgrNDZs2dLfZwrsFJZ9OrVCwEBAfjuu++QmpqK7OxsAEB2djbWrVv3zMHmkigUCrz22mvFuplsbW0xYcKEStdNZceAsDI7duxA9+7dceXKlWKPcQVWKqucnBzMnDkT69atQ25ubrFVX2/evImjR49WeP/6uplycnLYvWRqgqzG7du3hZOTk1AoFMLLy0tkZWXpHktISBDt27cXjo6OIiIiQsIqSe6Sk5OFj4+PUKlUAoDeH1tbW/H6669Xqh13d3fd/hQKhejatauB3gGVFc8grEhQUBAePnwIIQRiY2Pxr3/9CwBXYKWye/LkCfr06YPDhw+Xeq+I7OxsbN68GU+ePKlwW+PGjdPNoFYqlRg/fnyF90UVJHVCkWmEhYUJhUJR6ChPoVCIgIAAoVQqxZw5c0R2drbUZZIZuHz5shg8eLAAIJRKZYlnEQqFQmzevLnC7Vy8eFH3mVWpVOLWrVsGfBdUFpwoZwVu3LgBDw8PpKeno+D/bqVSCQcHB6xZswYjR46UsEIyR7t378aUKVNw584d5OTkFHvcxsYGAwcOxE8//VThNjp27Ii4uDi8+OKLiIyMrEy5VAHsYpLC48dAZCRw6pTRmxJC4J///CcyMjJQ9FggLy8PT548wVdffcVbS1K5+fr64sKFC5g9ezZsbGxgY1N4abecnBzs378fd+7cqXAb44cPBwC85udXqVqpgiQ9f7EWOTlC/PmnEP/3f0L07StElSpCANqfBg2EGDdOiLAwIf76y+BNL1++vNRuAPx9+j5//nyDt03W4+zZs8Lb21solcpCXZkqlUosX7687Dt6+FCI3buFePddIdq0ETcAUR0QDxQKITw9hZg+XYh9+4R49Mh4b4Z02MVkLJcuac8SIiOBQ4eAlBSgbl3A2xvo3x8YOBBITn76nOPHgYwMoGlT7eP5z3F0rHAJFy9eRLt27ZCRkfHM5yqVShw+fBi9e/eucHtk3YQQWL9+Pd577z2kp6cjOzsbCoUCnTp1QkxMjP4X5eYCcXFPvwfHjgGZmYW+B19fvIg3vbyePkejAVQqwNPz6XfF2xsosiQ4VR4DwlAePgQOHwb27AEOHgQuXwaqVQN69Hj6Ie7UCShpDZknT4Bff336JYiN1T63Q4enr+/TByhhjZqicnNz0bNnT2g0Gt0EJn1sbW116+2//vrr+Oabbyrw5omeSk5OxvTp0xEWFgZAGxznz59/Oqem4MFTZCSQmgrUrw/07q39nP/jH0CjRrr9CSEKr710+zZw9Kj2tT//DFy7Bjg4AC+88PS70rmzKd+yxWJAVFRODnDixNMP+eHD2k6jgn/Qe/cGqlSp2P7v3tXuMzIS2L8fSEoCqlcHuncvU+AsXrwYs2fP1jubtUqVKsjMzESNGjUwcOBA+Pn5Yfjw4XjuuecqViuRHr/++ismTZqEs2fP4uMRI/Cpk1OFPsvPVDBwDhwAHjwAGjTQ7tfXF+jXD3B2NuybsxIMiPIo+EHct0971lCwS6h/f6BWLeO3ffAgcP9+4aOuIUOAhg0BAAkJCejQoYPuzEGhUMDGxgbZ2dlwcXHBiBEj4OvrC29v72J36iKqtAJnw9kHD+LL2FisBxDXqRMUFTgbLpeiB25Hjmi7sTp2fPod7dULsLc3fNsWiAFRmlu3tH2ikZHATz8BN24AtWsDffs+HSNwdTV9XUX7bY8eBbKygKZNkd2vHzrt349T165BqVRCCIGOHTvC398ffn5+aN26tenrJcuWl6ftEi1lPO1a69Z4rlEjOFZiTK1C0tOB339/WptaDVStCvTs+TQwOnYEeHc6vRgQBZnrh+nRIyAqCoiMxL/Cw/HZzZvoq1Dg5SZN4Ovri/rDhnEQjwzrWRdhDBoENGkidZXFyfWgT6asOyAs7HQ0MzMTBw4cQL+2bVE9JoaDeGQ4BS/CiIzUBkR5LsKQKym7jc2A9QVESQNavXo9HdQqYS16s8VBPCovY1+EIUcF3/Pu3dqz8qJXElrae34Gyw+IO3e0ZwY8mtaysLMmMiAeTReWnAz8739PLwwp76XrFsDyAuLxY+C33zippqzMddyFKo/98eVjruMulWD+AVGGmZh46SWA1/iXTcE/Gnv2AH/9xT8aloIHA4ZThiu3KrsSghyYZ0Dom4lZr5722mo9MzGpEtjtYL6KHjyxO9F4DLwSglyYR0BUclYxGQgH8eTPGi/CkCML+Zslz4Cw0DS2OBzEkx4vwjAP5VgJQU7kERBl6c8bMACoWdMgzV27dg1btmxBdHQ0UlJS4OTkBBcXF3h6emLAgAFo8PcR1qxZsxAVFQUAGDBgAObMmWOQ9k0tNzcXL774YomPL1iwAL169ap8Q88axBs8GGjcuPLtWDMTX4ShVquxY8cOnDlzBo8ePUK9evXQqFEjdO/eHT4+PnBwcAAADB48WHd70Q8//BBDhgwxSPtSu3nzJsaNGwchBA4dOmSYnZayEoLsxk2NvJx4yRIThVi1Sgh/fyGcnLT3RqhbV/vvVauESEoyeJN5eXli3rx5wt7eXvj7+4vvv/9e7N+/X4SFhYnAwEBhb28vAIjRo0cLIYQ4efKk2L17twAgxo4dW2hfV69eFcOHDxd79uwxeJ2Glp2dXer9IHbs2GH4RnNzhYiJEWLRIiH69xfC3l77/7hpUyEmTxYiIkKI+/cN366lyckp/HvMv5dIwd/jgwcGbzYtLU34+/uLatWqiffee09s375d7N27V6xatUoMHDhQABC2trZi2bJlQgghjh49KubPny8AiDVr1hTaV2RkpPDz8xMXL140eJ3G5uvrq7uvhdGkpwtx8KAQM2YI0bmzEAqFEDY22v+eMUP7WFaW8dovhekCIi1N+0bfeUf74QaEqFZN+6FftEj7JcjLM2oJ77zzjgAg1q9fr/fx3377TVSrVk307NlTty01NVVvQOzcuVMAEJMmTTJqzQXl35Tl22+/LdfrsrOzhb29vfjll1/0/ty9e9dIFRfw+HHxL4FKVfhLkJlp/DrMQcGDp1q1tN+VevWeHjxdu2bU5jMyMkTXrl1FrVq1xMmTJ/U+58svvxQAxJw5c3TbduzYoTcg3nvvPQFAfP/990atu6BNmzYJb29vERMTU+F9rFu3TjRu3FjUr1/fuAFR1K1b2uCfPFmIxo21//8dHAr/rTQR4wVEdnbhIx8bm+J/EDIyjNZ8UQcOHBAAxIgRI0p93ttvv12mgBBCiNjYWPH48WOD11qS6OjoYl/KssjOzhbVq1c3UlUVdOfO0y/B889rvwTVq5v0gEE2ZPa7mD17tgDwzDvBtWvXrkwBkZmZKdRqtVFqLcnSpUsFAHHw4MEKvf769euiVq1a4sCBA6JZs2amDYiiCh4wODoWP4O8d89oTRe+iWxllXZJ5OTJkl4SuXTpUgDA66+/Xurz/vWvf+H69etl2meHDh0qXZfVqlMH8PfX/gCFPzuLFgEzZ5rFIF6FlHYRxujRkl6EkZmZiWXLlsHW1hbjxo0r9bnbtm0rdh9qfezs7NCpUydDlWgSb7zxBkaOHIkBAwZIXYr2b+jkydqfoishjB1r1EuXKxcQpc3E/Owz2UyqyszMxNGjRwEA3bp1K/W5derUQZ06dUp9zvLly7F161YAQOvWrfH1118XevzRo0dYt24dDh8+jAcPHqBBgwYYOnQoXn31VSj/noRUdB///ve/8fnnn0Oj0cDJyQl+fn4YOXKkbp+zZs3CgQMHAADr16/H8ePHAQCdO3fG559/Xqbfw/79+xEREYHr16/D0dERPXv2xMSJE02/BLM+Bb8ERQfx3n4bCAqS5yBeWTzrIowZMwx6EUZlREVF4eHDh2jXrt0zbyClu0NcKSZNmoSLFy8CAAICAjB58uRCj1+/fh3ffvut7s6HzZo1w9ixY9G9e/cS99GrVy8sW7YMV65cQaNGjTBlyhR0LnCl1uDBg3H+/HkAwLRp01Dr74PSwMDAZ4YeAISGhuLMmTOIiIh45nNNzsZGe1Va587az03RyY+LFxt28mO5zjeKDqYAQlStWvhUODfXSCc7FZeYmCgACDs7u3K/Vl8X04ULF8Qvv/wiqlevLrp161bo+UlJScLd3V04OzuLL774QuzevVvMmTNH2NnZCV9fX5GTk1NsH23atBGDBw8WoaGhYteuXWLEiBECgFi5cqVuvydPnhQrV64UAMRrr72mGz+Ii4t75nvIH6R+6aWXxKpVq8SePXvEwoULhaOjo2jYsKGIj48v9+/FpGQ8iFciCS7CMITQ0FABQAwcOLDcr9XXxRQdHS3WrFkjAIgZM2YUev7+/fuFg4ODaN++vQgPDxfbt28XAQEBAoBYvHix3n0MGjRI+Pr6ioiICLF582bRvn17YWNjI06dOqV7/tGjR8WUKVMEAPHZZ5/pvitXrlx55nu4du2aqFmzpvjf//6n2yZ5F1N53Lz5tLvSxUX7uatd++nn7vLlcu2u9IAoegWFnZ22wdatn34xnzypxLsxjYSEBAFAODg4lPu1pY1BODo6FguIPn36CADi2LFjhbZ/8cUXAoD48ssvi+1DoVCIhIQE3bbHjx8LBwcH0aVLl0LPregYRF5envj111+LbddoNEKpVAoPDw+RK8NgL5GMBvF0ZHARhiF8/fXXAoAYOnRouV9b0hhEbGxssYBISUkRNWvWFLVr1xapqamFnj98+HChVCpFbGxssX00btxYZBU4GDh27JgAIKZPn15oHxUdgxg4cKCYOnVqoW1mFRBFFTxQqVGj+PhFSkqpLy9+3nH6NPDFF8DQodpT3i5dgFWrADc3YP164N497XMWLdKevpjBNP3atWsD0Hb95ObmGq2dS5cu4ejRo2jevHmxeQWjRo0CAN2N3AtydXWFh4eH7t9Vq1bF888/j6SkJIPUpVAo0KNHj2LbO3bsiN69e+PMmTOIjo42SFsmUa+eduxi1SrtDNWTJ4F587R99vPnaz+zzZppu6W2btXOxzC0jAztJMFZswAvL+13ZdAg4M8/gYAA7Sza1FTtpKgZM7RdAmYwYTD/u5KWlmbUdnbs2IH79+/j5ZdfRs0iXWujRo1CXl4e1q9fX+x1/fv3L3Sb3FatWgGAQb4rq1evxsWLF7F48eJK70s28rtuIyK0kyoPHtR+d9Rq7XhX3braia0ff6ydj/H3bYrzPR2DePIE+OorIDwcSEjQblOpgNdfB6ZM0c6IValM+dYMpk6dOnBzc8Ply5dx/vz5Qn+MDSkxMREAkJycDB8fH73PiY+PL7atbt26xbY5ODiUebC8Mpo2bYojR47g0qVLzxyfkSWFAmjXTvvzz39ql5dYsACIjwdWr9Ye1Hh7Ax99pB0bM4RLl7Rt7NmjXVIB0A66z5wJjBhh1it6du3aFQBw9uxZo7aT/105dOhQse/KgwcPAAAnT54s9rqi35X8iXpZWVmVrunTTz+FnZ1dsUl+N27cQG5urq5Os500a2//dFwiMRHYtEk7VhwVpf359ltg2DBg7lzdBSFPA6JqVe2RzowZwO3b2jTJn77/3XdmP33/tddew/z58/Hzzz+XGhDTp0/HuXPnsH379kJHKmWR/2F1dXVFSEhIic/Ly8vTDVZL7f79+wCA6tWrS1xJBZR2b4sZM4y3GF3TptrvBFD46quQEGDaNLNezPD5559H7969cezYMWg0mhKvPsrKysLLL7+Mdu3aYdGiReVuJ/+74uPjU+LA8bMGyQ0tIiIC2UWOoAFg7NixuHXrlu47Xa9ePZPWZRAVvSNgufux8q/DbdBA+++wMKNeh2soDx48EG5ubqJhw4bifgkzeE+cOCGUSmWh/szyjEE8efJEODo6ikaNGukGowv69NNPxcyZM0vdR75u3boJR0fHYvUB0O0jNTVVeHt7i0uXLpXyzoVYsGCBCA0NLbb9yZMnwsXFRdja2orbt2+Xug/ZkPNnUWZzfyoqOjpaVKlSRfj6+pb4nOXLlwsAhVYSKM8YRFRUlAAgxowZU2zfeXl54tVXXxWbNm0qdR9CaD/DAMSwYcMKbc+fyLdv3z4hhBC//PKL8PPzK8O7L84sxyAM9Fks/0S5og3b2gqhVBZuWKYD16dPnxaNGjUS3bp1KzQoLIQQhw4dEg0bNhS9e/cW6enpuu3lHaTOH+SbMWOGyM7O1m3fvn27sLe3131gS9uHEPoD4sGDB8LGxka3FMjevXtFtWrVnjlZb+zYscLFxaXQ1UoZGRkiMDCwUODI0u3b8huQLqt7957W7uZmVgPXmzdvFlWqVBETJ04UycnJuu3Z2dli5cqVwtbWVrz//vuFXlOegBBCiJEjRwqVSiW2b9+u25aVlSVmzZolnJ2dxc2bN5+5j5ICYu/evYWuBPzoo4+Ej49PBX4TZhQQlRyQ1qfyM6kfPjSrS1/v3Lkjpk6dKhwdHUWLFi3ECy+8IFxcXMRzzz0n3nvvPfHw4UPdc2fOnCl69uwpAIi6devqpu4vW7ZMeHt7C5VKJWrUqCG8vb0LHUmtXbtWNGzYUDg7O4uuXbsKNzc34ebmJiIiInTP2bBhQ7F9xMTEiNjYWOHt7S1q1KghVCqV8Pb2LnQk9fHHHwulUik6deokHB0ddWvhlObYsWNixIgRwt7eXrRs2VJ4eXmJ5557TtStW1d89tlnIk9Of6QePTK/S1rLyswufT1x4oTw9fUV1apVE56enqJLly6iZs2aokmTJmLFihWFnjto0CDRpk0bAUC0aNFCeHt7i5ycHBEYGCg6d+6suwLJ29tbXL9+XQihnWH94YcfimrVqokmTZqIbt26iTp16oju3buLEydO6Pb94YcfFttHTk6OWLt2rejdu7cAIJydnYW3t7c4e/asEEIbNAMGDBBVq1YVnTt3FrVr19Z7JV9JkpOThbe3t/D29tat0Zb/79OnTxvgt2sABS9pbdiw0pe06mP41VzN5DaGOTk5OHfuHO7fv4+aNWuiZcuWxWaFxsfHIzk5udA2T09PJCcnFxtAbtmypW4VWAAQQuDs2bNITU1F/fr14erqWmjc4erVq7h06VKxfSsUCsTFxRXa3qxZMzQusArqrVu3cPXqVbi6uuod4C5JdnY2kpKScOfOHTg7O6N58+bSj4VY6x0BzeiOZOnp6bhw4QKePHmC+vXro2nTpsWec+zYsWJXCHp7e0OtViM9Pb3Q9m7duqFq1aq6f2dmZiIhIQFZWVlo0qRJoe8RoB2sTilyJZq3tzeSkpJw5cqVQts7d+6MGjVqANB+BxMTE3H//n20atVKN+5RFllZWfjtt9/0PtapUyeTj48AkOSOgMZf7pt3JKOi9N0R0FKX1Sgr3gOFiirtIgwT3RHQtPeDKPqGDx8GhOAdySydhdxdy6T4O7NOpd0RcOhQ7cGTs7PJypH2hkG8I5ll4tGw4fGsyzLJ/I6A8rijXL5n3ZFs0CCznoRksUx8R0CrZ053JKPCTHxHwMqSV0AUZEaDeFaJYS4fjx5pZ8KayR8dq2LmF2HINyCKYreFtCo6E5NMr+hKCDLrtrB4z+oO/Mc/gEaNpK6yTMwnIIriIJ5x8YICy1HSwGf//oCvL9Cvn0kHPi2OBf8tMt+AKIqDeJXHS5ItnwwunTR7VtSbYTkBURAH8crGTCY1khFJMPnK7FjxRRiWGRBFcRBPi38M6Fl40KDFizAAWEtAFGUtg3jsTqDKspZuR16EoZd1BkRRljSIV9pMzPz3U2StG6IyKXjAsXu39qy8aN+7uVy4wIswyoQBUZS5HXXLfCYmWTBzWwnBWs6GDIgB8Sxy67c3s5mYZEXk1m/P8ZRKY0CUV8EP3Z49wF9/GfdDZ+YzMclKSbESgtwO5iwAA6KyjHHaakEzMYkAGGfuQNGDJ7l3B5shBoQhVXQQz4JnYhLpVdHPPC/CMCkGhDHdu/d0EC8yUjuI5+Cg7ZPt21fbXXXwIHDyJGBjA3Trpp1w078/0LWrdhuRNTh7VvtdyL+iKC0NaNxY+33o0AGIjtY+dvOm9oy8X7+nE9SaNZO6eovFgDClixefhsX//vf0UtoBA7Sh8fetEomsWk4O8OefTwMjNlZ7wFTwqjyVSuoqrQIDgoiI9OJwPhER6cWAICIivRgQRESklw2ALVIXQURE8vP/q/+U1Pb5KwgAAAAASUVORK5CYII=" style="display:block; margin: auto;" /></p>
+<ol type="1">
+<li><code>total(Client 5) = 1</code>, sending an email to a client only
+causes one client to receive an email.</li>
+<li><code>total(Client 4) = 1</code>, similarly.</li>
+</ol>
+<p>We can now compute <code>total(List 2)</code>:</p>
+<ol start="3" type="1">
+<li><code>total(List 2) = total(Client 5) + total(Client 4) = 1 + 1 = 2</code>.</li>
+</ol>
+<p>Similarly for <code>total(List 3)</code>:</p>
+<ol start="4" type="1">
+<li><code>total(List 3) = total(List 2) + total(Client 4) = 2 + 1 = 3</code>.</li>
+</ol>
+<p>Similarly for <code>total(List 1)</code>:</p>
+<ol start="5" type="1">
+<li><code>total(List 1) = total(List 2) + total(List 3) = 2 + 3 = 5</code>.</li>
+</ol>
+<p>And that’s the answer we are looking for! If we have an array of
+vertices in some appropriate order, what we are doing above is a simple
+case of dynamic programming.</p>
+<p>How do we obtain this appropriate order? The key is to exploit
+properties of DAGs; in particular, we want to visit only nodes whose
+successors have all been visited. This is known as a <a href="https://en.wikipedia.org/wiki/Topological_sorting">topological
+order</a> and it is guaranteed to exist for DAGs<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<h2 id="topological-sorting">Topological sorting</h2>
+<p>One way to obtain a topological order is with a Depth First Search.
+Here’s a C++ implementation<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> compute_topological_order<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  visited <span class="op">=</span> <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">bool</span><span class="op">&gt;(</span>num_addresses <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="kw">false</span><span class="op">);</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  dfs<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs<span class="op">(</span><span class="dt">int</span> visiting<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  visited<span class="op">[</span>visiting<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> next <span class="op">:</span> successor_vertices<span class="op">[</span>visiting<span class="op">])</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>visited<span class="op">[</span>next<span class="op">])</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      dfs<span class="op">(</span>next<span class="op">);</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  topologic_order<span class="op">.</span>push_back<span class="op">(</span>visiting<span class="op">);</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>This captures the idea described previously: visit all successors of
+a node first, then add the node itself to the topological order.</p>
+<h2 id="computing-the-solution">Computing the Solution</h2>
+<p>The number of emails can be computed as follows:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">auto</span> num_emails <span class="op">=</span> <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">uint64_t</span><span class="op">&gt;(</span>num_addresses <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> node <span class="op">:</span> topologic_order<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>is_client_email<span class="op">(</span>node<span class="op">))</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    num_emails<span class="op">[</span>node<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    num_emails<span class="op">[</span>node<span class="op">]</span> <span class="op">=</span> <span class="bu">std::</span>accumulate<span class="op">(</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>begin<span class="op">(</span>successor_vertices<span class="op">[</span>node<span class="op">]),</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>end<span class="op">(</span>successor_vertices<span class="op">[</span>node<span class="op">]),</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">uint64_t</span><span class="op">{</span><span class="dv">0</span><span class="op">},</span> <span class="co">// Initial value</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">[&amp;](</span><span class="kw">auto</span> sum<span class="op">,</span> <span class="kw">auto</span> next<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> <span class="op">(</span>sum <span class="op">+</span> num_emails<span class="op">[</span>next<span class="op">])</span> <span class="op">%</span> <span class="dv">1000000007</span><span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">});</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>spam_emails <span class="op">=</span> num_emails<span class="op">[</span><span class="dv">1</span><span class="op">];</span></span></code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>This was the easiest problem of the contest. I must admit it took me
+roughly three hours to come up with the final, correct implementation.
+Considering the fact that the contest lasts five hours and contains 13
+problems, most of which are harder than this, an inevitable conclusion
+comes to mind: those competitors are really good.</p>
+<p>Two important mistakes I made:</p>
+<ol type="1">
+<li>I fell for the trap of the naive solution. Doing a few sketches in
+paper would have been enough to prove that this was bound to fail. Also,
+pay attention to the problem statement, it had hints about the
+solution.</li>
+<li>I was trying to be clever and avoid a recursive implementation,
+doing an iterative implementation of DFS while calculating the number of
+emails sent at the same time. This was a mistake - simplicity first,
+always.</li>
+</ol>
+<p>It’s always humbling to face problems from this contest, as it
+reminds you of how little you know and how much better you can get.</p>
+<h2 id="complete-solution">Complete solution</h2>
+<p>This is the solution that I submitted to <a href="https://codeforces.com/gym/102428/problem/I">Codeforces</a>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstdint&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iterator&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;numeric&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Solver <span class="op">{</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  Solver<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    read_input<span class="op">();</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    compute_topological_order<span class="op">();</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    compute_solution<span class="op">();</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> read_input<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cin<span class="op"> &gt;&gt;</span> num_addresses <span class="op">&gt;&gt;</span> num_lists<span class="op">;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    successor_vertices<span class="op">.</span>resize<span class="op">(</span>num_addresses <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> num_lists<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> num_elements<span class="op">;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>      <span class="bu">std::</span>cin<span class="op"> &gt;&gt;</span> num_elements<span class="op">;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      <span class="bu">std::</span>copy_n<span class="op">(</span><span class="bu">std::</span>istream_iterator<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;(</span><span class="bu">std::</span>cin<span class="op">),</span> num_elements<span class="op">,</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                  <span class="bu">std::</span>back_inserter<span class="op">(</span>successor_vertices<span class="op">[</span>i<span class="op">]));</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> compute_topological_order<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    visited <span class="op">=</span> <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">bool</span><span class="op">&gt;(</span>num_addresses <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="kw">false</span><span class="op">);</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    dfs<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> dfs<span class="op">(</span><span class="dt">int</span> visiting<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    visited<span class="op">[</span>visiting<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> next <span class="op">:</span> successor_vertices<span class="op">[</span>visiting<span class="op">])</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="op">(!</span>visited<span class="op">[</span>next<span class="op">])</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>next<span class="op">);</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    topologic_order<span class="op">.</span>push_back<span class="op">(</span>visiting<span class="op">);</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> is_client_email<span class="op">(</span><span class="dt">int</span> index<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> index <span class="op">&gt;</span> num_lists<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> compute_solution<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    single_emails <span class="op">=</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>count_if<span class="op">(</span><span class="bu">std::</span>begin<span class="op">(</span>topologic_order<span class="op">),</span> <span class="bu">std::</span>end<span class="op">(</span>topologic_order<span class="op">),</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>                      <span class="op">[&amp;](</span><span class="kw">auto</span> address<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> is_client_email<span class="op">(</span>address<span class="op">);</span> <span class="op">});</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> num_emails <span class="op">=</span> <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">uint64_t</span><span class="op">&gt;(</span>num_addresses <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> node <span class="op">:</span> topologic_order<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="op">(</span>is_client_email<span class="op">(</span>node<span class="op">))</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        num_emails<span class="op">[</span>node<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>        num_emails<span class="op">[</span>node<span class="op">]</span> <span class="op">=</span> <span class="bu">std::</span>accumulate<span class="op">(</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>            <span class="bu">std::</span>begin<span class="op">(</span>successor_vertices<span class="op">[</span>node<span class="op">]),</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>            <span class="bu">std::</span>end<span class="op">(</span>successor_vertices<span class="op">[</span>node<span class="op">]),</span> <span class="dt">uint64_t</span><span class="op">{</span><span class="dv">0</span><span class="op">},</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>            <span class="op">[&amp;](</span><span class="kw">auto</span> sum<span class="op">,</span> <span class="kw">auto</span> next<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>              <span class="cf">return</span> <span class="op">(</span>sum <span class="op">+</span> num_emails<span class="op">[</span>next<span class="op">])</span> <span class="op">%</span> <span class="op">(</span><span class="dv">1000000000</span> <span class="op">+</span> <span class="dv">7</span><span class="op">);</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>            <span class="op">});</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    spam_emails <span class="op">=</span> num_emails<span class="op">[</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> num_addresses<span class="op">;</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> num_lists<span class="op">;</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>  <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&gt;</span> successor_vertices<span class="op">;</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>  <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> topologic_order<span class="op">;</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>  <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">bool</span><span class="op">&gt;</span> visited<span class="op">;</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint64_t</span> spam_emails<span class="op">;</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint64_t</span> single_emails<span class="op">;</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>  <span class="kw">auto</span> ans <span class="op">=</span> Solver<span class="op">{};</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>  <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> ans<span class="op">.</span>spam_emails <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span> <span class="op">&lt;&lt;</span> ans<span class="op">.</span>single_emails<span class="op">;</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Technically, this is the reverse of the topological
+order.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The <code>visited</code> vector is initialized with
+<code>num_addresses + 1</code> booleans, all initially set to false. The
+<code>+ 1</code> is there because the problem input is not 0 based.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>

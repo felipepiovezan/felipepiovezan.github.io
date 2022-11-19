@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2020-03-06" />
+  <title>Static Variables, Static Storage, Static Initialization, Constant Initialization, constinit, constexpr</title>
+  <style>
+html {
+line-height: 1.5;
+font-family: Georgia, serif;
+font-size: 20px;
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 1em;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+font-size: 85%;
+margin: 0;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style>
+.top_navbar {
+text-align:center;
+position:fixed;
+background-color: white;
+top: 0;
+left: 0;
+width: 100%;
+padding: 10px;
+}
+</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="top_navbar">
+  <a href="https://blog.piovezan.ca/">Home</a>
+  <!-- more links here -->
+</div>
+<header id="title-block-header">
+<h1 class="title">Static Variables, Static Storage, Static
+Initialization, Constant Initialization, <code>constinit</code>,
+<code>constexpr</code></h1>
+<p class="date">2020-03-06</p>
+</header>
+<p>In a recent discussion over Twitter, it was pointed out that
+optimizers failed to eliminate a function-scope static variable with no
+uses. This article explores why the optimizer struggles with such code
+patterns, how static variables are stored and initialized, and also how
+certain C++ keywords can help the optimizer do its job.</p>
+<p>Disclaimer: instead of inspecting x86 assembly for compiler output,
+we will look at LLVM’s Intermediate Representation (IR). It is almost
+always simpler to use IR:</p>
+<ul>
+<li>Operations and types are spelled out in familiar terms.</li>
+<li>The data section is easy to visualize.</li>
+<li>The compiler transformations we’re interested in are
+architecture-independent and happen before the compiler generates
+assembly.</li>
+<li>We get to see what the compiler does to obey the C++ standard much
+earlier: all the rules must be captured in the translation from C++ to
+IR and, from there on, all optimizations are game - the standard doesn’t
+exist anymore.</li>
+</ul>
+<p>Everything necessary about IR will be explained, but if you want to
+learn more, I presented <a href="https://www.youtube.com/watch?v=m8G_S5LwlTo">a tutorial</a> during
+an LLVM developer’s conference in 2019.</p>
+<h2 id="the-offending-code">The Offending Code</h2>
+<p>The original tweet used this example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> static_version<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> <span class="at">const</span> <span class="bu">std::</span>string<span class="op"> </span>unused_variable<span class="op">{</span><span class="st">&quot;static&quot;</span><span class="op">};</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> local_version<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> <span class="bu">std::</span>string<span class="op"> </span>unused_variable<span class="op">{</span><span class="st">&quot;local&quot;</span><span class="op">};</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>In the static case, <code>unused_variable</code> doesn’t get
+optimized away, but, in the local variable case, it does.</p>
+<p><code>std::string</code> has a complicated constructor, so let’s
+rewrite this code using the simplest class possible:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> State <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    State<span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> get_value<span class="op">(){</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> State optimize_me<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>It’s reasonable to expect that <code>State optimize_me</code> will be
+optimized away: it is a function-scope static variable with no uses.
+Unfortunately, both GCC and Clang fail to do so.</p>
+<p>To understand what’s going here, let’s look at the <a href="https://godbolt.org/z/AGa_4M">IR produced by Clang</a> without
+optimizations<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>First, a type <code>struct.State</code> is defined:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode llvm"><code class="sourceCode llvm"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">%struct.State</span> = <span class="kw">type</span> { <span class="dt">i8</span> }</span></code></pre></div>
+<p>Our C++ struct has no data members, and yet its equivalent in IR
+contains an 8-bit integer (<code>i8</code>). What is
+<code>sizeof(State)</code>? Having seen the IR, the answer is easy to
+guess: 1 byte <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p>Then, a global variable of that type is defined and initialized:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode llvm"><code class="sourceCode llvm"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">@_ZZ10get_value2vE11optimize_me</span> = <span class="kw">internal</span> <span class="kw">global</span> <span class="fu">%struct.State</span> zeroinitializer</span></code></pre></div>
+<p>Note that this variable is initialized with the
+<code>zeroinitializer</code> keyword. That means its memory region will
+be set to zero <strong>before the program starts</strong>. But we
+haven’t initialized our C++ variable at all! We’ll talk more about this
+later.</p>
+<p>There is another global variable in our module, with a very similar
+name:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode llvm"><code class="sourceCode llvm"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">@_ZGVZ10get_value2vE11optimize_me</span> = <span class="kw">internal</span> <span class="kw">global</span> <span class="dt">i8</span> <span class="dv">0</span></span></code></pre></div>
+<p>Note again how this variable is zero initialized, this time by
+writing <code>i8 0</code> (this is equivalent to
+<code>zeroinitializer</code>).</p>
+<p>This is very mysterious: an 8-bit integer that we never wrote in the
+original C++ code. Let’s look at the body of our <code>get_value</code>
+function to find out more:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode llvm"><code class="sourceCode llvm"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">define</span> <span class="dt">i32</span> <span class="fu">@_Z10get_valuev</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">%1</span> = <span class="kw">load</span> <span class="dt">i8</span>, <span class="dt">i8</span>* <span class="fu">@_ZGVZ10get_value2vE11optimize_me</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">%2</span> = <span class="kw">icmp</span> <span class="kw">eq</span> <span class="dt">i8</span> <span class="fu">%1</span>, <span class="dv">0</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">br</span> <span class="dt">i1</span> <span class="fu">%2</span>, <span class="dt">label</span> <span class="fu">%3</span>, <span class="dt">label</span> <span class="fu">%4</span></span></code></pre></div>
+<p>The first line loads the mysterious variable and the second line
+compares it to 0. If the value is zero, the code branches to this
+block:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode llvm"><code class="sourceCode llvm"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">call</span> <span class="dt">void</span> <span class="fu">@_ZN5StateC2Ev</span>(<span class="fu">%struct.State</span>* <span class="fu">@_ZZ10get_value2vE11optimize_me</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">store</span> <span class="dt">i8</span> <span class="dv">1</span>, <span class="dt">i8</span>* <span class="fu">@_ZGVZ10get_value2vE11optimize_me</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">br</span> <span class="dt">label</span> <span class="fu">%4</span></span></code></pre></div>
+<p>A function call with our static variable as its first argument – this
+is a call to <code>State</code>’s constructor! This is followed by an
+update to the value of the mysterious variable with a
+<code>store i8 1</code>.</p>
+<p>Afterwards, or if the original comparison to zero failed, code
+execution proceeds to <code>return 42</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode llvm"><code class="sourceCode llvm"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ret</span> <span class="dt">i32</span> <span class="dv">42</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>A visual representation can be found in the <a href="https://en.wikipedia.org/wiki/Control-flow_graph">control flow
+graph</a> for this function:</p>
+<p><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gR2VuZXJhdGVkIGJ5IGdyYXBodml6IHZlcnNpb24gMi40Mi4zICgwKQogLS0+Cgo8IS0tIFRpdGxlOiBDRkcgZm9yICYjMzk7X1o5Z2V0X3ZhbHVldiYjMzk7IGZ1bmN0aW9uIFBhZ2VzOiAxIC0tPgoKPHN2ZwogICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiCiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIKICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiCiAgIHhtbG5zOmlua3NjYXBlPSJodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy9uYW1lc3BhY2VzL2lua3NjYXBlIgogICB3aWR0aD0iNjg0cHQiCiAgIGhlaWdodD0iMzU0LjM2MnB0IgogICB2aWV3Qm94PSIwIDAgNjg0IDM1NC4zNjIiCiAgIHZlcnNpb249IjEuMSIKICAgaWQ9InN2Zzc3IgogICBzb2RpcG9kaTpkb2NuYW1lPSJjZmcuc3ZnIgogICBpbmtzY2FwZTp2ZXJzaW9uPSIwLjkyLjQgNWRhNjg5YzMxMywgMjAxOS0wMS0xNCI+CiAgPG1ldGFkYXRhCiAgICAgaWQ9Im1ldGFkYXRhODMiPgogICAgPHJkZjpSREY+CiAgICAgIDxjYzpXb3JrCiAgICAgICAgIHJkZjphYm91dD0iIj4KICAgICAgICA8ZGM6Zm9ybWF0PmltYWdlL3N2Zyt4bWw8L2RjOmZvcm1hdD4KICAgICAgICA8ZGM6dHlwZQogICAgICAgICAgIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiIC8+CiAgICAgICAgPGRjOnRpdGxlIC8+CiAgICAgIDwvY2M6V29yaz4KICAgIDwvcmRmOlJERj4KICA8L21ldGFkYXRhPgogIDxkZWZzCiAgICAgaWQ9ImRlZnM4MSIgLz4KICA8c29kaXBvZGk6bmFtZWR2aWV3CiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIgogICAgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IgogICAgIGJvcmRlcm9wYWNpdHk9IjEiCiAgICAgb2JqZWN0dG9sZXJhbmNlPSIxMCIKICAgICBncmlkdG9sZXJhbmNlPSIxMCIKICAgICBndWlkZXRvbGVyYW5jZT0iMTAiCiAgICAgaW5rc2NhcGU6cGFnZW9wYWNpdHk9IjAiCiAgICAgaW5rc2NhcGU6cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjE5MTYiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iMTA0NSIKICAgICBpZD0ibmFtZWR2aWV3NzkiCiAgICAgc2hvd2dyaWQ9ImZhbHNlIgogICAgIGZpdC1tYXJnaW4tdG9wPSIxNSIKICAgICBmaXQtbWFyZ2luLWxlZnQ9IjE1IgogICAgIGZpdC1tYXJnaW4tcmlnaHQ9IjE1IgogICAgIGZpdC1tYXJnaW4tYm90dG9tPSIxNSIKICAgICBpbmtzY2FwZTp6b29tPSIwLjg0NzI0NDQzIgogICAgIGlua3NjYXBlOmN4PSIyMjYuMDU4NDMiCiAgICAgaW5rc2NhcGU6Y3k9IjE3My41NTQ4NCIKICAgICBpbmtzY2FwZTp3aW5kb3cteD0iMCIKICAgICBpbmtzY2FwZTp3aW5kb3cteT0iMTYiCiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMCIKICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjIiIC8+CiAgPGcKICAgICBpbmtzY2FwZTpncm91cG1vZGU9ImxheWVyIgogICAgIGlkPSJsYXllcjIiCiAgICAgaW5rc2NhcGU6bGFiZWw9ImJnIj4KICAgIDxyZWN0CiAgICAgICBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO3N0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDowLjc1O3N0cm9rZS1vcGFjaXR5OjAuMDExNjI3OTIiCiAgICAgICBpZD0icmVjdDkzNCIKICAgICAgIHdpZHRoPSI2OTYuMDUyOTgiCiAgICAgICBoZWlnaHQ9IjM2NC4zMDExNSIKICAgICAgIHg9Ii0xLjI1MTg5NCIKICAgICAgIHk9Ii0zLjY3OTY2NzUiIC8+CiAgPC9nPgogIDxnCiAgICAgaWQ9ImdyYXBoMCIKICAgICBjbGFzcz0iZ3JhcGgiCiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTUuNSwzMzkuODYyMDIpIj4KICAgIDx0aXRsZQogICAgICAgaWQ9InRpdGxlMiI+Q0ZHIGZvciAnX1o5Z2V0X3ZhbHVldicgZnVuY3Rpb248L3RpdGxlPgogICAgPCEtLSBOb2RlMHg1NWUxOTFlN2NhZDAgLS0+CiAgICA8IS0tIE5vZGUweDU1ZTE5MWU3Y2NkMCAtLT4KICAgIDwhLS0gTm9kZTB4NTVlMTkxZTdjYWQwJiM0NTsmZ3Q7Tm9kZTB4NTVlMTkxZTdjY2QwIC0tPgogICAgPCEtLSBOb2RlMHg1NWUxOTFlN2NkMjAgLS0+CiAgICA8IS0tIE5vZGUweDU1ZTE5MWU3Y2FkMCYjNDU7Jmd0O05vZGUweDU1ZTE5MWU3Y2QyMCAtLT4KICAgIDwhLS0gTm9kZTB4NTVlMTkxZTdjY2QwJiM0NTsmZ3Q7Tm9kZTB4NTVlMTkxZTdjZDIwIC0tPgogIDwvZz4KICA8ZwogICAgIGlua3NjYXBlOmdyb3VwbW9kZT0ibGF5ZXIiCiAgICAgaWQ9ImxheWVyMSIKICAgICBpbmtzY2FwZTpsYWJlbD0iTGF5ZXIgMSIKICAgICBzdHlsZT0iZGlzcGxheTppbmxpbmUiPgogICAgPHRleHQKICAgICAgIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1LjUsMzM5Ljg2MjAyKSIKICAgICAgIHg9IjM0MyIKICAgICAgIHk9Ii0zMTUuMzAwMDIiCiAgICAgICBmb250LXNpemU9IjE0LjAwIgogICAgICAgaWQ9InRleHQ2IgogICAgICAgc3R5bGU9ImZvbnQtc2l6ZToxNHB4O2ZvbnQtZmFtaWx5OlRpbWVzLCBzZXJpZjt0ZXh0LWFuY2hvcjptaWRkbGUiPkNGRyBmb3IgJ2dldF92YWx1ZScgZnVuY3Rpb248L3RleHQ+CiAgICA8ZwogICAgICAgaWQ9Im5vZGUxIgogICAgICAgY2xhc3M9Im5vZGUiCiAgICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNS41LDM2Mi4zNjIwMikiPgogICAgICA8dGl0bGUKICAgICAgICAgaWQ9InRpdGxlOCI+Tm9kZTB4NTVlMTkxZTdjYWQwPC90aXRsZT4KICAgICAgPHBvbHlnb24KICAgICAgICAgcG9pbnRzPSI2NTMsLTMyNC41IDY1MywtMjMzLjUgMjQxLC0yMzMuNSAyNDEsLTMyNC41ICIKICAgICAgICAgaWQ9InBvbHlnb24xMCIKICAgICAgICAgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6IzAwMDAwMCIgLz4KICAgICAgPHRleHQKICAgICAgICAgeD0iMjQ5IgogICAgICAgICB5PSItMjk0LjI5OTk5IgogICAgICAgICBmb250LXNpemU9IjE0LjAwIgogICAgICAgICBpZD0idGV4dDE0IgogICAgICAgICBzdHlsZT0iZm9udC1zaXplOjE0cHg7Zm9udC1mYW1pbHk6VGltZXMsIHNlcmlmO3RleHQtYW5jaG9yOnN0YXJ0Ij4lMSA9IGxvYWQgaTgsIGk4KiBAX1pHVlo5Z2V0X3ZhbHVldkUxMW9wdGltaXplX21lPC90ZXh0PgogICAgICA8dGV4dAogICAgICAgICB4PSIyNDkiCiAgICAgICAgIHk9Ii0yNzkuMjk5OTkiCiAgICAgICAgIGZvbnQtc2l6ZT0iMTQuMDAiCiAgICAgICAgIGlkPSJ0ZXh0MTYiCiAgICAgICAgIHN0eWxlPSJmb250LXNpemU6MTRweDtmb250LWZhbWlseTpUaW1lcywgc2VyaWY7dGV4dC1hbmNob3I6c3RhcnQiPiUyID0gaWNtcCBlcSBpOCAlMSwgMDwvdGV4dD4KICAgICAgPHRleHQKICAgICAgICAgeD0iMjQ5IgogICAgICAgICB5PSItMjY0LjI5OTk5IgogICAgICAgICBmb250LXNpemU9IjE0LjAwIgogICAgICAgICBpZD0idGV4dDE4IgogICAgICAgICBzdHlsZT0iZm9udC1zaXplOjE0cHg7Zm9udC1mYW1pbHk6VGltZXMsIHNlcmlmO3RleHQtYW5jaG9yOnN0YXJ0Ij5iciBpMSAlMiwgbGFiZWwgJTMsIGxhYmVsICU0PC90ZXh0PgogICAgICA8cG9seWxpbmUKICAgICAgICAgcG9pbnRzPSIyNDEsLTI1Ni41IDY1MywtMjU2LjUgIgogICAgICAgICBpZD0icG9seWxpbmUyMCIKICAgICAgICAgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6IzAwMDAwMCIgLz4KICAgICAgPHRleHQKICAgICAgICAgeD0iMzQ0IgogICAgICAgICB5PSItMjQxLjMiCiAgICAgICAgIGZvbnQtc2l6ZT0iMTQuMDAiCiAgICAgICAgIGlkPSJ0ZXh0MjIiCiAgICAgICAgIHN0eWxlPSJmb250LXNpemU6MTRweDtmb250LWZhbWlseTpUaW1lcywgc2VyaWY7dGV4dC1hbmNob3I6bWlkZGxlIj5UPC90ZXh0PgogICAgICA8cG9seWxpbmUKICAgICAgICAgcG9pbnRzPSI0NDcsLTIzMy41IDQ0NywtMjU2LjUgIgogICAgICAgICBpZD0icG9seWxpbmUyNCIKICAgICAgICAgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6IzAwMDAwMCIgLz4KICAgICAgPHRleHQKICAgICAgICAgeD0iNTUwIgogICAgICAgICB5PSItMjQxLjMiCiAgICAgICAgIGZvbnQtc2l6ZT0iMTQuMDAiCiAgICAgICAgIGlkPSJ0ZXh0MjYiCiAgICAgICAgIHN0eWxlPSJmb250LXNpemU6MTRweDtmb250LWZhbWlseTpUaW1lcywgc2VyaWY7dGV4dC1hbmNob3I6bWlkZGxlIj5GPC90ZXh0PgogICAgPC9nPgogICAgPGcKICAgICAgIGlkPSJnODYxIj4KICAgICAgPGcKICAgICAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTUuNSwzNjIuMzYyMDIpIgogICAgICAgICBjbGFzcz0ibm9kZSIKICAgICAgICAgaWQ9Im5vZGUyIj4KICAgICAgICA8dGl0bGUKICAgICAgICAgICBpZD0idGl0bGUyOSI+Tm9kZTB4NTVlMTkxZTdjY2QwPC90aXRsZT4KICAgICAgICA8cG9seWdvbgogICAgICAgICAgIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDAiCiAgICAgICAgICAgaWQ9InBvbHlnb24zMSIKICAgICAgICAgICBwb2ludHM9IjAsLTExMy41IDAsLTE5Ni41IDU3OCwtMTk2LjUgNTc4LC0xMTMuNSAiCiAgICAgICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMC44MDE1MDM1NiwwLDAsMS4wMDEzODQzLC0wLjA2ODU1NzYzLDAuMjE0NTU0NzIpIiAvPgogICAgICAgIDx0ZXh0CiAgICAgICAgICAgc3R5bGU9ImZvbnQtc2l6ZToxNHB4O2ZvbnQtZmFtaWx5OlRpbWVzLCBzZXJpZjt0ZXh0LWFuY2hvcjpzdGFydCIKICAgICAgICAgICBpZD0idGV4dDMzIgogICAgICAgICAgIGZvbnQtc2l6ZT0iMTQuMDAiCiAgICAgICAgICAgeT0iLTE4MS4zIgogICAgICAgICAgIHg9IjgiPiUzOjwvdGV4dD4KICAgICAgICA8dGV4dAogICAgICAgICAgIHN0eWxlPSJmb250LXNpemU6MTRweDtmb250LWZhbWlseTpUaW1lcywgc2VyaWY7dGV4dC1hbmNob3I6c3RhcnQiCiAgICAgICAgICAgaWQ9InRleHQzNyIKICAgICAgICAgICBmb250LXNpemU9IjE0LjAwIgogICAgICAgICAgIHk9Ii0xNTAuMDQ4MTEiCiAgICAgICAgICAgeD0iOCI+Y2FsbCB2b2lkIEBfWk41U3RhdGVDMkV2KCVzdHJ1Y3QuU3RhdGUqIEBfWlo5Z2V0X3ZhbHVldkUxMW9wdGltaXplX21lKTwvdGV4dD4KICAgICAgICA8dGV4dAogICAgICAgICAgIHN0eWxlPSJmb250LXNpemU6MTRweDtmb250LWZhbWlseTpUaW1lcywgc2VyaWY7dGV4dC1hbmNob3I6c3RhcnQiCiAgICAgICAgICAgaWQ9InRleHQzOSIKICAgICAgICAgICBmb250LXNpemU9IjE0LjAwIgogICAgICAgICAgIHk9Ii0xMzYuMyIKICAgICAgICAgICB4PSI4Ij5zdG9yZSBpOCAxLCBpOCogQF9aR1ZaOWdldF92YWx1ZXZFMTFvcHRpbWl6ZV9tZTwvdGV4dD4KICAgICAgICA8dGV4dAogICAgICAgICAgIHN0eWxlPSJmb250LXNpemU6MTRweDtmb250LWZhbWlseTpUaW1lcywgc2VyaWY7dGV4dC1hbmNob3I6c3RhcnQiCiAgICAgICAgICAgaWQ9InRleHQ0MSIKICAgICAgICAgICBmb250LXNpemU9IjE0LjAwIgogICAgICAgICAgIHk9Ii0xMjEuMyIKICAgICAgICAgICB4PSI4Ij5iciBsYWJlbCAlNDwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgogICAgPGcKICAgICAgIGlkPSJlZGdlMSIKICAgICAgIGNsYXNzPSJlZGdlIgogICAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTUuNSwzNjIuMzYyMDIpIj4KICAgICAgPHRpdGxlCiAgICAgICAgIGlkPSJ0aXRsZTQ0Ij5Ob2RlMHg1NWUxOTFlN2NhZDA6czAtJmd0O05vZGUweDU1ZTE5MWU3Y2NkMDwvdGl0bGU+CiAgICAgIDxwYXRoCiAgICAgICAgIGQ9Im0gMzQ0LC0yMzMgYyAwLDkuNzUgLTIuOTYsMTkuMTMgLTcuNSwyNy43NyIKICAgICAgICAgaWQ9InBhdGg0NiIKICAgICAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIKICAgICAgICAgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6IzAwMDAwMCIgLz4KICAgICAgPHBvbHlnb24KICAgICAgICAgcG9pbnRzPSIzMzkuNCwtMjAzLjI3IDMzMS4yNCwtMTk2LjUxIDMzMy40LC0yMDYuODggIgogICAgICAgICBpZD0icG9seWdvbjQ4IgogICAgICAgICBzdHlsZT0iZmlsbDojMDAwMDAwO3N0cm9rZTojMDAwMDAwIiAvPgogICAgPC9nPgogICAgPGcKICAgICAgIGlkPSJub2RlMyIKICAgICAgIGNsYXNzPSJub2RlIgogICAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTUuNSwzNjIuMzYyMDIpIj4KICAgICAgPHRpdGxlCiAgICAgICAgIGlkPSJ0aXRsZTUxIj5Ob2RlMHg1NWUxOTFlN2NkMjA8L3RpdGxlPgogICAgICA8cG9seWdvbgogICAgICAgICBwb2ludHM9IjQ5MywtMjMuNSA0MDEsLTIzLjUgNDAxLC03Ni41IDQ5MywtNzYuNSAiCiAgICAgICAgIGlkPSJwb2x5Z29uNTMiCiAgICAgICAgIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDAiIC8+CiAgICAgIDx0ZXh0CiAgICAgICAgIHg9IjQwOSIKICAgICAgICAgeT0iLTYxLjI5OTk5OSIKICAgICAgICAgZm9udC1zaXplPSIxNC4wMCIKICAgICAgICAgaWQ9InRleHQ1NSIKICAgICAgICAgc3R5bGU9ImZvbnQtc2l6ZToxNHB4O2ZvbnQtZmFtaWx5OlRpbWVzLCBzZXJpZjt0ZXh0LWFuY2hvcjpzdGFydCI+JTQ6PC90ZXh0PgogICAgICA8dGV4dAogICAgICAgICB4PSI0MDkiCiAgICAgICAgIHk9Ii0zNy4yOTk5OTkiCiAgICAgICAgIGZvbnQtc2l6ZT0iMTQuMDAiCiAgICAgICAgIGlkPSJ0ZXh0NTkiCiAgICAgICAgIHN0eWxlPSJmb250LXNpemU6MTRweDtmb250LWZhbWlseTpUaW1lcywgc2VyaWY7dGV4dC1hbmNob3I6c3RhcnQiPnJldCBpMzIgNDI8L3RleHQ+CiAgICA8L2c+CiAgICA8ZwogICAgICAgaWQ9ImVkZ2UyIgogICAgICAgY2xhc3M9ImVkZ2UiCiAgICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNS41LDM2Mi4zNjIwMikiPgogICAgICA8dGl0bGUKICAgICAgICAgaWQ9InRpdGxlNjIiPk5vZGUweDU1ZTE5MWU3Y2FkMDpzMS0mZ3Q7Tm9kZTB4NTVlMTkxZTdjZDIwPC90aXRsZT4KICAgICAgPHBhdGgKICAgICAgICAgZD0ibSA1NTAsLTIzMyBjIDAsMjIuOTQgMjguMDcsMTQuODYgMzcsMzYgMTQuNTIsMzQuMzkgMjAuMzYsNTIuNzEgMCw4NCAtMTguNSwyOC40MiAtNTMuMzMsNDMuOTIgLTgzLjYyLDUyLjMxIgogICAgICAgICBpZD0icGF0aDY0IgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgICBzdHlsZT0iZmlsbDpub25lO3N0cm9rZTojMDAwMDAwIiAvPgogICAgICA8cG9seWdvbgogICAgICAgICBwb2ludHM9IjUwMi4xMywtNjMuOTkgNTAzLjg3LC01Ny4yMSA0OTMuMzEsLTU4LjExICIKICAgICAgICAgaWQ9InBvbHlnb242NiIKICAgICAgICAgc3R5bGU9ImZpbGw6IzAwMDAwMDtzdHJva2U6IzAwMDAwMCIgLz4KICAgIDwvZz4KICAgIDxnCiAgICAgICBpZD0iZWRnZTMiCiAgICAgICBjbGFzcz0iZWRnZSIKICAgICAgIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1LjUsMzYyLjM2MjAyKSI+CiAgICAgIDx0aXRsZQogICAgICAgICBpZD0idGl0bGU2OSI+Tm9kZTB4NTVlMTkxZTdjY2QwLSZndDtOb2RlMHg1NWUxOTFlN2NkMjA8L3RpdGxlPgogICAgICA8cGF0aAogICAgICAgICBkPSJtIDM1MS40NSwtMTEzLjI5IGMgMTUuODYsMTAuMzQgMzIuNjUsMjEuMjkgNDcuNjcsMzEuMDciCiAgICAgICAgIGlkPSJwYXRoNzEiCiAgICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiCiAgICAgICAgIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDAiIC8+CiAgICAgIDxwb2x5Z29uCiAgICAgICAgIHBvaW50cz0iNDA3LjczLC03Ni42IDM5Ny40NCwtNzkuMTMgNDAxLjI2LC04NC45OSAiCiAgICAgICAgIGlkPSJwb2x5Z29uNzMiCiAgICAgICAgIHN0eWxlPSJmaWxsOiMwMDAwMDA7c3Ryb2tlOiMwMDAwMDAiIC8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4K" /></p>
+<p>This example illustrates the code generated in order to initialize
+function-scope static variables. The compiler must guarantee that the
+constructor is called exactly once: during the first time execution
+passes through the static variable declaration. This is accomplished
+with the pattern:</p>
+<ul>
+<li>Global counter initialized to 0</li>
+<li>If counter is zero:
+<ul>
+<li>Call constructor.</li>
+<li>Set counter to 1.</li>
+</ul></li>
+</ul>
+<h2 id="optimized-code">Optimized Code</h2>
+<p>Is the optimizer able to remove all of the code in that function? <a href="https://godbolt.org/z/KMCFPD">Take a look</a>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode llvm"><code class="sourceCode llvm"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">@_ZGVZ9get_valuevE11optimize_me</span> = <span class="kw">internal</span> unnamed_addr <span class="kw">global</span> <span class="dt">i1</span> <span class="kw">false</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">define</span> <span class="dt">i32</span> <span class="fu">@_Z9get_valuev</span>() {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">%1</span> = <span class="kw">load</span> <span class="dt">i1</span>, <span class="dt">i1</span>* <span class="fu">@_ZGVZ9get_valuevE11optimize_me</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">br</span> <span class="dt">i1</span> <span class="fu">%1</span>, <span class="dt">label</span> <span class="fu">%3</span>, <span class="dt">label</span> <span class="fu">%2</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>:</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">store</span> <span class="dt">i1</span> <span class="kw">true</span>, <span class="dt">i1</span>* <span class="fu">@_ZGVZ9get_valuevE11optimize_me</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">br</span> <span class="dt">label</span> <span class="fu">%3</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>:</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ret</span> <span class="dt">i32</span> <span class="dv">42</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Note that the optimizer:</p>
+<ol type="1">
+<li>Deleted the static variable.</li>
+<li>Deleted the call to its constructor.</li>
+<li>Transformed the global counter into a boolean (from <code>i8</code>
+to <code>i1</code>).</li>
+<li>Failed to optimize away this global boolean.</li>
+</ol>
+<p>Point #4 is a hard problem because the counter will make the first
+call to <code>get_value</code> take a different code path from
+subsequent calls. Furthermore, the two paths have distinct behaviors:
+one writes to a global variable, the other doesn’t. To delete the
+counter:</p>
+<ol type="1">
+<li>The optimizer needs to prove that the change in the
+<strong>counter’s value</strong> isn’t meaningful to the program.</li>
+<li>But it is meaningful because it affects control flow inside
+<code>get_value</code>.</li>
+<li>So the optimizer needs to prove that control flow inside
+<code>get_value</code> isn’t meaningful to the program.</li>
+<li>But it is meaningful because control flow affects the
+<strong>counter’s value</strong>, a global variable.</li>
+</ol>
+<p>… And now we’re stuck in a loop! It’s not an unsolvable problem, but
+it illustrates challenges the optimizer can’t overcome right now<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p>This situation gets worse if the constructor call isn’t as simple as
+an empty function. Our motivating example, <code>std::string</code>,
+definitely doesn’t have a simple constructor.</p>
+<h2 id="can-we-do-better">Can We Do Better?</h2>
+<p>We can help the compiler by expressing our intent more appropriately.
+But first, we need to understand how static variables are
+initialized.</p>
+<h3 id="static-storage">Static Storage</h3>
+<p>Static variables have what is known as static storage:</p>
+<blockquote>
+<p>The storage for the object is allocated when the program begins and
+deallocated when the program ends. Only one instance of the object
+exists. [<a href="https://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration">storage
+duration</a>]</p>
+</blockquote>
+<p>In practice, the storage for static variables is in the data segment
+of the program, in other words, the storage is available when the
+program is <em>loaded</em>. Moreover, the initial contents of that
+memory region are also specified in the data segment and available when
+the program is <em>loaded</em>; but what are those contents and can we
+influence them?</p>
+<h3 id="zero-or-constant-initialization">Zero or Constant
+Initialization</h3>
+<p>Let’s look at what cppreference tells us (emphasis mine):</p>
+<blockquote>
+<p>Variables declared at block scope with the specifier static […] are
+initialized the first time control passes through their declaration
+(<strong>unless their initialization is zero - or constant -
+initialization</strong>, which can be performed before the block is
+first entered) . [<a href="https://en.cppreference.com/w/cpp/language/storage_duration#Static_local_variables">static
+local variables</a>]</p>
+</blockquote>
+<p>Zero-initialization is what it sounds like: when the program is
+loaded, that region of memory gets zero initialized. If other
+initialization is necessary, like running constructors or evaluating
+constructor arguments, it will happen at runtime. Not very exciting.</p>
+<p>Constant-initialization, when possible, happens instead of
+zero-initialization. As with anything C++, the details are difficult to
+pin down, but it comes down to having a constant expression initializing
+the static variable. Cppreference uses the following notation to explain
+this idea:</p>
+<blockquote>
+<p><code>static T object = constexpr;</code></p>
+</blockquote>
+<p>The interesting observation is that constant-initialization removes
+the need for runtime initialization.</p>
+<h3 id="constant-initialization-to-the-rescue">Constant Initialization
+to the Rescue!</h3>
+<p>Let’s make our <code>State</code> class more complicated, disable all
+optimizations, but have a <code>constexpr</code> constructor:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> State <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constexpr</span> State<span class="op">(</span><span class="dt">char</span> c1<span class="op">,</span> <span class="dt">char</span> c2<span class="op">,</span> <span class="dt">char</span> c3<span class="op">)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">:</span> value1<span class="op">{</span>c1<span class="op">},</span> value2<span class="op">{</span>c2<span class="op">},</span> value3<span class="op">{</span>c3<span class="op">}</span> <span class="op">{}</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">char</span> value1<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">char</span> value2<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">char</span> value3<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> get_value<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> State optimize_me<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>constexpr</code> functions denote functions that <em>can</em>
+be evaluated at compile time if the function is called with compile time
+constant arguments.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>Because the static variable is initialized with a constant
+expression, the IR for this function is simpler:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode llvm"><code class="sourceCode llvm"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">@_ZZ9get_valuevE11optimize_me</span> = <span class="kw">internal</span> <span class="kw">global</span> <span class="fu">%struct.State</span> { <span class="dt">i8</span> <span class="dv">1</span>, <span class="dt">i8</span> <span class="dv">2</span>, <span class="dt">i8</span> <span class="dv">3</span> }</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">define</span> <span class="dt">i32</span> <span class="fu">@_Z10get_valuev</span>() {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ret</span> <span class="dt">i32</span> <span class="dv">42</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>To emphasize, this happens with no optimizations, this is a built-in
+mechanism of the language, not a compiler transformation. <a href="https://godbolt.org/z/Y7cGqx">See for yourself</a>!</p>
+<p>What happened here? Constant initialization took place, because we
+have a constant expression initializing the <code>optimize_me</code>
+variable.</p>
+<p>In the non-<code>constexpr</code> version, the variable in IR
+corresponding to the C++ static variable was initialized by
+<code>zeroinitializer</code>, and inside the <code>get_value</code>
+function we had a constructor call wrapped in boilerplate, ensuring the
+variable was initialized once. In other words, <strong>zero
+initialization + runtime initialization</strong> took place.</p>
+<p>In the <code>constexpr</code> version, all the boilerplate is gone
+because <strong>constant initialization happened instead of
+zero-initialization + runtime initialization</strong>. This is the core
+idea here: enabling constant initialization causes simpler code to be
+generated. It’s not an optimization, it’s different code generation.</p>
+<p>The generated assembly contains the already-initialized variable in
+the data segment of the program:</p>
+<pre><code>        .data
+get_value()::optimize_me:
+        .byte   1
+        .byte   2
+        .byte   3
+        .size   get_value()::optimize_me, 3</code></pre>
+<p>With optimizations enabled, the static variable will be completely
+removed.</p>
+<h2 id="dont-let-slow-code-compile">Don’t Let Slow Code Compile</h2>
+<p>C++20 adds a new keyword <code>constinit</code> to ensure a variable
+must be constant initialized, otherwise the program is ill-formed. For
+example, the following code does not compile:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> State <span class="op">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  State<span class="op">(</span><span class="dt">char</span> c1<span class="op">,</span> <span class="dt">char</span> c2<span class="op">,</span> <span class="dt">char</span> c3<span class="op">)</span> <span class="op">:</span> value1<span class="op">{</span>c1<span class="op">},</span> value2<span class="op">{</span>c2<span class="op">},</span> value3<span class="op">{</span>c3<span class="op">}</span> <span class="op">{}</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">char</span> value1<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">char</span> value2<span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">char</span> value3<span class="op">;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> get_value<span class="op">(){</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constinit</span> <span class="at">static</span> State optimize_me<span class="op">(</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="op">);</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Note the absence of a <code>constexpr</code> constructor.</p>
+<p>This is desirable because it prevents inefficient code from
+compiling. If we make <code>State</code>’s constructor
+<code>constexpr</code>, the program is now legal and uses efficient
+constant initialization. <a href="https://godbolt.org/z/TxrgSv">Godbolt
+link</a></p>
+<h2 id="but-we-cant-constexpr-all-the-things">But We Can’t
+<code>constexpr</code> All The Things</h2>
+<p>The original example dealt with a <code>std::string</code> static
+variable, whose constructor may perform dynamic memory allocation, which
+is not allowed in <code>constexpr</code> contexts. This is lifted in
+C++20 and most methods of <code>std::string</code> are made
+<code>constexpr</code> thanks to <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p0980r1.pdf">Louis
+Dionne’s paper</a>.</p>
+<p>Edit (2020-03-21): As Jason Turner pointed out on Twitter,
+<code>constexpr</code> dynamic allocation, while allowed in C++ 20,
+still needs to be freed in the same <code>constexpr</code> context that
+allocated it. This implies that big <code>constexpr</code> strings are
+not going to be allowed.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Understanding how <code>static</code> variable initialization works
+enables us to understand its associated costs and how to avoid them
+through constant initialization. Furthermore, by expressing our intent
+to the compiler, it’s possible to ensure a compilation error when code
+changes trigger inefficient initialization; this is accomplished by
+marking the static variable as <code>constinit</code>.</p>
+<p>Using LLVM IR to inspect code makes it simpler to explore
+architecture-agnostic missed optimizations. In the case explored here,
+there is no reason why a static variable should be optimized away when
+targeting x86, but not when targeting ARM, for instance.</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>We’re compiling the code without support for thread-safe
+static initialization to keep things simple. However, most of our
+conclusions still hold if we enable thread safe statics.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>If you’re curious why, the creator of C++ answers it in
+<a href="http://www.stroustrup.com/bs_faq2.html#sizeof-empty">his
+website</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Other challenges are possible. For example, if this
+function gets inlined elsewhere, we will have multiple functions
+accessing the same global variable and the compiler will struggle
+reasoning about this. Note also that we don’t have to consider other
+translation units because static variables have internal linkage, that
+is, they can only be accessed from the translation unit in which it is
+defined; this is represented by the <code>internal</code> keyword in
+IR.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Note the emphasis on “<em>can</em>”: it doesn’t mean it
+will be. An intuitive rule here is that the compiler will do it if
+compile-time evaluation of the function is required to perform semantic
+analysis of the program, or if the standard requires it, as is the case
+for constant initialization. There is a stronger keyword -
+<code>consteval</code> - that, when applied to a function, makes it is a
+compile-time error to not evaluate calls at compile time.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
