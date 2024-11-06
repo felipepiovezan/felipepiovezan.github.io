@@ -10,23 +10,25 @@ what compilers do and how they are structured.
 # Compilers and Transformations
 
 In essence, a compiler takes a program written in some source language and
-_transforms_ it into an executable program. This _transformation_ has a key
-property: it preserves some kind of behavior.
+_transforms_ it into an executable program; this _transformation_ has a key
+property: it preserves behavior defined by the source language.
 
-For example, a program written in C++ describes what happens in some abstract
+For example, a program written in C++ describes what happens in the abstract
 machine defined by the C++ standard. When the compiler _transforms_ this
 program into a program for a real world machine, it must ensure that the real
-world machine will behave like the C++ abstract machine does.
+world machine will behave like the C++ abstract machine would.
 
 ![](behavior_preserving_transformation.svg){style="display:block; margin: auto;"}
 
 ## Many Transformations
 
-In reality, the compiler performs many such behaviour-preserving
-_transformations_ before producing the final program, using different
-representations along the way. Let's look at one possible flow that an
-LLVM-based compiler may follow; don't worry about the names of each stage,
-we're interested in the fact that they exist, and where the IR is located.
+In reality, the compiler performs many behaviour-preserving _transformations_
+before producing the final program; along the way, it uses many different
+representations for the program, like graphs, high-level instruction sequences,
+and real machine instructions. Let's look at one possible flow that an
+LLVM-based compiler may follow; don't worry about the names of each stage, as
+we're only interested in the fact that they exist, and where _the_ IR is
+located.
 
 ![](expanded_transformations.svg){style="display:block; margin: auto;"}
 
@@ -45,44 +47,43 @@ We start with the source program, and then we:
 8. _Transform_ it into the final program.
 
 The list is not comprehensive, especially in the later stages which I am not
-familiar with; the important observation is the number of _transformations_,
-and how __all__ of them must preserve behavior specified by each input
-representation in the output representation.
+familiar with; the important observation is the number of _transformations_ and
+how __all__ of them must preserve behavior.
 
-While each representation in the list above is "intermediate" in the sense that
-it is neither the input program nor the final executable, we usually take
+Each representation in the list above is "intermediate" in the sense that it is
+neither the input program nor the final executable, but we usually define
 Intermediate Representation to mean the IR generated in Step 4, "optimized"
 (_transformed_) in Step 5, and lowered in Step 6.
 
 ## Different Languages, Same IR
 
-Steps 1-5 are specific to the source language of the input program, but all
+Steps 1-5 are specific to the source language of the input program, whereas all
 other steps are agnostic to the language; the IR is the first such agnostic
 representation. Using this scheme, one can conceive different compilers that
 all share the "middle" and "back"-ends of the sequence above:
 
 ![](more_frontends.svg){style="display:block; margin: auto;"}
 
-A side-effect of a language-agnostic IR is that everything required by the
+As a side-effect of a language-agnostic IR, the behavior required by the input
 language specification must be captured using generic mechanisms provided by
-the IR: the language specification doesn't exist in that level. Because of
-this, one can inspect IR and understand how language concepts map to simpler
-and low level code abstractions.
+the IR; the language specification can't exist in that level, otherwise it
+would no longer be language-agnostic. Because of this, one can inspect IR and
+understand how language concepts are mapped to simpler and lower level code
+abstractions.
 
 # Goals of the IR
 
 In the compilation pipeline, the IR sits between representations specific to
-source languages and representations specific to the target machine.
+source languages and representations specific to the target machine:
 
 ![](ir_position.svg){style="display:block; margin: auto;"}
 
-From where the IR is positioned in the compilation pipeline, we can derive some
-of its design goals:
+We can derive some of its design goals from where the IR is positioned in the
+compilation pipeline. It must be:
 
-* It must be able to represent concepts from any high level language,
-* It must be amenable to analysis required by "optimizing" transformations,
-* It must be able to represent concepts required by target specific
-representations.
+* Able to represent concepts from any high level language,
+* Amenable to analysis required by "optimizing" transformations,
+* Able to represent concepts required by target specific representations.
 
 ![](ir_position_and_goals.svg){style="display:block; margin: auto;"}
 
