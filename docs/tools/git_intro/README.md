@@ -201,36 +201,35 @@ those commits would be if we memorized their hashes and moved into a detached
 `HEAD` state. As such, Git will not let us delete that branch unless we force
 it to.
 
-[^1]: In fact, Git would permanently delete all contents
-associated with those commits next time it tries to cleanup its internal data
-structures.
+[^1]: In fact, Git would permanently delete all contents associated with those
+commits next time it tries to cleanup its internal data structures.
 
 # Merging Branches
 
-We've seen what branches are and how they relate to commits. The next building
-block to be examined is how to merge work from one branch into another. There
-are many different ways to accomplish this, and the choice depends on what we
-want the final commit history to look like.
+We've seen what branches are and how they relate to commits, but how do we
+merge work from one branch into another? There are different ways to accomplish
+this, and the choice depends on what we want the final commit history (i.e. the
+graph) to look like.
 
 ## Easy Merging: Fast-Forward
 
-Let's consider the scenario we had before:
+Consider the scenario from before:
 
 ![](ready_to_merge.svg){style="display:block; margin: auto;"}
 
-Suppose the work from the `feature1` branch has been tested and is ready to be
-merged back into `master`. To emphasize: we want to merge `feature1` into
-`master`, not the other way around (more on this later). 
+Suppose the work from the `feature1` branch is ready to be merged back into
+`master`. To emphasize: we want to merge `feature1` into `master`, not the
+other way around (more on this later).
 
 Well, lucky us, nobody has committed into master since the work on `feature1`
 started! Because **all commits in `master` are also in `feature1`**, Git can
-simply move the `master` pointer forward, a method known as a *fast forward*:
+simply move the `master` pointer *forward*, a method known as a *fast forward*:
 
 ![](after_merge.svg){style="display:block; margin: auto;"}
 
 This method is always free of conflicts, that is, it will never require manual
-intervention to resolve edits made in the same file on the two branches being
-merged.
+intervention to resolve issues arising from edits made in the same file on the
+two branches being merged.
 
 The `feature1` branch is now irrelevant and can be deleted:
 
@@ -238,24 +237,24 @@ The `feature1` branch is now irrelevant and can be deleted:
 
 ## Non-Trivial Merges
 
-When many developers are working on the same repository, chances are Git won't
-always be able to fast-forward. Suppose the `feature2` branch from above is
-ready to be merged back into master, what will happen?
+With many developers working on the same repository, fast-forwards are
+infrequent. Suppose the `feature2` branch from above is ready to be merged back
+into master, what will happen?
 
 ### Three-Way Merge
 
-When fast forwards are not possible, Git will identify three commits to help it
+When fast forwards are not possible, Git identifies three commits to help it
 perform the merge:
 
 1. The commit pointed to by the destination branch.
 2. The commit pointed to by the source branch.
 3. The commit that is the lowest common ancestor of 1 and 2.
 
-Using our previous example, the commits are as follows:
+In the previous example, the commits are as follows:
 
 ![](merge_commit_points.svg){style="display:block; margin: auto;"}
 
-Using those commits, Git will now merge the two branches, identify conflicting
+Using those commits, Git will merge the two branches, identify conflicting
 changes and create a new commit representing the merge:
 
 ![](merge_commit.svg){style="display:block; margin: auto;"}
@@ -265,20 +264,26 @@ the merge commit is created.
 
 The `feature2` branch can now be deleted.
 
+The final commit graph accurately reflects the real history of the repository:
+`commit 4` and `(commit 2, commit 3)` were developed in parallel, and later
+merged together. This is expressed by the absence of any ordering between those
+two sets of commits in the graph.
+
 ### Rebasing
 
-A lot of projects frown upon complicated graphs for their main development
-branches, as such, they forbid three-way merges. To maintain a clean and linear
-history, a different procedure is needed.
+While three-way merges preserve the development history accurately, the commit
+graph gets complicated quickly in big projects; as a result, some projects
+forbid three-way merges. To maintain a linear history, a different merge
+procedure is needed.
 
 Let's pretend we never did the three-way merge with `feature2`:
 
 ![](before_rebase.svg){style="display:block; margin: auto;"}
 
 Instead of a three-way merge, we can re-apply commits from `feature2` on top of
-`master`, this is known as a rebase of `feature2` on top of `master`.
+`master`; this is known as a *rebase* of `feature2` on top of `master`.
 
-1. Start with our `HEAD` on the source branch (`feature2`).
+1. Start with `HEAD` on the source branch (`feature2`).
 2. Git rewinds `HEAD` to the lowest common ancestor of the two branches.
 3. Git forwards `HEAD` along the path of the target branch (`master`).
 
@@ -289,30 +294,33 @@ Instead of a three-way merge, we can re-apply commits from `feature2` on top of
     ![](rebase_finished.svg){style="display:block; margin: auto;"}
 
 If any commits can't be applied cleanly, Git asks for our intervention before
-continuing.
+continuing. This is done _for each_ commit being rebased; the developer
+is forced to fix commits so that they can be applied cleanly, one at a time, as
+if those commits had originally been developed on top of the destination
+branch.
 
-Note: the new commits are different from the original ones and they will have
-different hashes. Why?[^2]
+The rebased commits are different from the original ones and they will have
+different hashes. Why? The rebased commits have different parent commits, and
+this is enough to change their hashes. If we also had to fix conflicts during
+the rebase, the commit contents will also be different.
 
-[^2]: The new commits have different parent commits, and if we had to solve
-any conflicts during the rebase, each intermediate snapshot will be different.
-
-Now, if we switch `HEAD` to `master` and try to merge with `feature2`, a simple
-fast forward will do!
+Now if we switch `HEAD` to `master` and try to merge it with `feature2`, a fast
+forward will do!
 
 ### Keeping Feature Branches Up-To-Date With the Main Branch
 
-When developing a big feature in a separate branch, it's wise to ensure our
+When developing a big feature on a separate branch, it's wise to ensure our
 code is up-to-date with the main branch of the project, otherwise we run the
 risk of working on top of a stale version of the code base.
 
-One way to accomplish this is by frequently merging the main branch into the
+One way to stay up-to-date is by frequently merging the main branch into the
 feature branch:
 
 ![](frequent_merges.svg){style="display:block; margin: auto;"}
 
-If our project disallows three way merges, we would frequently
-rebase the feature branch on top of the main branch:
+That picture shows how complicated commit graphs can get in this scenario. In
+projects disallowing three-way merges, we would frequently rebase the feature
+branch on top of the main branch:
 
 ![](frequent_rebases.svg){style="display:block; margin: auto;"}
 
