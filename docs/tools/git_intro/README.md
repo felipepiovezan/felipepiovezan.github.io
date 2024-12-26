@@ -301,20 +301,18 @@ branch.
 
 The rebased commits are different from the original ones and they will have
 different hashes. Why? The rebased commits have different parent commits, and
-this is enough to change their hashes. If we also had to fix conflicts during
-the rebase, the commit contents will also be different.
+this is enough to change their hashes; if we also fixed conflicts during the
+rebase, the commit contents will be different and also affect the hash.
 
 Now if we switch `HEAD` to `master` and try to merge it with `feature2`, a fast
-forward will do!
+forward will do! The repository history is kept linear.
 
 ### Keeping Feature Branches Up-To-Date With the Main Branch
 
 When developing a big feature on a separate branch, it's wise to ensure our
 code is up-to-date with the main branch of the project, otherwise we run the
-risk of working on top of a stale version of the code base.
-
-One way to stay up-to-date is by frequently merging the main branch into the
-feature branch:
+risk of working on top of a stale version of the code base. One way to stay
+up-to-date is by frequently merging the main branch into the feature branch:
 
 ![](frequent_merges.svg){style="display:block; margin: auto;"}
 
@@ -324,14 +322,17 @@ branch on top of the main branch:
 
 ![](frequent_rebases.svg){style="display:block; margin: auto;"}
 
+This keeps the history linear at the cost of more work for the developer, since
+they will have to solve potential conflicts that arise.
+
 # Distributed Git
 
-So far, everything we've covered assumes the entirety of development is
+So far, everything we've covered assumes that the entirety of development is
 performed locally, that is, there are no copies of the repository outside our
 machine. There are no pesky coworkers, no remote servers, nothing!
 
-However, that's not how modern development is done. So how does Git handle
-multiple developers?
+However, that's not how modern development is done. So how does Git enable
+developer collaboration?
 
 ## Remotes
 
@@ -339,18 +340,19 @@ A *remote* is just another copy of the same repository located elsewhere.
 Git needs to know where and how to find it through an address and protocol:
 ssh, https, file system path, etc.
 
-Suppose Alice and Bob both have a copy of the same repository in their own
-machines:
+Suppose Alice and Bob both have a copy of the repository in their own machines,
+and the machines are connected on some network:
 
 ![](alice_and_bob.svg){style="display:block; margin: auto;"}
 
-Now suppose Alice and Bob want to collaborate, thus they need the ability to
-see what each other is up to. Alice will add a *remote* called `remote_bob` and
-Bob will add a *remote* called `remote_alice`.
+Supposing Alice and Bob want to collaborate, they need the ability to see what
+each other is up to, which is where the concept of git *remotes* are useful.
+Alice adds a *remote* called `remote_bob` and Bob adds a *remote* called
+`remote_alice`, resulting in the following repositories:
 
 ![](alice_and_bob_with_remotes.svg){style="display:block; margin: auto;"}
 
-Both will then *fetch* updates from their remotes, resulting in the following
+If both *fetch* updates from their remotes, they will obtain the following
 trees:
 
 ![](alice_and_bob_after_fetch.svg){style="display:block; margin: auto;"}
@@ -363,15 +365,17 @@ in their master branches:
 
 ![](masters_diverged.svg){style="display:block; margin: auto;"}
 
-Which version of master should be accepted as correct? The situation can get
-worse if there are many developers working at the same time. How are all these
-developers supposed to agree on what the correct version of a branch should be?
+They no longer agree on what the master branch should be, and the situation can
+get worse if there are many developers working at the same time. How are all
+these developers supposed to agree on what the correct version of a branch
+should be?
 
 ## Follow an Origin
 
 The typical way to solve this problem is by electing a *remote* to be the
-correct copy of the repository, and letting developers try to influence it.
-Usually, this remote is called `origin`.
+correct copy of the repository, and letting developers try to influence it on a
+first-come first-serve basis. Usually, this remote is called `origin` and it
+lives on some website (like GitHub).
 
 Consider the situation we had before, where Alice and Bob had diverged on what
 master should look like. Instead of interacting with each other's repository
