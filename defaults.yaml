@@ -1,0 +1,11 @@
+from: markdown
+to: html
+fail-if-warnings: true
+standalone: true
+embed-resources: true
+css:
+  - styles.css
+include-in-header:
+  - templates/top_bar.css
+include-before-body:
+  - templates/blog_home_link.html
