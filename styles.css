@@ -1,7 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700');
+
 body {
-  font-family: "EB Garamond", "Helvetica Neue", Arial, sans-serif;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  background-color: white;
+  font-family: "EB Garamond", serif;
   line-height: 1.5;
+  margin: 0 auto;
+  max-width: 40em;
+  text-align: justify;
+  word-wrap: break-word;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+code {
+  font-family: monospace,monospace;
+  font-size: 0.9em;
+  padding-left: .25em;
+  padding-right: .25em;
 }
