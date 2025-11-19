@@ -28,4 +28,4 @@ Hello, welcome to my blog! Compilers, computing science, programming :)
 * References
   * [Technical Books](references/books)
 * [Random Gaming Stuff](games)
-* [Photography](photos)
+* [Photography](photography)
