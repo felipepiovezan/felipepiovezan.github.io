@@ -8,12 +8,12 @@ table_of_contents=""
 
 # https://pandoc.org/MANUAL.html#variables-for-html
 css="--variable=fontcolor:white --variable=backgroundcolor:black"
-css=""
+css="--css=styles.css"
 
 add_home_buttom="--include-in-header=$PWD/templates/top_bar.css
                  --include-before-body=$PWD/templates/blog_home_link.html"
 
-pandoc_flags="-f markdown -t html -s
+pandoc_flags="--from markdown --to html -s
               --fail-if-warnings
               --self-contained
               ${table_of_contents}
