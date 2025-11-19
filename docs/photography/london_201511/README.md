@@ -24,7 +24,7 @@ shops on the left, and on the family at the very back. The sheer number of
 Christmas lights become evident and, ironically, the massive bridge is one of
 the last things I look at there. The same photo in colour, no post-processing:
 
-<photo of bridge>
+![](market_colour.jpeg){style="display:block; margin: auto;"}
 
 The blue of the bridge dominates the picture a lot more, doesn't match well the
 yellow lights and, in colour, the ISO artifacts become quite evident (easier to
@@ -33,19 +33,23 @@ spot in the sky). This was one of the first photos I took, so the settings (ISO
 for high ISO values in dark settings. From here on, I set ISO to 250 and forced
 a shutter speed of 1/4s; as a result, the noise is gone in this next shot:
 
-<photo of dolphin and bridge>
+![](bridge1_colour.jpeg){style="display:block; margin: auto;"}
 
 Compare the sky in this picture with the sky in the previous one, it is much
 cleaner now. Still, the colors don't form a cohesive whole from this angle. If
 we take them away...
 
-<same photo but bw>
+![](bridge1_bw.jpeg){style="display:block; margin: auto;"}
 
 Suddenly, things fit together much better. Here's another shot of just the
 bridge:
 
-<bridge photo>
+![](bridge2_bw.jpeg){style="display:block; margin: auto;"}
 
 I finished the evening walk with some shots of empty streets, where B&W is
 helpful at highlighting light sources while also somehow emphasizing the
 emptiness outside:
+
+![](on_house.jpeg){style="display:block; margin: auto;"}
+![](river.jpeg){style="display:block; margin: auto;"}
+![](seats.jpeg){style="display:block; margin: auto;"}
