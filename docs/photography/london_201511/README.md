@@ -4,7 +4,7 @@ title: London at Night in B&W
 
 After getting a nudge from a friend, I decided to give black and white
 photography a try, having no real idea about what I had to do other than using
-the B&W film simulation setting on the X100vi; even that would prove to be
+the B&W film simulation setting on the X100VI; even that would prove to be
 misleading, as I would soon learn that, while shooting raw, the film simulation
 only applies to the electronic viewfinder and to the photo's thumbnail embedded
 in the file. You're supposed to do B&W in post, which is what I did for the
@@ -29,9 +29,10 @@ the last things I look at there. The same photo in colour, no post-processing:
 The blue of the bridge dominates the picture a lot more, doesn't match well the
 yellow lights and, in colour, the ISO artifacts become quite evident (easier to
 spot in the sky). This was one of the first photos I took, so the settings (ISO
-800, 1/34s, f/2) were automatically chosen by the camera, which tents to favour
-for high ISO values in dark settings. From here on, I set ISO to 250 and forced
-a shutter speed of 1/4s; as a result, the noise is gone in this next shot:
+800, 1/34s, f/2) were automatically chosen by the camera, which tends to favour
+higher ISO values in dark environments. From here on, I set ISO to 250 and
+forced a shutter speed of 1/4s; as a result, the noise is gone in this next
+shot:
 
 ![](bridge1_colour.jpeg){style="display:block; margin: auto;"}
 
@@ -51,5 +52,7 @@ helpful at highlighting light sources while also somehow emphasizing the
 emptiness outside:
 
 ![](on_house.jpeg){style="display:block; margin: auto;"}
+
 ![](river.jpeg){style="display:block; margin: auto;"}
+
 ![](seats.jpeg){style="display:block; margin: auto;"}
