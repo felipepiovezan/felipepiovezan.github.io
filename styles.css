@@ -22,3 +22,18 @@ code {
   padding-left: .25em;
   padding-right: .25em;
 }
+
+
+h1 {
+	border-bottom: 1px solid silver;
+}
+
+h2 {
+	border-bottom: 1px solid silver;
+}
+
+h3 {
+	font-size: large;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+}
