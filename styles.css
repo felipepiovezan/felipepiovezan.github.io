@@ -37,3 +37,8 @@ h3 {
 	margin-top: 1em;
 	margin-bottom: 0.5em;
 }
+
+*[id] {
+  /* when scrolling back, leave space at the top for header */
+  scroll-margin-top: 50px;
+}
