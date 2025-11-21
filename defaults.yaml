@@ -7,3 +7,4 @@ css:
   - styles.css
 include-in-header:
   - topbar.html
+template: template.html
