@@ -7,10 +7,11 @@ particular, asking the question: "will this diff make reviewers spend time where
 is unimportant?". If the answer is yes, it's better to get rid of it.
 
 A common example: unrelated diffs. This is commonly employed to fix small
-issues -- like a typo or a using a modern construct in place of an old one --
-where "it would more to work to do it separately". Do it separately. Laziness
-is bad excuse. But there is an objective reason: if a patch needs to be
-reverted, these unrelated changes would be reverted as well.
+issues in an unrelated part of the code -- like a typo or a using a modern
+construct in place of an old one -- where "it would more to work to do it
+separately". Do it separately. Laziness is bad excuse. But there is an
+objective reason to do it in a separate patch: if a patch needs to be reverted,
+these unrelated changes would be reverted as well.
 
 # Review before the review.
 
@@ -32,6 +33,13 @@ will slow, if not prevent, the process of catching mistakes. It may also make
 reviewers see the author negatively.
 
 # Employ NFC patches liberally.
+
+This is another way of employing the reviewers time effectively. A sequence of
+easy-to-review NFC patches is a way of simplifying a tricky change by reducing
+the last commit, the one changing behavior, down to a few lines of
+easy-to-reason-about code. Those NFC patches generally consist of factoring out
+code into functions, reworking loops, or improving modularization. In short,
+they make the code better regardless of the final patch.
 
 # Integrate formatters into development tools.
 
