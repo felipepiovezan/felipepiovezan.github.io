@@ -9,6 +9,7 @@ which aims to teach you Japanese while having your character travel to lesser
 known Japanese cities.
 
 ![](ana_msg.heic){style="display:block; margin: auto;"}
+
 (I love how you know you're going to Japan when you see this note in the bathroom of ANA's economy class).
 
 My first destination was Okayama city, the capital of Okayama prefecture, a
@@ -38,24 +39,26 @@ no flowers were in full bloom, but it was still a pleasant walk, despite the
 heat. Note, again, how empty the place is.
 
 ![](kourakuen1.heic){style="display:block; margin: auto;"}
+
 ![](kourakuen2.heic){style="display:block; margin: auto;"}
+
 ![](kourakuen3.heic){style="display:block; margin: auto;"}
 
-Overlooking the garden, sits Okayama castle, the other major attraction of the
+Overlooking the garden is Okayama castle, the other major attraction of the
 city. 
 
 ![](okayama_castle1.heic){style="display:block; margin: auto;"}
 
 It has a park around it, a museum inside (mostly in Japanese), though I must
 admit it was not very memorable, given how I can't recall much at the time of
-writing, six months after the trip. As high school humor is something I haven't
-fully abandoned, this sign stuck with me:
+writing, six months after the trip. One thing I do remember, because high
+school humor is something I haven't fully abandoned, is this sign:
 
 ![](bukkake_udon.heic){style="display:block; margin: auto;"}
 
-> Bukkake Udon.
+> _Bukkake Udon.
 > It is cold udon with Okayama special product. Japanese radish and pickled
-> plum, perilla. It is recommended for the prevention of heat stroke.
+> plum, perilla. It is recommended for the prevention of heat stroke._
 
 Alas, it was sold out.
 
@@ -66,17 +69,20 @@ experienced what would be another theme of this trip: interacting with people a
 whole lot more than I'd ever done before while solo travelling.
 
 It was a tiny shop, with three tables shared by all the guests; when I arrived,
-only one couple was inside -- they had just arrived --, both were Korean and
-started a conversation with me. Through very basic English, they told me how
-they had seen me walk from my hotel all the way to the restaurant, and how they
-were impressed that I was travelling alone, with a mandatory "where is your
-girlfriend?!" remark. They insisted I should visit Korea now that I had been to
-Japan three times, and the woman was very proud about how her father was an
-architect who worked on a bridge connecting Seoul airport to the main land.
-Soon they started buying me drinks, other locals entered the shop, and
-everybody was chatting. It was a welcoming experience, something that I could
-get a lot more of later in the trip and, to me, this where the non touristy
-areas really shine.
+only one couple was inside, both were Korean, and it stuck with me the way the
+lady shouted "Master!!" when talking to the chef, making me wonder whether she
+was translating some expression from Korean. Through the universal language of
+a little eye contact and a smile, I invited them to start a conversation. They
+told me how they had seen me walk from my hotel all the way to the restaurant,
+and how they were impressed that I was travelling alone, with a mandatory
+"where is your girlfriend?!" remark. They insisted I should visit Korea now
+that I had been to Japan three times, and the woman was very proud about how
+her father was an architect who worked on a bridge connecting Seoul airport to
+the main land. Soon they started buying me drinks, other locals entered the
+shop, and everybody was chatting to each other, making a lot of effort to
+communicate in English (I repaid by risking a few sentences in Japanese). It
+was a welcoming experience, something that I would get a lot more of later in
+the trip and, to me, this where the non touristy areas really shine.
 
 ![](plum_wine.heic){style="display:block; margin: auto;"}
 
@@ -89,66 +95,88 @@ this tiny coffee shop: [Coffee stand
 # Konpira-san and Marugame
 
 On the next day, I hoped on a JR train and went south, on a scenic route over a
-pretty long bridge and lots of rice fields. When taking the JR, it's worth paying attention to which train cars require seat reservations:
+pretty long bridge and lots of rice fields. When taking the JR, it's worth
+paying attention to which train cars require seat reservations:
 
 ![](train_reservation.heic){style="display:block; margin: auto;"}
 
 My first goal was to reach Konpira-san, a Shinto shrine guarded by 785 steps,
-plus another 583 to the inner shrine. On the base, you walk through a small city filled with narrow streets and really cute houses.
+plus another 583 to the inner shrine. On the base, you walk through a small
+city full of narrow streets and really cute houses.
 
 ![](kotohira1.heic){style="display:block; margin: auto;"}
 
 ![](kotohira2.heic){style="display:block; margin: auto;"}
 
-Paths leading to large temples in Japan often have lots of shops, even on a challenging stairway like this one, making the visit a lot more entertaining; unfortunately, I was a bit too early in this case.
+Paths leading to large temples in Japan often have lots of shops, even on a
+challenging stairway like this one, adding some entertainment to the visit;
+unfortunately, I was a bit too early in this case.
 
 ![](konpira_stairs.heic){style="display:block; margin: auto;"}
 
 In the main temple area, I just sat and watched the locals for a while, trying
-to understand what they were talking about -- I am studying Japanese -- and
-just to see how they interact with the temple. When one visits less touristy
-areas, one won't find popular picture spots; instead, there are lot of everyday
-things that may sound boring at first, but those reveal what the local culture
-really looks like.
+to understand what they were talking about -- I am studying Japanese -- and to
+watch how they interact with the temple. There weren't any super scenic spots
+there, but a whole lot of everyday things that may sound boring at first,
+though they help understand what the local culture really looks like.
 
-Out of respect, I avoid taking pictures in temples unless they encourage it,
-but I did take one from the view at the top, showing how sparsely populated
+I did take one picture of the view at the top, showing how sparsely populated
 this area is:
 
 ![](konpira_top.heic){style="display:block; margin: auto;"}
 
 My second destination that day was Marugame, a city just north of Konpira-san.
 
-![](marugame_stations.heic){style="display:block; margin: auto;"}
+![](marugame_station.heic){style="display:block; margin: auto;"}
 
 The city is pretty famous for its Uchiwa fans (a "hand fan"), and I even got to
 watch a local artist make them. Sadly, I was too shy to take a photo --
-something I should work on --, so here's a photo of an advertisement in front
-of the tourist center, showing what the fans look like:
+something I should work on --, having to settle for an advertisement in front
+of the tourist center showing what the fans look like:
 
 ![](uchiwa.heic){style="display:block; margin: auto;"}
 
 The other reason to visit Marugame is to visit the eponymous castle, it is one
 of few remaining castles with some of its original construction still in place.
 Unlike other castles, which have been modernized on the inside, this one is
-empty and still has the original wooden floor inside, you have to wear special
-shoes inside.
-
+empty and still has the original wooden floor inside.
 
 ![](marugame_castle.heic){style="display:block; margin: auto;"}
 
 ![](marugame_castle_inside.heic){style="display:block; margin: auto;"}
 
-Also, turtles!
+Also, turtles! I swear they must have great eyesight, because they would raise
+their heads whenever I looked at them.
 
 ![](turtles.heic){style="display:block; margin: auto;"}
 
 Finally, a visit to this part of Japan demands that you try some of their
-peaches. They are delicious, packaged with extreme care, have prices based
-on a grading of how good they look, and sold at most train stations as one of
-the many gifts travellers can purchase. However, they can get pretty expensive at those locations, see this photo taken back in Okayama station:
+peaches, they are delicious, packaged with extreme care, have prices based on a
+grading of how good they look, and sold as gifts in train stations, where they
+can get pretty expensive. In this stall in Okayama station, a box of three of
+the best graded peaches costs ¥4,200! If you pop into a local fruit stall, like
+I did in the middle of Marugame, you can find the same for ¥1,000, as long as
+you're willing to communicate with the Baa-chan running the shop. The one I
+talked to was mighty suspicious of the ¥2,000 bill I handed her, as she had
+never seen one before. Another regret was not taking a photo of the local stall
+:(.
 
 ![](peaches_on_station.heic){style="display:block; margin: auto;"}
+
+# Takamatsu
+
+The game I mentioned earlier has your character visiting the city of Takamatsu
+and, in the game, the train station has this smiley face in its windows:
+
+![](takamatsu_station_game.heic){style="display:block; margin: auto;"}
+
+I was surprised to learn it was _not_ an invention from the game, the real
+station also looks like that:
+
+![](takamatsu_station_irl.heic){style="display:block; margin: auto;"}
+
+The main reason to visit Takamatsu is Ritsurin Garden, a massive (750,000 sqm)
+garden built in 1745 so that feudal lords could go on a stroll.
 
 known as the "Land of Sunshine", which is an important feature when travelling
 in Japan during the rainy season. This 
